@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   resolve: {
@@ -20,5 +21,15 @@ export default defineConfig({
         index: 'index.html'
       }
     }
-  }
+  },
+
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern'
+      }
+    }
+  },
+
+  plugins: [tailwindcss()]
 })
