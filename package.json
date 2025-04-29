@@ -5,6 +5,9 @@
     "node": ">=22.10.0"
   },
   "scripts": {
+    "dev": "npx vite",
+    "prod": "npx tsc && npx vite build",
+    "preview": "npx vite preview",
     "commit": "cz",
     "prepare:husky": "husky",
     "format": "npx prettier --write ./src",
@@ -34,6 +37,7 @@
     "lint-staged": "15.5.1",
     "prettier": "3.5.3",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.31.1"
+    "typescript-eslint": "8.31.1",
+    "vite": "6.3.3"
   }
 }
