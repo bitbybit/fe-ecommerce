@@ -17,3 +17,11 @@ Key pages in the application include:
 - About Us page 🙋‍♂️🙋‍♀️
 
 The application is powered by CommerceTools 🌐, a leading provider of commerce solutions for B2C and B2B enterprises. CommerceTools offers a cloud-native, microservices-based commerce platform that enables brands to create unique and engaging digital commerce experiences.
+
+# Repository Setup
+
+1. Clone the repository
+2. Navigate to the repository that was cloned
+3. Install packages: `npm ci`
+4. Prepare hooks: `npm run prepare:husky` (once)
+5. To make a commit, run: `npx cz`
