@@ -6,19 +6,31 @@
   },
   "scripts": {
     "commit": "cz",
-    "prepare:husky": "husky"
+    "prepare:husky": "husky",
+    "lint": "npx eslint ./src",
+    "lint:fix": "npx eslint --fix ./src"
   },
   "type": "module",
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
+    "@eslint/js": "9.25.1",
     "@digitalroute/cz-conventional-changelog-for-jira": "8.0.1",
     "@types/node": "22.15.3",
     "commitizen": "4.3.1",
     "commitlint": "19.8.0",
+    "eslint": "9.25.1",
+    "eslint-config-prettier": "10.1.2",
+    "eslint-import-resolver-typescript": "4.3.4",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsdoc": "50.6.11",
+    "eslint-plugin-promise": "7.2.1",
+    "eslint-plugin-unicorn": "59.0.0",
     "globals": "16.0.0",
     "husky": "9.1.7",
-    "lint-staged": "15.5.1"
+    "lint-staged": "15.5.1",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.31.1"
   }
 }
