@@ -1,4 +1,6 @@
 import { type ReactElement } from 'react'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
 
 export function Welcome(): ReactElement {
   return (
@@ -22,6 +24,9 @@ export function Welcome(): ReactElement {
                 </li>
               ))}
             </ul>
+
+            <Input />
+            <Button>Test</Button>
           </nav>
         </div>
       </div>

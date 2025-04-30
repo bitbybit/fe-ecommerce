@@ -1,4 +1,4 @@
-import { Welcome } from '~/welcome/welcome'
+import { Welcome } from '~/components/welcome'
 import { type ReactElement } from 'react'
 
 export function meta(): Record<string, string>[] {
