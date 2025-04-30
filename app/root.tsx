@@ -1,6 +1,7 @@
+import { type ReactElement, type ReactNode, StrictMode } from 'react'
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
-
-import { type ReactElement, type ReactNode } from 'react'
+import { Provider } from 'react-redux'
+import { store } from '~/store/store'
 import type { Route } from './+types/root'
 
 import '~/style/index.scss'
@@ -38,7 +39,13 @@ export function Layout({ children }: Readonly<{ children: ReactNode }>): ReactEl
 }
 
 export default function App(): ReactElement {
-  return <Outlet />
+  return (
+    <StrictMode>
+      <Provider store={store}>
+        <Outlet />
+      </Provider>
+    </StrictMode>
+  )
 }
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>): ReactElement {

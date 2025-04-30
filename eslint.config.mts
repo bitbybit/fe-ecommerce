@@ -6,6 +6,8 @@ import { flatConfigs as pluginImportConfigs } from 'eslint-plugin-import'
 import pluginJsdoc from 'eslint-plugin-jsdoc'
 import prettierConfigs from 'eslint-config-prettier/flat'
 import pluginUnicorn from 'eslint-plugin-unicorn'
+import pluginReact from 'eslint-plugin-react'
+import * as pluginReactHooks from 'eslint-plugin-react-hooks'
 
 const rules = {
   '@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'never' }],
@@ -28,7 +30,19 @@ const rules = {
       }
     }
   ],
-  'max-lines-per-function': ['error', 40]
+  'max-lines-per-function': ['error', 40],
+  'no-restricted-imports': [
+    2,
+    {
+      paths: [
+        {
+          name: 'react-redux',
+          importNames: ['useSelector', 'useStore', 'useDispatch'],
+          message: 'Please use pre-typed versions from `src/app/hooks.ts` instead.'
+        }
+      ]
+    }
+  ]
 }
 
 export default [
@@ -41,6 +55,9 @@ export default [
       'import/resolver': {
         typescript: true,
         node: true
+      },
+      vitest: {
+        typecheck: true
       }
     }
   },
@@ -78,7 +95,6 @@ export default [
 
   {
     linterOptions: {
-      noInlineConfig: true,
       reportUnusedDisableDirectives: 'error'
     },
 
@@ -102,5 +118,12 @@ export default [
   pluginImportConfigs.recommended,
   pluginImportConfigs.typescript,
   pluginPromise.configs['flat/recommended'],
-  pluginUnicorn.configs.recommended
+  pluginUnicorn.configs.recommended,
+
+  {
+    name: 'eslint-plugin-react/jsx-runtime',
+    ...pluginReact.configs.flat['jsx-runtime']
+  },
+
+  pluginReactHooks.configs['recommended-latest']
 ]
