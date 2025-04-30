@@ -33,7 +33,7 @@ const rules = {
 
 export default [
   {
-    files: ['**/*.{js,mjs,mts,cjs,ts}'],
+    files: ['**/*.{js,mjs,mts,cjs,ts,tsx}'],
 
     rules,
 
@@ -44,6 +44,8 @@ export default [
       }
     }
   },
+
+  pluginJsdoc.configs['flat/recommended-typescript'],
 
   {
     files: ['**/*.ts'],
@@ -58,6 +60,19 @@ export default [
       'jsdoc/require-property-description': 0,
       'jsdoc/require-returns-description': 0,
       'jsdoc/require-throws': 1
+    }
+  },
+
+  {
+    files: ['**/*.tsx'],
+
+    plugins: {
+      jsdoc: pluginJsdoc
+    },
+
+    rules: {
+      ...rules,
+      'jsdoc/require-jsdoc': 0
     }
   },
 
@@ -87,6 +102,5 @@ export default [
   pluginImportConfigs.recommended,
   pluginImportConfigs.typescript,
   pluginPromise.configs['flat/recommended'],
-  pluginJsdoc.configs['flat/recommended-typescript'],
   pluginUnicorn.configs.recommended
 ]

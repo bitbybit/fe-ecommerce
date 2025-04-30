@@ -23,14 +23,16 @@ The application is powered by CommerceTools 🌐, a leading provider of commerce
 1. Clone the repository
 2. Navigate to the repository that was cloned
 3. Install packages: `npm ci`
-4. Prepare hooks: `npm run prepare:husky` (once)
-5. To make a commit, run: `npx cz`
+4. Generate types: `npm run typecheck` (once)
+5. Prepare hooks: `npm run prepare:husky` (once)
+6. To make a commit, run: `npx cz`
 
 ## Available commands
 
 - `npm run dev` - run DEV-server
 - `npm run prod` - build a production bundle
 - `npm run preview` - preview production build
+- `npm run typecheck` - generate react router types
 
 ---
 

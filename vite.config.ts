@@ -1,26 +1,15 @@
-import path from 'node:path'
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
+import { reactRouter } from '@react-router/dev/vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@': path.resolve(import.meta.dirname, './src')
-    }
-  },
-
   build: {
     assetsInlineLimit: 0,
     cssCodeSplit: false,
     cssMinify: false,
     sourcemap: true,
-    minify: false,
-
-    rollupOptions: {
-      input: {
-        index: 'index.html'
-      }
-    }
+    minify: false
   },
 
   css: {
@@ -31,5 +20,5 @@ export default defineConfig({
     }
   },
 
-  plugins: [tailwindcss()]
+  plugins: [tailwindcss(), reactRouter(), tsconfigPaths()]
 })

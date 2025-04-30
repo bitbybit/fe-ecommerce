@@ -5,9 +5,10 @@
     "node": ">=22.10.0"
   },
   "scripts": {
-    "dev": "npx vite",
-    "prod": "npx tsc && npx vite build",
-    "preview": "npx vite preview",
+    "dev": "react-router dev",
+    "prod": "react-router build",
+    "preview": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc",
     "commit": "cz",
     "prepare:husky": "husky",
     "format": "npx prettier --write ./src",
@@ -20,13 +21,24 @@
   },
   "type": "module",
   "private": true,
+  "dependencies": {
+    "@react-router/node": "7.5.3",
+    "@react-router/serve": "7.5.3",
+    "isbot": "5.1.27",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router": "7.5.3"
+  },
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
     "@digitalroute/cz-conventional-changelog-for-jira": "8.0.1",
     "@eslint/js": "9.25.1",
+    "@react-router/dev": "7.5.3",
     "@tailwindcss/vite": "4.1.4",
     "@types/node": "22.15.3",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
     "commitizen": "4.3.1",
     "commitlint": "19.8.0",
     "eslint": "9.25.1",
@@ -51,6 +63,7 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.31.1",
     "vite": "6.3.4",
-    "vitest": "3.1.2"
+    "vitest": "3.1.2",
+    "vite-tsconfig-paths": "5.1.4"
   }
 }
