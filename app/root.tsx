@@ -4,8 +4,8 @@ import { Provider } from 'react-redux'
 import { store } from '~/store'
 import type { Route } from './+types/root'
 
-import '~/style/index.scss'
-import '~/style/tailwind.css'
+import '~/styles/index.scss'
+import '~/styles/tailwind.css'
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
