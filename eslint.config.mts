@@ -1,7 +1,9 @@
 import globals from 'globals'
 import js from '@eslint/js'
 import { configs as tsConfigs } from 'typescript-eslint'
+// @ts-expect-error Waiting for TypeScript declarations fix: https://github.com/eslint-community/eslint-plugin-promise/issues/488
 import pluginPromise from 'eslint-plugin-promise'
+// @ts-expect-error Waiting for TypeScript declarations fix: https://github.com/import-js/eslint-plugin-import/issues/3175
 import { flatConfigs as pluginImportConfigs } from 'eslint-plugin-import'
 import pluginJsdoc from 'eslint-plugin-jsdoc'
 import prettierConfigs from 'eslint-config-prettier/flat'
@@ -115,8 +117,11 @@ export default [
   js.configs.recommended,
   ...tsConfigs.recommendedTypeChecked,
   prettierConfigs,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   pluginImportConfigs.recommended,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   pluginImportConfigs.typescript,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   pluginPromise.configs['flat/recommended'],
   pluginUnicorn.configs.recommended,
 
