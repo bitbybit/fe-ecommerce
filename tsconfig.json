@@ -3,22 +3,33 @@
     "outDir": "./dist",
     "sourceMap": true,
     "baseUrl": ".",
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ESNEXT",
+    "module": "ESNEXT",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true,
     "noImplicitAny": true,
     "strict": true,
+    "jsx": "react-jsx",
     "lib": [
-      "esnext",
-      "dom"
+      "ESNEXT",
+      "DOM",
+      "DOM.Iterable"
     ],
+    "types": ["node", "vite/client"],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "~/*": ["./app/*"]
+    },
+    "rootDirs": [".", "./.react-router/types"]
   },
   "include": [
-    "./"
+    "**/*",
+    "**/.server/**/*",
+    "**/.client/**/*",
+    ".react-router/types/**/*"
   ],
   "exclude": [
     "./dist",
