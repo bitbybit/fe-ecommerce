@@ -22,6 +22,8 @@
   "type": "module",
   "private": true,
   "dependencies": {
+    "@commercetools/platform-sdk": "8.8.0",
+    "@commercetools/ts-client": "3.3.0",
     "@radix-ui/react-slot": "1.2.0",
     "@react-router/node": "7.5.3",
     "@react-router/serve": "7.5.3",
