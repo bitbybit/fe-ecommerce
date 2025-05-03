@@ -78,12 +78,6 @@ Build a production bundle:
 npm run prod
 ```
 
-Preview production build:
-
-```
-npm run preview
-```
-
 Generate React Router types:
 
 ```
