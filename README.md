@@ -20,18 +20,20 @@ Our single-page e-commerce application (SPA) is an online store designed to prov
 ✔️ Write quality, efficient, and maintainable code that follows best development practices and maintains good readability.
 
 ## Technology stack:
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/typescript.svg" width="20" height="20"> Typescript (language)
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/react.svg" width="20" height="20"> React, React Router (library)
-- Commercetools API
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/vite.png" width="20" height="20"> Vite (bundler)
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/eslint.svg" width="20" height="20"> ESLint (linter)
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/prettier.png" width="20" height="20"> Prettier (formatter)
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/scss.svg" width="20" height="20"> SCSS (CSS preprocessor)
-- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/tailwind.svg" width="20" height="20"> Tailwind (CSS Framework)
-- Husky (pre-commit, pre-push)
-- Stylelint (linter for SCSS)
-- Commitlint (for linting commit messages)
-- Jira (Project management tool)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/typescript.svg" width="20" height="20"> [Typescript](https://www.typescriptlang.org/) (language)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/react.svg" width="20" height="20"> [React](https://react.dev/) (library)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/react.svg" width="20" height="20"> [React Router](https://reactrouter.com/) (routing)
+- [Commercetools API](https://commercetools.com/)
+- [Redux](https://redux.js.org/) (library)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/vite.png" width="20" height="20"> [Vite](https://vite.dev/) (bundler)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/eslint.svg" width="20" height="20"> [ESLint](https://eslint.org/) (linter)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/prettier.png" width="20" height="20"> [Prettier](https://prettier.io/) (formatter)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/scss.svg" width="20" height="20"> [SCSS](https://sass-lang.com/) (CSS preprocessor)
+- <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/tailwind.svg" width="20" height="20"> [Tailwind](https://tailwindcss.com/) (CSS Framework)
+- [shadcn/ui](https://ui.shadcn.com/) (component library)
+- [Husky](https://typicode.github.io/husky/) (pre-commit, pre-push)
+- [Stylelint](https://stylelint.io/) (linter for SCSS)
+- [Commitlint](https://commitlint.js.org/) (for linting commit messages)
 
 ## Repository Setup:
 1. Clone the repository
