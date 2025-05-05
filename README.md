@@ -153,3 +153,14 @@ run vitest tests
 ```
 npm run test
 ```
+
+## CommerceTools API
+> Add a .env file to the project’s root folder containing the following environment variables:
+```
+VITE_CTP_PROJECT_KEY=project-key
+VITE_CTP_CLIENT_SECRET=client-secret
+VITE_CTP_CLIENT_ID=client-id
+VITE_CTP_AUTH_URL=auth-url
+VITE_CTP_API_URL=api-url
+VITE_CTP_SCOPES=scopes
+```
