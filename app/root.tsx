@@ -3,11 +3,12 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 import { Provider } from 'react-redux'
 import { store } from '~/store'
 import type { Route } from './+types/root'
-
-import '~/styles/index.scss'
-import '~/styles/tailwind.css'
+import sassHref from '~/styles/index.scss?url'
+import tailwindHref from '~/styles/tailwind.css?url'
 
 export const links: Route.LinksFunction = () => [
+  { rel: 'stylesheet', href: sassHref },
+  { rel: 'stylesheet', href: tailwindHref },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
     rel: 'preconnect',
