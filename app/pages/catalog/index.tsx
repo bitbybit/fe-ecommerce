@@ -1,12 +1,10 @@
 import { useEffect, type ReactElement } from 'react'
-import { type MetaFunction } from 'react-router'
 import { productApi } from '~/api/namespaces/product'
-
-export function meta(): ReturnType<MetaFunction> {
-  return [{ title: 'Catalog' }]
-}
+import { useTitle } from '~/hooks/use-title'
 
 export default function Routes(): ReactElement {
+  useTitle('Catalog')
+
   useEffect(() => {
     productApi
       .getProducts()

@@ -1,10 +1,8 @@
 import { type ReactElement } from 'react'
-import { type MetaFunction } from 'react-router'
-
-export function meta(): ReturnType<MetaFunction> {
-  return [{ title: 'About' }]
-}
+import { useTitle } from '~/hooks/use-title'
 
 export default function Routes(): ReactElement {
+  useTitle('About')
+
   return <>About</>
 }
