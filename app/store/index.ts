@@ -2,11 +2,11 @@ import { type Action, type EnhancedStore, type ThunkAction } from '@reduxjs/tool
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
-import authReducer from '~/features/auth/slice'
-import cartReducer from '~/features/cart/slice'
-import catalogReducer from '~/features/catalog/slice'
-import productReducer from '~/features/product/slice'
-import profileReducer from '~/features/profile/slice'
+import authReducer from '~/store/auth'
+import cartReducer from '~/store/cart'
+import catalogReducer from '~/store/catalog'
+import productReducer from '~/store/product'
+import profileReducer from '~/store/profile'
 
 const rootReducer = combineSlices({
   auth: authReducer,

@@ -2,19 +2,13 @@ import { type RouteConfig, index, route, layout, prefix } from '@react-router/de
 
 export default [
   layout('layouts/public.tsx', [
-    index('features/home/routes.tsx', { id: 'home' }),
-    route('catalog', 'features/catalog/routes.tsx', { id: 'catalog' }),
-    route('product/:productId', 'features/product/routes.tsx', { id: 'product' }),
-    route('about', 'features/about/routes.tsx', { id: 'about' }),
+    index('pages/home/index.tsx'),
+    route('catalog', 'pages/catalog/index.tsx'),
+    route('product/:productId', 'pages/product/index.tsx'),
+    route('about', 'pages/about/index.tsx'),
 
-    ...prefix('auth', [
-      route('login', 'features/auth/routes.tsx', { id: 'login' }),
-      route('register', 'features/auth/routes.tsx', { id: 'register' })
-    ])
+    ...prefix('auth', [route('login', 'pages/login/index.tsx'), route('register', 'pages/register/index.tsx')])
   ]),
 
-  layout('layouts/protected.tsx', [
-    route('profile', 'features/profile/routes.tsx', { id: 'profile' }),
-    route('cart', 'features/cart/routes.tsx', { id: 'cart' })
-  ])
+  layout('layouts/protected.tsx', [route('profile', 'pages/profile/index.tsx'), route('cart', 'pages/cart/index.tsx')])
 ] satisfies RouteConfig
