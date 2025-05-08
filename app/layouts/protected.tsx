@@ -1,24 +1,18 @@
 import { type ReactElement } from 'react'
-import { Outlet, NavLink } from 'react-router'
+import { Outlet } from 'react-router'
+import Header from './components/header'
+import { Footer } from './components/footer'
 
 export default function ProtectedLayout(): ReactElement {
   return (
-    <>
-      <header>
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/catalog">Catalog</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/cart">Cart</NavLink>
-          <NavLink to="/profile">Profile</NavLink>
-        </nav>
-      </header>
+    <div className="min-h-screen flex flex-col">
+      <Header isAuth={true} />
 
       <main>
         <Outlet />
       </main>
 
-      <footer>Footer</footer>
-    </>
+      <Footer />
+    </div>
   )
 }
