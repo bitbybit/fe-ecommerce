@@ -1,5 +1,7 @@
 import { lazy, Suspense, type ReactElement } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
+import PageNotFound from '~/pages/404'
+import Loading from '~/components/loading'
 
 import PublicLayout from '~/layouts/public'
 import ProtectedLayout from '~/layouts/protected'
@@ -12,8 +14,6 @@ const Login = lazy(() => import('~/pages/login'))
 const Register = lazy(() => import('~/pages/register'))
 const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
-const NotFound = lazy(() => import('~/pages/404'))
-const Loading = lazy(() => import('~/pages/loading'))
 
 export function Router(): ReactElement {
   return (
@@ -35,7 +35,7 @@ export function Router(): ReactElement {
             <Route path="profile" element={<Profile />} />
             <Route path="cart" element={<Cart />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

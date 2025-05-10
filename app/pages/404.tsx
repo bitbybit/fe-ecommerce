@@ -1,5 +1,5 @@
 import { type ReactElement } from 'react'
-import { Button } from '../components/ui/button'
+import { Button } from '~/components/ui/button'
 import { NavLink } from 'react-router'
 
 export default function PageNotFound(): ReactElement {
