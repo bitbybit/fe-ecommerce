@@ -12,7 +12,7 @@ const Login = lazy(() => import('~/pages/login'))
 const Register = lazy(() => import('~/pages/register'))
 const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
-
+const NotFound = lazy(() => import('~/pages/404'))
 export function Router(): ReactElement {
   return (
     <BrowserRouter>
@@ -33,6 +33,7 @@ export function Router(): ReactElement {
             <Route path="profile" element={<Profile />} />
             <Route path="cart" element={<Cart />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
