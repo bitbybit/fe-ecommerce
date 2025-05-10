@@ -48,19 +48,13 @@ Our single-page e-commerce application (SPA) is an online store designed to prov
 npm ci
 ```
 
-4. Generate types (once):
-
-```
-npm run typecheck
-```
-
-5. Prepare hooks (once):
+4. Prepare hooks (once):
 
 ```
 npm run prepare:husky
 ```
 
-6. To make a commit:
+5. To make a commit:
 
 ```
 npx cz
@@ -78,12 +72,6 @@ Build a production bundle:
 
 ```
 npm run prod
-```
-
-Generate React Router types:
-
-```
-npm run typecheck
 ```
 
 Commit compose helper (same as `npx cz`):
@@ -149,7 +137,9 @@ npm run test
 ```
 
 ## CommerceTools API
+
 > Add a .env file to the project’s root folder containing the following environment variables:
+
 ```
 VITE_CTP_PROJECT_KEY=project-key
 VITE_CTP_CLIENT_SECRET=client-secret
