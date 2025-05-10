@@ -13,10 +13,12 @@ const Register = lazy(() => import('~/pages/register'))
 const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
 const NotFound = lazy(() => import('~/pages/404'))
+const Loading = lazy(() => import('~/pages/loading'))
+
 export function Router(): ReactElement {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading…</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
