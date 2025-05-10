@@ -1,25 +1,44 @@
-import { type PayloadAction } from '@reduxjs/toolkit'
 import { createAppSlice } from '~/store/hooks'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { type Customer, type ClientResponse, type CustomerSignin } from '@commercetools/platform-sdk'
+import { ctpApiClient } from '~/api/client'
 
 interface State {
-  value: undefined
+  value: Customer | undefined
+  loading: boolean
+  error: string | undefined
 }
 
 const initialState: State = {
-  value: undefined
+  value: undefined,
+  loading: false,
+  error: undefined
 }
+
+export const signIn = createAsyncThunk<Customer, CustomerSignin>('auth/signIn', async ({ email, password }) => {
+  const response: ClientResponse<Customer> = await ctpApiClient.login(email, password)
+  console.log('OK', JSON.stringify(response.body))
+  return response.body
+})
 
 const auth = createAppSlice({
   name: 'auth',
   initialState,
-
-  reducers: {
-    setValue(state, action: PayloadAction<undefined>) {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(signIn.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.loading = false
       state.value = action.payload
-    }
+    })
+    builder.addCase(signIn.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.error.message ?? 'Unknown error'
+      console.error(action.error.message)
+    })
   }
 })
-
-export const { setValue } = auth.actions
 
 export default auth.reducer
