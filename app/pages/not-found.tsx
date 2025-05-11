@@ -2,7 +2,7 @@ import { type ReactElement } from 'react'
 import { Button } from '~/components/ui/button'
 import { NavLink } from 'react-router'
 
-export default function PageNotFound(): ReactElement {
+export default function NotFound(): ReactElement {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-sky-100 text-center p-6">
       <h1 className="text-6xl animate-bounce font-bold text-red-400 mb-2">404</h1>
