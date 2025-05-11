@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
-import { signIn, STATUS } from '~/store/auth'
+import { signIn, AUTH_STATUS } from '~/store/auth'
 import { Button } from '~/components/ui/button'
 
 const LoginButton = (): ReactElement => {
@@ -22,7 +22,7 @@ const LoginButton = (): ReactElement => {
       <br />
       Customer: {JSON.stringify(customer)}
       <br />
-      <Button onClick={handleLogin} disabled={status === STATUS.LOADING}>
+      <Button onClick={handleLogin} disabled={status === AUTH_STATUS.LOADING}>
         Login
       </Button>
     </>
