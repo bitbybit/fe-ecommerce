@@ -34,6 +34,7 @@ export const createSignUpThunk = (
 
     {
       pending: (state) => {
+        state.errorMessage = ''
         state.status = AUTH_STATUS.LOADING
       },
 

@@ -27,6 +27,8 @@ export const createSignInThunk = (
 
     {
       pending: (state) => {
+        state.customer = undefined
+        state.errorMessage = ''
         state.status = AUTH_STATUS.LOADING
       },
 
