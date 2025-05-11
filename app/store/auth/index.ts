@@ -31,5 +31,5 @@ const auth = createAppSlice({
   })
 })
 
-export const { signIn } = auth.actions
+export const { signIn, signUp } = auth.actions
 export default auth.reducer
