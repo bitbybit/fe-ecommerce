@@ -1,9 +1,9 @@
 import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/use-title'
-import LoginButton from './login-button'
+import { LoginForm } from './login-form'
 
-export default function Routes(): ReactElement {
+export default function Login(): ReactElement {
   useTitle('Login')
 
-  return <LoginButton />
+  return <LoginForm />
 }

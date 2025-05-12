@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const emailRule = z.string().email()
+export const emailRule = z.string().min(1, 'Email is required.').email()
 
 export const passwordRule = z
   .string()
