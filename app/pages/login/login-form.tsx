@@ -9,6 +9,7 @@ import { signIn, AUTH_STATUS } from '~/store/auth'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { emailRule, passwordRule } from '~/utils/validation'
 import { IoEye, IoEyeOff } from 'react-icons/io5'
+import { ctpApiClient } from '~/api/client'
 
 const loginSchema = z.object({
   email: emailRule,
@@ -73,7 +74,11 @@ export const LoginForm = (): ReactElement => {
   })
 
   const handleLogin = (payload: z.infer<typeof loginSchema>): void => {
-    void dispatch(signIn(payload))
+    if (ctpApiClient.isAuth) {
+      console.log('Already Auth')
+    } else {
+      void dispatch(signIn(payload))
+    }
   }
 
   return (

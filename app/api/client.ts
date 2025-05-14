@@ -42,6 +42,7 @@ export class CtpApiClient {
   private readonly public: ByProjectKeyRequestBuilder
   private protected?: ByProjectKeyRequestBuilder
   private current: ByProjectKeyRequestBuilder
+  private customer?: Customer
 
   constructor({
     authUri = String(import.meta.env.VITE_CTP_AUTH_URL),
@@ -68,6 +69,10 @@ export class CtpApiClient {
     }
   }
 
+  public get isAuth(): boolean {
+    return this.customer !== undefined
+  }
+
   public get root(): ByProjectKeyRequestBuilder {
     return this.current
   }
@@ -76,6 +81,7 @@ export class CtpApiClient {
     this.protected = this.createProtected(email, password)
 
     const response = await this.protected.me().get().execute()
+    this.customer = response.body
 
     this.current = this.protected
 
