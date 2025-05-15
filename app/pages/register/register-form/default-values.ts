@@ -1,6 +1,6 @@
 export const defaultValues = {
   city: '',
-  country: '', // TODO: set default country
+  country: 'US',
   dateOfBirth: '',
   email: '',
   firstName: '',

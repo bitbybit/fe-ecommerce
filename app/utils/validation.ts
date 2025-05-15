@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { countryCodes } from '~/utils/countries'
 
 export const emailRule = z.string().email()
 
@@ -77,8 +78,9 @@ export const cityRule = z
     message: 'Allowed city characters are: A-z'
   })
 
-// TODO: implement
-export const countryRule = z.string()
+export const countryRule = z.string().refine((code) => countryCodes.includes(code), {
+  message: 'Country is invalid.'
+})
 
 // TODO: implement
 export const postalCodeRule = z.string()
