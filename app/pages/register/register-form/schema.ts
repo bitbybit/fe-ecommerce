@@ -7,20 +7,23 @@ import {
   firstNameRule,
   lastNameRule,
   passwordRule,
+  streetNameRule,
   postalCodeRule,
-  streetNameRule
+  withCountryPostalCodeRule
 } from '~/utils/validation'
 
-export const schema = z.object({
-  city: cityRule,
-  country: countryRule,
-  dateOfBirth: dateOfBirthRule,
-  email: emailRule,
-  firstName: firstNameRule,
-  lastName: lastNameRule,
-  password: passwordRule,
-  postalCode: postalCodeRule,
-  streetName: streetNameRule
-})
+export const schema = withCountryPostalCodeRule(
+  z.object({
+    city: cityRule,
+    country: countryRule,
+    dateOfBirth: dateOfBirthRule,
+    email: emailRule,
+    firstName: firstNameRule,
+    lastName: lastNameRule,
+    password: passwordRule,
+    postalCode: postalCodeRule,
+    streetName: streetNameRule
+  })
+)
 
 export type SchemaType = typeof schema
