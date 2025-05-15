@@ -1,7 +1,6 @@
+import { type ReactElement } from 'react'
 import { type z, type TypeOf, type ZodType } from 'zod'
-import { Input } from '~/components/ui/input'
-import { type useForm, type Path } from 'react-hook-form'
-import { type ComponentProps, type ReactElement } from 'react'
+import { type useForm, type Path, type ControllerRenderProps, type FieldValues } from 'react-hook-form'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 
 export type FormType<T extends ZodType> = ReturnType<typeof useForm<z.infer<T>>>
@@ -10,12 +9,12 @@ export const createFormField = <T extends ZodType>({
   form,
   label,
   name,
-  props
+  render
 }: {
   form: FormType<T>
   label: string
   name: Path<TypeOf<T>>
-  props?: ComponentProps<typeof Input>
+  render: (field: ControllerRenderProps<FieldValues, string>) => ReactElement
 }): ReactElement => {
   return (
     <FormField
@@ -24,9 +23,7 @@ export const createFormField = <T extends ZodType>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <Input {...field} {...props} />
-          </FormControl>
+          <FormControl>{render(field)}</FormControl>
           <FormMessage />
         </FormItem>
       )}

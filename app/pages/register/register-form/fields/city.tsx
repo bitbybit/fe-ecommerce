@@ -1,4 +1,5 @@
 import { type ReactElement } from 'react'
+import { Input } from '~/components/ui/input'
 import { createFormField, type FormType } from '~/utils/form'
 import { type SchemaType } from '../schema'
 
@@ -7,5 +8,5 @@ export const City = (form: FormType<SchemaType>): ReactElement =>
     form,
     label: 'City',
     name: 'city',
-    props: { placeholder: 'City' }
+    render: (field) => <Input placeholder="City" {...field} />
   })
