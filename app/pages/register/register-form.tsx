@@ -2,11 +2,11 @@ import { type ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Form } from '~/components/ui/form'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { signUp, AUTH_STATUS } from '~/store/auth'
+import { createFormField, type FormType } from '~/utils/form'
 import {
   cityRule,
   countryRule,
@@ -43,167 +43,79 @@ const defaultValues = {
   streetName: ''
 }
 
-const FormEmailField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="email"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Email</FormLabel>
-          <FormControl>
-            <Input type="email" placeholder="Email" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+type SchemaType = typeof schema
 
-const FormPasswordField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="password"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Password</FormLabel>
-          <FormControl>
-            <Input type="password" placeholder="Password" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const EmailField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Email',
+    name: 'email',
+    props: { type: 'email', placeholder: 'Email' }
+  })
 
-const FormFirstNameField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="firstName"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>First Name</FormLabel>
-          <FormControl>
-            <Input placeholder="First name" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const PasswordField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Password',
+    name: 'password',
+    props: { type: 'password', placeholder: 'Password', autoComplete: 'new-password' }
+  })
 
-const FormLastNameField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="lastName"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Last Name</FormLabel>
-          <FormControl>
-            <Input placeholder="Last name" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const FirstNameField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'First Name',
+    name: 'firstName',
+    props: { placeholder: 'First name' }
+  })
 
-const FormDateOfBirthField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="dateOfBirth"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Date of Birth</FormLabel>
-          <FormControl>
-            <Input placeholder="Date of Birth" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const LastNameField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Last Name',
+    name: 'lastName',
+    props: { placeholder: 'Last name' }
+  })
 
-const FormCountryField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="country"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Country</FormLabel>
-          <FormControl>
-            <Input placeholder="Country" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const DateOfBirthField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Date of Birth',
+    name: 'dateOfBirth',
+    props: { placeholder: 'Date of Birth' }
+  })
 
-const FormCityField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="city"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>City</FormLabel>
-          <FormControl>
-            <Input placeholder="City" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const CountryField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Country',
+    name: 'country',
+    props: { placeholder: 'Country' }
+  })
 
-const FormStreetNameField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="streetName"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Street name</FormLabel>
-          <FormControl>
-            <Input placeholder="Street name" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const CityField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'City',
+    name: 'city',
+    props: { placeholder: 'City' }
+  })
 
-const FormPostalCodeField = (form: ReturnType<typeof useForm<z.infer<typeof schema>>>): ReactElement => {
-  return (
-    <FormField
-      control={form.control}
-      name="postalCode"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Postal code</FormLabel>
-          <FormControl>
-            <Input placeholder="Postal code" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
+const StreetNameField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Street name',
+    name: 'streetName',
+    props: { placeholder: 'Street name' }
+  })
+
+const PostalCodeField = (form: FormType<SchemaType>): ReactElement =>
+  createFormField<SchemaType>({
+    form,
+    label: 'Postal code',
+    name: 'postalCode',
+    props: { placeholder: 'Postal code' }
+  })
 
 export const RegisterForm = (): ReactElement => {
   const dispatch = useAppDispatch()
@@ -224,15 +136,15 @@ export const RegisterForm = (): ReactElement => {
 
       <Form {...form}>
         <form onSubmit={(event) => void form.handleSubmit(handleRegister)(event)} className="space-y-6">
-          <FormEmailField {...form} />
-          <FormPasswordField {...form} />
-          <FormFirstNameField {...form} />
-          <FormLastNameField {...form} />
-          <FormDateOfBirthField {...form} />
-          <FormCountryField {...form} />
-          <FormCityField {...form} />
-          <FormStreetNameField {...form} />
-          <FormPostalCodeField {...form} />
+          <EmailField {...form} />
+          <PasswordField {...form} />
+          <FirstNameField {...form} />
+          <LastNameField {...form} />
+          <DateOfBirthField {...form} />
+          <CountryField {...form} />
+          <CityField {...form} />
+          <StreetNameField {...form} />
+          <PostalCodeField {...form} />
 
           <Button type="submit" disabled={status === AUTH_STATUS.LOADING}>
             Submit
