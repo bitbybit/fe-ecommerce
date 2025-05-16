@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react'
 import { NavLink } from 'react-router'
-import { Button } from '../../shared/components/ui/button'
+import { Button } from '~/components/ui/button'
 import { Navigation } from './navigation'
 
 interface HeaderProperties {
