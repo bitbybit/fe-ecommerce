@@ -17,6 +17,18 @@ type ApiClientProperties = {
   scopes?: string
 }
 
+type SignupPayload = {
+  city: string
+  country: string
+  dateOfBirth: string
+  email: string
+  firstName: string
+  lastName: string
+  password: string
+  postalCode: string
+  streetName: string
+}
+
 export class CtpApiClient {
   private readonly authUri: string
   private readonly baseUri: string
@@ -75,13 +87,40 @@ export class CtpApiClient {
     this.current = this.public
   }
 
-  public async signup(data: {
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-  }): Promise<ClientResponse<CustomerSignInResult>> {
-    return this.public.me().signup().post({ body: data }).execute()
+  public async signup({
+    city,
+    country,
+    dateOfBirth,
+    email,
+    firstName,
+    lastName,
+    password,
+    postalCode,
+    streetName
+  }: SignupPayload): Promise<ClientResponse<CustomerSignInResult>> {
+    return this.public
+      .me()
+      .signup()
+      .post({
+        body: {
+          dateOfBirth,
+          email,
+          firstName,
+          lastName,
+          password,
+          addresses: [
+            {
+              city,
+              country,
+              firstName,
+              lastName,
+              postalCode,
+              streetName
+            }
+          ]
+        }
+      })
+      .execute()
   }
 
   private getHttpOptions(): HttpMiddlewareOptions {
