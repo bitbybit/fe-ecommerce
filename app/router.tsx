@@ -19,7 +19,7 @@ export function Router(): ReactElement {
       <Suspense fallback={<div>Loading…</div>}>
         <Routes>
           <Route element={<PublicLayout />}>
-            <Route index element={<Home isAuth={true} userName="John" />} />
+            <Route index element={<Home isAuth={false} userName="John" />} />
             <Route path="catalog" element={<Catalog />} />
             <Route path="product/:productId" element={<Product />} />
             <Route path="about" element={<About />} />
