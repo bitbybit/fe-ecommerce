@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { postcodeValidator, postcodeValidatorExistsForCountry } from 'postcode-validator'
+import { countryCodes } from '~/utils/countries'
 
 export const emailRule = z.string().min(1, 'Email is required.').email()
 
@@ -77,8 +79,24 @@ export const cityRule = z
     message: 'Allowed city characters are: A-z'
   })
 
-// TODO: implement
-export const countryRule = z.string()
+export const countryRule = z.string().refine((code) => countryCodes.includes(code), {
+  message: 'Country is invalid.'
+})
 
-// TODO: implement
-export const postalCodeRule = z.string()
+export const postalCodeRule = z.string().min(1, { message: 'Postal code must contain at least one character.' })
+
+export const withCountryPostalCodeRule = <T extends z.ZodRawShape>(
+  baseSchema: z.ZodObject<T>
+): ReturnType<typeof baseSchema.superRefine> => {
+  return baseSchema.superRefine(({ country, postalCode }, context) => {
+    const isValid = !postcodeValidatorExistsForCountry(country) || postcodeValidator(postalCode, country)
+
+    if (!isValid) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Invalid postal code for country "${country}"`,
+        path: ['postalCode']
+      })
+    }
+  })
+}
