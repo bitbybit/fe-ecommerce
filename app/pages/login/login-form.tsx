@@ -30,7 +30,7 @@ const FormEmailField = (form: ReturnType<typeof useForm<z.infer<typeof loginSche
         <FormItem>
           <FormLabel>Email</FormLabel>
           <FormControl>
-            <Input type="email" placeholder="Email" {...field} />
+            <Input type="email" placeholder="Email" {...field} autoComplete="username" />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -51,7 +51,13 @@ const FormPasswordField = (form: ReturnType<typeof useForm<z.infer<typeof loginS
           <FormLabel>Password</FormLabel>
           <FormControl>
             <div className="relative">
-              <Input type={show ? 'text' : 'password'} placeholder="Password" {...field} className="pr-[30px]" />
+              <Input
+                type={show ? 'text' : 'password'}
+                placeholder="Password"
+                {...field}
+                className="pr-[30px]"
+                autoComplete="current-password"
+              />
               <div onClick={(): void => setShow(!show)} className="absolute right-2 top-2.5">
                 {show ? <Eye size={18} /> : <EyeOff size={18} />}
               </div>
