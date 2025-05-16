@@ -1,7 +1,7 @@
-import { type ReactElement } from 'react'
+import { type ComponentProps, type ReactElement } from 'react'
 import { cn } from '~/utils/ui'
 
-function Card({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function Card({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card"
@@ -14,7 +14,7 @@ function Card({ className, ...properties }: React.ComponentProps<'div'>): ReactE
   )
 }
 
-function CardHeader({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function CardHeader({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card-header"
@@ -27,11 +27,11 @@ function CardHeader({ className, ...properties }: React.ComponentProps<'div'>): 
   )
 }
 
-function CardTitle({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function CardTitle({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return <div data-slot="card-title" className={cn('leading-none font-semibold', className)} {...properties} />
 }
 
-function CardAction({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function CardAction({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card-action"
@@ -41,11 +41,11 @@ function CardAction({ className, ...properties }: React.ComponentProps<'div'>): 
   )
 }
 
-function CardContent({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function CardContent({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return <div data-slot="card-content" className={cn('space-y-6 px-6', className)} {...properties} />
 }
 
-function CardFooter({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function CardFooter({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card-footer"
