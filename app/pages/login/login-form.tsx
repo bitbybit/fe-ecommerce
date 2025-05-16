@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { signIn, AUTH_STATUS } from '~/store/auth'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { emailRule, passwordRule } from '~/utils/validation'
-import { IoEye, IoEyeOff } from 'react-icons/io5'
+import { Eye, EyeOff } from 'lucide-react'
 import { ctpApiClient } from '~/api/client'
 
 const loginSchema = z.object({
@@ -51,9 +51,9 @@ const FormPasswordField = (form: ReturnType<typeof useForm<z.infer<typeof loginS
           <FormLabel>Password</FormLabel>
           <FormControl>
             <div className="relative">
-              <Input type={show ? 'text' : 'password'} placeholder="Password" {...field} />
+              <Input type={show ? 'text' : 'password'} placeholder="Password" {...field} className="pr-[30px]" />
               <div onClick={(): void => setShow(!show)} className="absolute right-2 top-2.5">
-                {show ? <IoEye /> : <IoEyeOff />}
+                {show ? <Eye size={18} /> : <EyeOff size={18} />}
               </div>
             </div>
           </FormControl>
