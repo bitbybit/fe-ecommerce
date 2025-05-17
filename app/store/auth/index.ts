@@ -2,6 +2,7 @@ import { createAppSlice } from '~/store/hooks'
 import { type Customer } from '@commercetools/platform-sdk'
 import { createSignInThunk } from './reducers/sign-in'
 import { createSignUpThunk } from './reducers/sign-up'
+import { createLogOutThunk } from './reducers/log-out'
 
 export enum AUTH_STATUS {
   LOADING = 'LOADING',
@@ -27,9 +28,10 @@ const auth = createAppSlice({
 
   reducers: (create) => ({
     signIn: createSignInThunk(create),
-    signUp: createSignUpThunk(create)
+    signUp: createSignUpThunk(create),
+    logOut: createLogOutThunk(create)
   })
 })
 
-export const { signIn, signUp } = auth.actions
+export const { signIn, signUp, logOut } = auth.actions
 export default auth.reducer

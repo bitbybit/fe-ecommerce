@@ -3,14 +3,15 @@ import { useTitle } from '~/hooks/use-title'
 import { NavLink } from 'react-router'
 import { H2, P } from '~/components/ui/typography'
 import { Button } from '~/components/ui/button'
+import { useAppSelector } from '~/store/hooks'
 
-interface MainPageProperties {
-  isAuth: boolean
-  userName?: string
-}
-
-export default function Home({ isAuth, userName }: MainPageProperties): ReactElement {
+export default function Home(): ReactElement {
   useTitle('eCommerce')
+
+  const customer = useAppSelector((state) => state.auth.customer)
+  const isAuth = !!customer
+  const userName = customer?.email
+  console.log(isAuth)
 
   return (
     <div className=" min-h-svh flex flex-1 flex-col items-center justify-center text-center px-4 py-10 bg-sky-100/30">
