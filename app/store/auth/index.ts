@@ -10,12 +10,14 @@ export enum AUTH_STATUS {
 }
 
 export interface AuthState {
+  isAuth: boolean
   customer: Customer | undefined
   status: AUTH_STATUS
   errorMessage: string
 }
 
 const initialState: AuthState = {
+  isAuth: false,
   customer: undefined,
   status: AUTH_STATUS.READY,
   errorMessage: ''
