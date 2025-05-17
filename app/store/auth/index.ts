@@ -12,13 +12,13 @@ export enum AUTH_STATUS {
 export interface AuthState {
   customer: Customer | undefined
   status: AUTH_STATUS
-  errorMessage: string | undefined
+  errorMessage: string
 }
 
 const initialState: AuthState = {
   customer: undefined,
   status: AUTH_STATUS.READY,
-  errorMessage: undefined
+  errorMessage: ''
 }
 
 const auth = createAppSlice({

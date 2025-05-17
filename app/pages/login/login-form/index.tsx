@@ -36,7 +36,7 @@ export const LoginForm = (): ReactElement => {
       <CardHeader>
         <CardTitle>LOGIN</CardTitle>
       </CardHeader>
-      {status === AUTH_STATUS.ERROR && isErrorMessageVisible && errorMessage && LoginErrorAlert(errorMessage)}
+      {status === AUTH_STATUS.ERROR && isErrorMessageVisible && LoginErrorAlert(errorMessage)}
       <Form {...form}>
         <form onSubmit={(event) => void form.handleSubmit(handleLogin)(event)} onChange={handleFormChange}>
           <CardContent>
