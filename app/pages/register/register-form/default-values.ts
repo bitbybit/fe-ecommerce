@@ -1,7 +1,7 @@
 export const defaultValues = {
   city: '',
   country: 'US',
-  dateOfBirth: '',
+  dateOfBirth: undefined,
   email: '',
   firstName: '',
   lastName: '',

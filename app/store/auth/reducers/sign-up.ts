@@ -1,4 +1,5 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
+import { format } from 'date-fns'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 import { AUTH_STATUS, type AuthState } from '~/store/auth'
 
@@ -7,7 +8,7 @@ type SignUpThunkResult = Awaited<ReturnType<CtpApiClient['signup']>>['body']
 type SignUpThunkPayload = {
   city: Parameters<CtpApiClient['signup']>[0]['city']
   country: Parameters<CtpApiClient['signup']>[0]['country']
-  dateOfBirth: Parameters<CtpApiClient['signup']>[0]['dateOfBirth']
+  dateOfBirth: Date
   email: Parameters<CtpApiClient['signup']>[0]['email']
   firstName: Parameters<CtpApiClient['signup']>[0]['firstName']
   lastName: Parameters<CtpApiClient['signup']>[0]['lastName']
@@ -24,10 +25,17 @@ export const createSignUpThunk = (
   create.asyncThunk<SignUpThunkResult, SignUpThunkPayload, SignUpThunkConfig>(
     async (payload, { rejectWithValue }) => {
       try {
-        const response = await ctpApiClient.signup(payload)
+        const response = await ctpApiClient.signup({
+          ...payload,
+          dateOfBirth: format(payload.dateOfBirth, 'yyyy-MM-dd')
+        })
 
         return response.body
       } catch (error) {
+        if (error instanceof Error) {
+          return rejectWithValue(error.message)
+        }
+
         return rejectWithValue(String(error))
       }
     },

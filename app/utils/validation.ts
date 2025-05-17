@@ -40,31 +40,28 @@ export const lastNameRule = z
     message: 'Allowed last name characters are: A-z'
   })
 
-export const dateOfBirthRule = z
-  .string()
-  .date()
-  .refine(
-    (value) => {
-      const dateOfBirth = new Date(value)
+export const dateOfBirthRule = z.date().refine(
+  (value) => {
+    const dateOfBirth = new Date(value)
 
-      if (Number.isNaN(dateOfBirth)) {
-        return false
-      }
-
-      const today = new Date()
-      let age = today.getFullYear() - dateOfBirth.getFullYear()
-      const monthDiff = today.getMonth() - dateOfBirth.getMonth()
-
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())) {
-        age -= 1
-      }
-
-      return age >= 13
-    },
-    {
-      message: 'You must be at least 13 years old.'
+    if (Number.isNaN(dateOfBirth)) {
+      return false
     }
-  )
+
+    const today = new Date()
+    let age = today.getFullYear() - dateOfBirth.getFullYear()
+    const monthDiff = today.getMonth() - dateOfBirth.getMonth()
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())) {
+      age -= 1
+    }
+
+    return age >= 13
+  },
+  {
+    message: 'You must be at least 13 years old.'
+  }
+)
 
 export const streetNameRule = z.string().min(1, {
   message: 'Street must contain at least one character.'
