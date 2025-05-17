@@ -1,7 +1,7 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 import { AUTH_STATUS, type AuthState } from '~/store/auth'
-import { isLoginError } from '~/utils/is-login-error'
+import { ERROR_MESSAGE_INVALID_CREDENTIALS, isInvalidCredentials } from '~/utils/errors'
 
 type SignInThunkResult = Awaited<ReturnType<CtpApiClient['login']>>['body']
 
@@ -22,9 +22,8 @@ export const createSignInThunk = (
 
         return response.body
       } catch (error) {
-        if (isLoginError(error)) {
-          const ERROR_MESSAGE = 'Incorrect email or password. Please try again.'
-          return rejectWithValue(String(ERROR_MESSAGE))
+        if (isInvalidCredentials(error)) {
+          return rejectWithValue(ERROR_MESSAGE_INVALID_CREDENTIALS)
         }
         return rejectWithValue(String(error))
       }
