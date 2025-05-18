@@ -39,11 +39,10 @@ export const createSignInThunk = (
       fulfilled: (state, action) => {
         state.customer = action.payload
         state.status = AUTH_STATUS.READY
-        state.isAuth = true
       },
 
       rejected: (state, action) => {
-        state.errorMessage = action.payload
+        state.errorMessage = action.payload ?? ''
         state.status = AUTH_STATUS.ERROR
       }
     }

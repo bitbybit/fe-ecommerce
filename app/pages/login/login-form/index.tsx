@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactElement } from 'react'
+import { useState, type ReactElement } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { type z } from 'zod'
@@ -17,21 +17,21 @@ import { useNavigate } from 'react-router'
 export const LoginForm = (): ReactElement => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { isAuth, status, errorMessage } = useAppSelector((state) => state.auth)
+
+  const { status, errorMessage } = useAppSelector((state) => state.auth)
   const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false)
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues
   })
   const handleLogin = (payload: z.infer<typeof schema>): void => {
-    void dispatch(signIn(payload))
-    setIsErrorMessageVisible(true)
+    dispatch(signIn(payload))
+      .unwrap()
+      .then(() => navigate('/', { replace: true }))
+      .catch(() => setIsErrorMessageVisible(true))
   }
   const handleFormChange = (): void => setIsErrorMessageVisible(false)
 
-  useEffect((): void => {
-    if (isAuth) void navigate('/', { replace: true })
-  }, [isAuth, navigate])
   return (
     <Card>
       <CardHeader>
