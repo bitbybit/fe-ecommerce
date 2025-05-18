@@ -1,4 +1,4 @@
-import { type ReactElement } from 'react'
+import { type ElementType, type ReactElement } from 'react'
 import { NavLink, useNavigate } from 'react-router'
 import { Home, Info, ShoppingCart, User2, LogIn, UserPlus, FolderOpen, UserMinus } from 'lucide-react'
 import {
@@ -19,9 +19,9 @@ interface NavigationProperties {
 interface NavItem {
   to?: string
   label: string
-  icon: React.ElementType
+  icon: ElementType
   auth?: boolean
-  onClick?: (navigate: NavigateFunction, dispatch: AppDispatch) => void
+  onClick?: (navigate: NavigateFunction, dispatch: AppDispatch) => Promise<void> | void
 }
 
 const navItems: NavItem[] = [
@@ -36,9 +36,9 @@ const navItems: NavItem[] = [
     label: 'LogOut',
     icon: UserMinus,
     auth: true,
-    onClick: (navigate, dispatch): void => {
-      void dispatch(logOut())
-      void navigate('/auth/login', { replace: true })
+    async onClick(navigate, dispatch): Promise<void> {
+      await dispatch(logOut())
+      await navigate('/auth/login', { replace: true })
     }
   }
 ]
@@ -51,13 +51,13 @@ export function Navigation({ isAuth }: NavigationProperties): ReactElement {
 
   return (
     <NavigationMenu>
-      <NavigationMenuList>
+      <NavigationMenuList className="grid grid-cols-3 sm:flex justify-center gap-2">
         {filteredItems.map(({ to, label, icon: Icon, onClick }) => (
           <NavigationMenuItem key={label}>
             {onClick ? (
               <NavigationMenuLink
                 asChild
-                onClick={() => onClick(navigate, dispatch)}
+                onClick={() => void onClick(navigate, dispatch)}
                 className="flex items-center gap-2 text-sm font-medium hover:underline cursor-pointer px-4 py-2"
               >
                 <span>

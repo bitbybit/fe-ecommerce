@@ -11,7 +11,7 @@ export default function ProtectedLayout(): ReactElement {
     <div className="min-h-screen flex flex-col">
       <Header isAuth={isAuth} />
 
-      <main>
+      <main className="flex flex-col justify-center items-center flex-grow p-6">
         <Outlet />
       </main>
 

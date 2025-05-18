@@ -14,7 +14,7 @@ export default function Home(): ReactElement {
   console.log(isAuth)
 
   return (
-    <div className=" min-h-svh flex flex-1 flex-col items-center justify-center text-center px-4 py-10 bg-sky-100/30">
+    <div className="text-center">
       <H2>{isAuth ? `Welcome back${userName ? `, ${userName}` : ''}!` : 'Welcome to our store!'}</H2>
 
       <P className="mb-6 text-gray-600">Discover products, manage your profile, and enjoy smooth shopping!</P>
