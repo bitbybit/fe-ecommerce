@@ -2,6 +2,8 @@ import { createAppSlice } from '~/store/hooks'
 import { type Customer } from '@commercetools/platform-sdk'
 import { createSignInThunk } from './reducers/sign-in'
 import { createSignUpThunk } from './reducers/sign-up'
+import { createSelector } from '@reduxjs/toolkit'
+import type { RootState } from '..'
 
 export enum AUTH_STATUS {
   LOADING = 'LOADING',
@@ -12,13 +14,13 @@ export enum AUTH_STATUS {
 export interface AuthState {
   customer: Customer | undefined
   status: AUTH_STATUS
-  errorMessage: string | undefined
+  errorMessage: string
 }
 
 const initialState: AuthState = {
   customer: undefined,
   status: AUTH_STATUS.READY,
-  errorMessage: undefined
+  errorMessage: ''
 }
 
 const auth = createAppSlice({
@@ -30,6 +32,10 @@ const auth = createAppSlice({
     signUp: createSignUpThunk(create)
   })
 })
+
+const selectAuthSlice = (state: RootState): AuthState => state.auth
+
+export const selectIsAuth = createSelector([selectAuthSlice], (auth) => auth.customer !== undefined)
 
 export const { signIn, signUp } = auth.actions
 export default auth.reducer
