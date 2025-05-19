@@ -20,7 +20,7 @@ const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
 const NotFound = lazy(() => import('~/pages/not-found'))
 
-export function Router(): ReactElement {
+export function App(): ReactElement {
   const dispatch = useAppDispatch()
 
   useEffect(() => void dispatch(checkAuth()), [dispatch])
