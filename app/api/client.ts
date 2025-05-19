@@ -113,6 +113,8 @@ export class CtpApiClient {
   }
 
   public async signup(payload: SignupPayload): Promise<ClientResponse<CustomerSignInResult>> {
+    this.logout()
+
     const billingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.BILLING)
     const shippingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.SHIPPING)
 
