@@ -25,7 +25,7 @@ export const createLogOutThunk = (
         state.status = AUTH_STATUS.READY
       },
       rejected: (state, action) => {
-        state.errorMessage = action.payload
+        state.errorMessage = action.payload ?? ''
         state.status = AUTH_STATUS.ERROR
       }
     }
