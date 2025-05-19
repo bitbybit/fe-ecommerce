@@ -7,6 +7,7 @@ import { type FormType } from '~/utils/form'
 import { Button } from '~/components/ui/button'
 import { Form } from '~/components/ui/form'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
+import { RegisterLink } from './register-link'
 import { ErrorAlert } from './error-alert'
 import { Email } from './fields/email'
 import { Password } from './fields/password'
@@ -37,6 +38,7 @@ export const LoginForm = (): ReactElement => {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    mode: 'onChange',
     defaultValues
   })
 
@@ -64,6 +66,7 @@ export const LoginForm = (): ReactElement => {
           <Fields form={form} status={status} />
         </form>
       </Form>
+      <RegisterLink />
     </Card>
   )
 }
