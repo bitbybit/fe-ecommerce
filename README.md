@@ -140,6 +140,12 @@ run vitest tests
 pnpm test
 ```
 
+get coverage
+
+```
+pnpm test:coverage
+```
+
 ## CommerceTools API
 
 > Add an.env file to the project’s root folder containing the following environment variables:

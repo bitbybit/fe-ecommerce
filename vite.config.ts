@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import tailwindcss from '@tailwindcss/vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -19,5 +19,16 @@ export default defineConfig({
     }
   },
 
-  plugins: [tailwindcss(), tsconfigPaths()]
+  plugins: [tailwindcss(), tsconfigPaths()],
+
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './setup-tests.ts',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: './coverage'
+    }
+  }
 })
