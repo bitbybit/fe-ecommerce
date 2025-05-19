@@ -8,5 +8,5 @@ export const Email = (form: FormType<SchemaType>): ReactElement =>
     form,
     label: 'Email',
     name: 'email',
-    render: (field) => <Input type="email" placeholder="Email" autoComplete="email" {...field} />
+    render: (field) => <Input type="text" placeholder="Email" autoComplete="email" {...field} />
   })
