@@ -6,7 +6,7 @@ function Card({ className, ...properties }: React.ComponentProps<'div'>): ReactE
     <div
       data-slot="card"
       className={cn(
-        'max-w-xs mx-auto mt-[100px] bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'max-w-xs mx-auto bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
         className
       )}
       {...properties}
