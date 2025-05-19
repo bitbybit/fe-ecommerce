@@ -15,6 +15,7 @@ const Product = lazy(() => import('~/pages/product'))
 const About = lazy(() => import('~/pages/about'))
 const Login = lazy(() => import('~/pages/login'))
 const Register = lazy(() => import('~/pages/register'))
+const Logout = lazy(() => import('~/pages/logout'))
 const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
 const NotFound = lazy(() => import('~/pages/not-found'))
@@ -38,6 +39,7 @@ export function Router(): ReactElement {
                 <Route index element={<Navigate to="login" replace />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
+                <Route path="logout" element={<Logout />} />
               </Route>
             </Route>
             <Route element={<ProtectedLayout />}>
