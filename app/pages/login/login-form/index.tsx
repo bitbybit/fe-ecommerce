@@ -13,6 +13,7 @@ import { Password } from './fields/password'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
 import { LoginErrorAlert } from './login-error-alert'
 import { useNavigate } from 'react-router'
+import { RegisterLink } from './register-link'
 
 export const LoginForm = (): ReactElement => {
   const dispatch = useAppDispatch()
@@ -31,7 +32,6 @@ export const LoginForm = (): ReactElement => {
       .catch(() => setIsErrorMessageVisible(true))
   }
   const handleFormChange = (): void => setIsErrorMessageVisible(false)
-
   return (
     <Card>
       <CardHeader>
@@ -51,6 +51,7 @@ export const LoginForm = (): ReactElement => {
           </CardFooter>
         </form>
       </Form>
+      <RegisterLink />
     </Card>
   )
 }
