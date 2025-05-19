@@ -42,7 +42,7 @@ export const createSignInThunk = (
       },
 
       rejected: (state, action) => {
-        state.errorMessage = action.payload ?? ''
+        state.errorMessage = action.payload ?? 'Unknown error while signing in.'
         state.status = AUTH_STATUS.ERROR
       }
     }
