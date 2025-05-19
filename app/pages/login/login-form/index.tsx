@@ -18,11 +18,11 @@ import { RegisterLink } from './register-link'
 export const LoginForm = (): ReactElement => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-
   const { status, errorMessage } = useAppSelector((state) => state.auth)
   const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false)
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    mode: 'onChange',
     defaultValues
   })
   const handleLogin = (payload: z.infer<typeof schema>): void => {
