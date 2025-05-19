@@ -1,5 +1,7 @@
 import { lazy, Suspense, type ReactElement, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
+import { AccessProtected } from '~/components/access-protected'
+import { AccessPublic } from '~/components/access-public'
 import { Loading } from '~/components/loading'
 import { Toaster } from '~/components/ui/sonner'
 
@@ -20,6 +22,67 @@ const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
 const NotFound = lazy(() => import('~/pages/not-found'))
 
+function RoutesPublic(): ReactElement {
+  return (
+    <Route element={<PublicLayout />}>
+      <Route index element={<Home />} />
+      <Route path="catalog" element={<Catalog />} />
+      <Route path="product/:productId" element={<Product />} />
+      <Route path="about" element={<About />} />
+      <Route path="auth">
+        <Route index element={<Navigate to="login" replace />} />
+        <Route
+          path="login"
+          element={
+            <AccessPublic>
+              <Login />
+            </AccessPublic>
+          }
+        />
+        <Route
+          path="register"
+          element={
+            <AccessPublic>
+              <Register />
+            </AccessPublic>
+          }
+        />
+        <Route
+          path="logout"
+          element={
+            <AccessProtected>
+              <Logout />
+            </AccessProtected>
+          }
+        />
+      </Route>
+    </Route>
+  )
+}
+
+function RoutesProtected(): ReactElement {
+  return (
+    <Route element={<ProtectedLayout />}>
+      <Route
+        path="profile"
+        element={
+          <AccessProtected>
+            <Profile />
+          </AccessProtected>
+        }
+      />
+      <Route
+        path="cart"
+        element={
+          <AccessProtected>
+            <Cart />
+          </AccessProtected>
+        }
+      />
+    </Route>
+  )
+}
+
 export function App(): ReactElement {
   const dispatch = useAppDispatch()
 
@@ -30,22 +93,8 @@ export function App(): ReactElement {
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route element={<PublicLayout />}>
-              <Route index element={<Home />} />
-              <Route path="catalog" element={<Catalog />} />
-              <Route path="product/:productId" element={<Product />} />
-              <Route path="about" element={<About />} />
-              <Route path="auth">
-                <Route index element={<Navigate to="login" replace />} />
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-                <Route path="logout" element={<Logout />} />
-              </Route>
-            </Route>
-            <Route element={<ProtectedLayout />}>
-              <Route path="profile" element={<Profile />} />
-              <Route path="cart" element={<Cart />} />
-            </Route>
+            {RoutesPublic()}
+            {RoutesProtected()}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
