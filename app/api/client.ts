@@ -1,4 +1,4 @@
-import { type HttpMiddlewareOptions, ClientBuilder, type AuthMiddlewareOptions } from '@commercetools/ts-client'
+import { type AuthMiddlewareOptions, ClientBuilder, type HttpMiddlewareOptions } from '@commercetools/ts-client'
 import {
   type ByProjectKeyRequestBuilder,
   type ClientResponse,
@@ -17,16 +17,29 @@ type ApiClientProperties = {
   scopes?: string
 }
 
-type SignupPayload = {
+export enum CUSTOMER_ADDRESS_TYPE {
+  BILLING = 'BILLING',
+  DEFAULT = 'DEFAULT',
+  SHIPPING = 'SHIPPING'
+}
+
+export type CustomerAddress = {
   city: string
   country: string
+  firstName: string
+  lastName: string
+  postalCode: string
+  streetName: string
+  type: CUSTOMER_ADDRESS_TYPE
+}
+
+type SignupPayload = {
+  addresses: Omit<CustomerAddress, 'firstName' | 'lastName'>[]
   dateOfBirth: string
   email: string
   firstName: string
   lastName: string
   password: string
-  postalCode: string
-  streetName: string
 }
 
 export class CtpApiClient {
@@ -60,7 +73,7 @@ export class CtpApiClient {
 
     this.public = this.createPublic()
 
-    if (this.tokenCache.get()) {
+    if (this.hasToken) {
       this.protected = this.createPublic(true)
       this.current = this.protected
     } else {
@@ -72,52 +85,59 @@ export class CtpApiClient {
     return this.current
   }
 
+  public get hasToken(): boolean {
+    try {
+      return this.tokenCache.get().token !== ''
+    } catch {
+      return false
+    }
+  }
+
   public async login(email: string, password: string): Promise<ClientResponse<Customer>> {
+    this.logout()
+
     this.protected = this.createProtected(email, password)
-
-    const response = await this.protected.me().get().execute()
-
     this.current = this.protected
 
-    return response
+    return await this.getCurrentCustomer()
   }
 
   public logout(): void {
     this.tokenCache.remove()
     this.current = this.public
+    this.protected = undefined
   }
 
-  public async signup({
-    city,
-    country,
-    dateOfBirth,
-    email,
-    firstName,
-    lastName,
-    password,
-    postalCode,
-    streetName
-  }: SignupPayload): Promise<ClientResponse<CustomerSignInResult>> {
-    return this.public
+  public async getCurrentCustomer(): Promise<ClientResponse<Customer>> {
+    return await this.current.me().get().execute()
+  }
+
+  public async signup(payload: SignupPayload): Promise<ClientResponse<CustomerSignInResult>> {
+    const billingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.BILLING)
+    const shippingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.SHIPPING)
+
+    return this.current
       .me()
       .signup()
       .post({
         body: {
-          dateOfBirth,
-          email,
-          firstName,
-          lastName,
-          password,
-          addresses: [
-            {
-              city,
-              country,
-              firstName,
-              lastName,
-              postalCode,
-              streetName
-            }
-          ]
+          addresses: payload.addresses.map(
+            (address): Omit<CustomerAddress, 'type'> => ({
+              city: address.city,
+              country: address.country,
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              postalCode: address.postalCode,
+              streetName: address.streetName
+            })
+          ),
+          dateOfBirth: payload.dateOfBirth,
+          defaultBillingAddress: billingAddressIndex === -1 ? undefined : billingAddressIndex,
+          defaultShippingAddress: shippingAddressIndex === -1 ? undefined : shippingAddressIndex,
+          email: payload.email,
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          password: payload.password
         }
       })
       .execute()

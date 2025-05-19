@@ -1,23 +1,42 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
 import { format } from 'date-fns'
-import { ctpApiClient, type CtpApiClient } from '~/api/client'
+import { ctpApiClient, type CtpApiClient, type CustomerAddress, CUSTOMER_ADDRESS_TYPE } from '~/api/client'
 import { AUTH_STATUS, type AuthState } from '~/store/auth'
 
 type SignUpThunkResult = Awaited<ReturnType<CtpApiClient['signup']>>['body']
 
+type SignUpThunkAddressPayload = {
+  city: CustomerAddress['city']
+  country: CustomerAddress['country']
+  postalCode: CustomerAddress['postalCode']
+  streetName: CustomerAddress['streetName']
+}
+
 type SignUpThunkPayload = {
-  city: Parameters<CtpApiClient['signup']>[0]['city']
-  country: Parameters<CtpApiClient['signup']>[0]['country']
+  addressBilling: SignUpThunkAddressPayload
+  addressMain: SignUpThunkAddressPayload
+  addressShipping: SignUpThunkAddressPayload
   dateOfBirth: Date
   email: Parameters<CtpApiClient['signup']>[0]['email']
   firstName: Parameters<CtpApiClient['signup']>[0]['firstName']
   lastName: Parameters<CtpApiClient['signup']>[0]['lastName']
   password: Parameters<CtpApiClient['signup']>[0]['password']
-  postalCode: Parameters<CtpApiClient['signup']>[0]['postalCode']
-  streetName: Parameters<CtpApiClient['signup']>[0]['streetName']
 }
 
 type SignUpThunkConfig = { rejectValue: string }
+
+const mapThunkToApi = (payload: SignUpThunkPayload): Parameters<CtpApiClient['signup']>[0] => ({
+  addresses: [
+    { ...payload.addressMain, type: CUSTOMER_ADDRESS_TYPE.DEFAULT },
+    { ...payload.addressShipping, type: CUSTOMER_ADDRESS_TYPE.SHIPPING },
+    { ...payload.addressBilling, type: CUSTOMER_ADDRESS_TYPE.BILLING }
+  ],
+  dateOfBirth: format(payload.dateOfBirth, 'yyyy-MM-dd'),
+  email: payload.email,
+  firstName: payload.firstName,
+  lastName: payload.lastName,
+  password: payload.password
+})
 
 export const createSignUpThunk = (
   create: ReducerCreators<AuthState>
@@ -25,10 +44,7 @@ export const createSignUpThunk = (
   create.asyncThunk<SignUpThunkResult, SignUpThunkPayload, SignUpThunkConfig>(
     async (payload, { rejectWithValue }) => {
       try {
-        const response = await ctpApiClient.signup({
-          ...payload,
-          dateOfBirth: format(payload.dateOfBirth, 'yyyy-MM-dd')
-        })
+        const response = await ctpApiClient.signup(mapThunkToApi(payload))
 
         return response.body
       } catch (error) {
@@ -51,7 +67,7 @@ export const createSignUpThunk = (
       },
 
       rejected: (state, action) => {
-        state.errorMessage = action.payload ?? ''
+        state.errorMessage = action.payload ?? 'Unknown error while signing up.'
         state.status = AUTH_STATUS.ERROR
       }
     }
