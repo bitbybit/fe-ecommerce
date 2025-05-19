@@ -9,6 +9,9 @@ export const passwordRule = z
   .min(8, {
     message: 'Password must contain at least 8 character.'
   })
+  .refine((value) => new RegExp(/\s/).exec(value) === null, {
+    message: 'Password must not contain spaces.'
+  })
   .refine((value) => new RegExp(/[A-Z]/).exec(value) !== null, {
     message: 'Password must include at least 1 uppercase letter.'
   })
