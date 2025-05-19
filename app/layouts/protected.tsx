@@ -3,15 +3,16 @@ import { Outlet } from 'react-router'
 import Header from './components/header'
 import { Footer } from './components/footer'
 import { useAppSelector } from '~/store/hooks'
+import { selectIsAuth } from '~/store/auth'
 
 export default function ProtectedLayout(): ReactElement {
-  const customer = useAppSelector((state) => state.auth.customer)
-  const isAuth = !!customer
+  const isAuth = useAppSelector(selectIsAuth)
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header isAuth={isAuth} />
 
-      <main>
+      <main className="flex flex-col justify-center items-center flex-grow p-6">
         <Outlet />
       </main>
 

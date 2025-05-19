@@ -48,13 +48,14 @@ Our single-page e-commerce application (SPA) is an online store designed to prov
 3. Install packages:
 
 ```
-npm ci
+npm install -g pnpm@latest-10
+pnpm install
 ```
 
 4. Prepare hooks (once):
 
 ```
-npm run prepare:husky
+pnpm prepare:husky
 ```
 
 5. To make a commit:
@@ -68,25 +69,25 @@ npx cz
 Run DEV-server:
 
 ```
-npm run dev
+pnpm dev
 ```
 
 Build a production bundle:
 
 ```
-npm run prod
+pnpm prod
 ```
 
 Commit compose helper (same as `npx cz`):
 
 ```
-npm run commit
+pnpm commit
 ```
 
 Init GIT hooks:
 
 ```
-npm run prepare:husky
+pnpm prepare:husky
 ```
 
 #### Prettier
@@ -94,13 +95,13 @@ npm run prepare:husky
 Run prettier and save results:
 
 ```
-npm run format
+pnpm format
 ```
 
 Run prettier w/o saving:
 
 ```
-npm run ci:format
+pnpm ci:format
 ```
 
 #### Eslint
@@ -108,13 +109,13 @@ npm run ci:format
 Run eslint w/o saving
 
 ```
-npm run lint
+pnpm lint
 ```
 
 Run eslint and save results
 
 ```
-npm run lint:fix
+pnpm lint:fix
 ```
 
 #### Stylelint
@@ -122,13 +123,13 @@ npm run lint:fix
 Run stylelint w/o saving
 
 ```
-npm run stylelint
+pnpm stylelint
 ```
 
 Run stylelint and save results
 
 ```
-npm run stylelint:fix
+pnpm stylelint:fix
 ```
 
 #### Vitest
@@ -136,12 +137,18 @@ npm run stylelint:fix
 run vitest tests
 
 ```
-npm run test
+pnpm test
+```
+
+get coverage
+
+```
+pnpm test:coverage
 ```
 
 ## CommerceTools API
 
-> Add a .env file to the project’s root folder containing the following environment variables:
+> Add an.env file to the project’s root folder containing the following environment variables:
 
 ```
 VITE_CTP_PROJECT_KEY=project-key

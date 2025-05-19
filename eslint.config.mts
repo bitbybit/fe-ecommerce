@@ -106,6 +106,7 @@ export default [
       sourceType: 'module',
 
       parserOptions: {
+        project: './tsconfig.json',
         projectService: true,
         tsconfigRootDir: import.meta.dirname
       }

@@ -1,8 +1,8 @@
-import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
+import { type ReactElement } from 'react'
 import { AlertCircle } from 'lucide-react'
-import type { ReactElement } from 'react'
+import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
 
-export const LoginErrorAlert = (message: string): ReactElement => (
+export const ErrorAlert = (message: string): ReactElement => (
   <Alert variant="destructive">
     <AlertCircle className="h-4 w-4" />
     <AlertTitle>Login Error</AlertTitle>
