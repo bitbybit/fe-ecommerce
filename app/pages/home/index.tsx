@@ -20,13 +20,14 @@ export default function Home(): ReactElement {
       <P className="mb-6 text-gray-600">Discover products, manage your profile, and enjoy smooth shopping!</P>
 
       <div className="flex gap-4 flex-wrap justify-center">
-        <NavLink to="/catalog">
-          <Button variant="blue">Browse Catalog</Button>
-        </NavLink>
+        <Button variant="blue" asChild>
+          <NavLink to="/catalog">Browse Catalog</NavLink>
+        </Button>
+
         {!isAuth && (
-          <NavLink to="/auth/login">
-            <Button variant="gray">Login</Button>
-          </NavLink>
+          <Button variant="gray" asChild>
+            <NavLink to="/auth/login">Login</NavLink>
+          </Button>
         )}
       </div>
     </div>
