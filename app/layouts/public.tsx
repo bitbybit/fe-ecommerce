@@ -3,10 +3,11 @@ import { Outlet } from 'react-router'
 import Header from './components/header'
 import { Footer } from './components/footer'
 import { useAppSelector } from '~/store/hooks'
+import { selectIsAuth } from '~/store/auth'
 
 export default function PublicLayout(): ReactElement {
-  const customer = useAppSelector((state) => state.auth.customer)
-  const isAuth = !!customer
+  const isAuth = useAppSelector(selectIsAuth)
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header isAuth={isAuth} />

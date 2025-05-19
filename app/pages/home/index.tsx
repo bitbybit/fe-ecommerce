@@ -4,18 +4,18 @@ import { NavLink } from 'react-router'
 import { H2, P } from '~/components/ui/typography'
 import { Button } from '~/components/ui/button'
 import { useAppSelector } from '~/store/hooks'
+import { selectIsAuth } from '~/store/auth'
 
 export default function Home(): ReactElement {
   useTitle('eCommerce')
 
-  const customer = useAppSelector((state) => state.auth.customer)
-  const isAuth = !!customer
-  const userName = customer?.email
-  console.log(isAuth)
+  const isAuth = useAppSelector(selectIsAuth)
+  const userName = useAppSelector((state) => state.auth.customer?.email ?? '')
+  const greeting = isAuth ? `Welcome back, ${userName}!` : 'Welcome to our store!'
 
   return (
     <div className="text-center">
-      <H2>{isAuth ? `Welcome back${userName ? `, ${userName}` : ''}!` : 'Welcome to our store!'}</H2>
+      <H2>{greeting}</H2>
 
       <P className="mb-6 text-gray-600">Discover products, manage your profile, and enjoy smooth shopping!</P>
 
