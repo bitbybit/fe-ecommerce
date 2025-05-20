@@ -1,24 +1,22 @@
 import { type ReactElement } from 'react'
-import { Outlet, NavLink } from 'react-router'
+import { Outlet } from 'react-router'
+import Header from './components/header'
+import { Footer } from './components/footer'
+import { useAppSelector } from '~/store/hooks'
+import { selectIsAuth } from '~/store/auth'
 
 export default function ProtectedLayout(): ReactElement {
-  return (
-    <>
-      <header>
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/catalog">Catalog</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/cart">Cart</NavLink>
-          <NavLink to="/profile">Profile</NavLink>
-        </nav>
-      </header>
+  const isAuth = useAppSelector(selectIsAuth)
 
-      <main>
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header isAuth={isAuth} />
+
+      <main className="flex flex-col justify-center items-center flex-grow p-6">
         <Outlet />
       </main>
 
-      <footer>Footer</footer>
-    </>
+      <Footer />
+    </div>
   )
 }

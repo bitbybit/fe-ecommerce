@@ -27,13 +27,16 @@ Our single-page e-commerce application (SPA) is an online store designed to prov
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/react.svg" width="20" height="20"> [React](https://react.dev/) (library)
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/react.svg" width="20" height="20"> [React Router](https://reactrouter.com/) (routing)
 - [Commercetools API](https://commercetools.com/)
-- [Redux](https://redux.js.org/) (library)
+- [Redux](https://redux.js.org/) + [Redux Toolkit](https://redux-toolkit.js.org/) (state management)
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/vite.png" width="20" height="20"> [Vite](https://vite.dev/) (bundler)
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/eslint.svg" width="20" height="20"> [ESLint](https://eslint.org/) (linter)
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/prettier.png" width="20" height="20"> [Prettier](https://prettier.io/) (formatter)
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/scss.svg" width="20" height="20"> [SCSS](https://sass-lang.com/) (CSS preprocessor)
 - <img src="https://github.com/merucoding/rsschool-cv/blob/rsschool-cv-html/img/tailwind.svg" width="20" height="20"> [Tailwind](https://tailwindcss.com/) (CSS Framework)
 - [shadcn/ui](https://ui.shadcn.com/) (component library)
+- [Lucide React](https://lucide.dev/guide/packages/lucide-react) (icon library)
+- [React Hook Form](https://react-hook-form.com) (form builder)
+- [zod](https://github.com/colinhacks/zod) (fields validation)
 - [Husky](https://typicode.github.io/husky/) (pre-commit, pre-push)
 - [Stylelint](https://stylelint.io/) (linter for SCSS)
 - [Commitlint](https://commitlint.js.org/) (for linting commit messages)
@@ -45,13 +48,14 @@ Our single-page e-commerce application (SPA) is an online store designed to prov
 3. Install packages:
 
 ```
-npm ci
+npm install -g pnpm@latest-10
+pnpm install
 ```
 
 4. Prepare hooks (once):
 
 ```
-npm run prepare:husky
+pnpm prepare:husky
 ```
 
 5. To make a commit:
@@ -65,25 +69,25 @@ npx cz
 Run DEV-server:
 
 ```
-npm run dev
+pnpm dev
 ```
 
 Build a production bundle:
 
 ```
-npm run prod
+pnpm prod
 ```
 
 Commit compose helper (same as `npx cz`):
 
 ```
-npm run commit
+pnpm commit
 ```
 
 Init GIT hooks:
 
 ```
-npm run prepare:husky
+pnpm prepare:husky
 ```
 
 #### Prettier
@@ -91,13 +95,13 @@ npm run prepare:husky
 Run prettier and save results:
 
 ```
-npm run format
+pnpm format
 ```
 
 Run prettier w/o saving:
 
 ```
-npm run ci:format
+pnpm ci:format
 ```
 
 #### Eslint
@@ -105,13 +109,13 @@ npm run ci:format
 Run eslint w/o saving
 
 ```
-npm run lint
+pnpm lint
 ```
 
 Run eslint and save results
 
 ```
-npm run lint:fix
+pnpm lint:fix
 ```
 
 #### Stylelint
@@ -119,13 +123,13 @@ npm run lint:fix
 Run stylelint w/o saving
 
 ```
-npm run stylelint
+pnpm stylelint
 ```
 
 Run stylelint and save results
 
 ```
-npm run stylelint:fix
+pnpm stylelint:fix
 ```
 
 #### Vitest
@@ -133,12 +137,18 @@ npm run stylelint:fix
 run vitest tests
 
 ```
-npm run test
+pnpm test
+```
+
+get coverage
+
+```
+pnpm test:coverage
 ```
 
 ## CommerceTools API
 
-> Add a .env file to the project’s root folder containing the following environment variables:
+> Add an.env file to the project’s root folder containing the following environment variables:
 
 ```
 VITE_CTP_PROJECT_KEY=project-key
