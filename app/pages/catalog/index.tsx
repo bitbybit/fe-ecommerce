@@ -1,16 +1,16 @@
-import { useEffect, type ReactElement } from 'react'
-import { productApi } from '~/api/namespaces/product'
+import { type ReactElement } from 'react'
+// import { productApi } from '~/api/namespaces/product'
 import { useTitle } from '~/hooks/use-title'
+import { useAppDispatch } from '~/store/hooks'
+import { getProducts } from '~/store/product'
 
-export default function Routes(): ReactElement {
+export default function Catalog(): ReactElement {
   useTitle('Catalog')
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    productApi
-      .getProducts()
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error))
-  }, [])
+  void dispatch(getProducts({ limit: 30 }))
+    .unwrap()
+    .then((data) => console.log(data))
 
   return <>Catalog</>
 }
