@@ -1,4 +1,4 @@
-import type { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk'
+import type { ProductProjection } from '@commercetools/platform-sdk'
 import { createAppSlice } from '~/store/hooks'
 import { createGetProductsThunk } from './reducers/get-products'
 
@@ -9,13 +9,13 @@ export enum PRODUCT_STATUS {
 }
 
 export interface ProductState {
-  products: ProductProjectionPagedQueryResponse | undefined
+  products: ProductProjection[]
   status: PRODUCT_STATUS
   errorMessage: string
 }
 
 const initialState: ProductState = {
-  products: undefined,
+  products: [],
   status: PRODUCT_STATUS.LOADING,
   errorMessage: ''
 }

@@ -1,10 +1,10 @@
 import type { ReducerCreators } from '@reduxjs/toolkit'
 import { PRODUCT_STATUS, type ProductState } from '~/store/product'
-import { type ProductApi, productApi, type ProductProjectionQueryParameters } from '~/api/namespaces/product'
+import { type ProductApi, productApi, type ProductListQueryParameters } from '~/api/namespaces/product'
 
 type GetProductsThunkResult = Awaited<ReturnType<ProductApi['getProducts']>>['body']
 
-type GetProductsThunkPayload = ProductProjectionQueryParameters
+type GetProductsThunkPayload = ProductListQueryParameters
 
 type GetProductsThunkConfig = { rejectValue: string }
 
@@ -22,13 +22,13 @@ export const createGetProductsThunk = (
     },
     {
       pending: (state) => {
-        state.products = undefined
+        state.products = []
         state.errorMessage = ''
         state.status = PRODUCT_STATUS.LOADING
       },
 
       fulfilled: (state, action) => {
-        state.products = action.payload
+        state.products = action.payload.results
         state.status = PRODUCT_STATUS.READY
       },
 
