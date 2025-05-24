@@ -1,6 +1,8 @@
 import type { ProductProjection } from '@commercetools/platform-sdk'
 import { createAppSlice } from '~/store/hooks'
 import { createGetProductsThunk } from './reducers/get-products'
+import type { RootState } from '..'
+import { createSelector } from '@reduxjs/toolkit'
 
 export enum PRODUCT_STATUS {
   LOADING = 'LOADING',
@@ -33,6 +35,10 @@ const product = createAppSlice({
     })
   })
 })
+
+const selectProductSlice = (state: RootState): ProductState => state.product
+
+export const selectProductList = createSelector([selectProductSlice], (productState) => productState.products)
 
 export const { getProducts } = product.actions
 
