@@ -1,17 +1,18 @@
 import type { ReactElement } from 'react'
 import { useAppSelector } from '~/store/hooks'
-import Product from '../product'
 import { PRODUCT_STATUS } from '~/store/product'
 import { Skeleton } from '~/components/ui/skeleton'
+import Product from './product-item'
 
 export default function ProductList(): ReactElement {
   const { products, status } = useAppSelector((state) => state.product)
-  const isErrorOrLoading = status === PRODUCT_STATUS.LOADING || status === PRODUCT_STATUS.ERROR
+  const isNotReady = status !== PRODUCT_STATUS.READY
+  const SKELETON_COUNT = 8
 
   return (
     <div className="flex gap-4 flex-wrap">
-      {isErrorOrLoading
-        ? Array.from({ length: 8 }).map(() => <Skeleton className="w-xs h-[470px] mx-auto" />)
+      {isNotReady
+        ? Array.from({ length: SKELETON_COUNT }).map(() => <Skeleton className="w-2xs aspect-[3/4] mx-auto" />)
         : products.map((product) => <Product product={product} />)}
     </div>
   )

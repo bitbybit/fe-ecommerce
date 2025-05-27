@@ -24,6 +24,7 @@
     "@commercetools/platform-sdk": "8.9.0",
     "@commercetools/ts-client": "3.3.1",
     "@hookform/resolvers": "5.0.1",
+    "@radix-ui/react-aspect-ratio": "1.1.7",
     "@radix-ui/react-label": "2.1.6",
     "@radix-ui/react-navigation-menu": "1.2.12",
     "@radix-ui/react-popover": "1.1.13",

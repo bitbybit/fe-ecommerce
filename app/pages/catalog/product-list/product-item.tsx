@@ -1,0 +1,37 @@
+import type { ProductProjection } from '@commercetools/platform-sdk'
+import { type ReactElement } from 'react'
+import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/card'
+import { useTitle } from '~/hooks/use-title'
+import { ShoppingCart } from 'lucide-react'
+import { Button } from '~/components/ui/button'
+import { AspectRatio } from '~/components/ui/aspect-ratio'
+
+export default function Product({ product }: { product: ProductProjection }): ReactElement {
+  useTitle('Product')
+
+  const name = product.name['en-US']
+  const description = product.description?.['en-US'] ?? name
+  const image = product.masterVariant.images?.[0]?.url
+  const TO_CENT_DOLLAR = 100
+  const DOLLAR_SIGN = '$'
+  const price = DOLLAR_SIGN + Number(product.masterVariant.prices?.[0].value.centAmount) / TO_CENT_DOLLAR
+
+  return (
+    <Card className="w-full max-w-2xs aspect-[3/4]">
+      <CardContent className="space-y-0 h-full flex flex-col justify-between gap-y-2">
+        <AspectRatio ratio={4 / 3}>
+          <img src={image} alt={name} className="w-full h-full object-contain" />
+        </AspectRatio>
+        <hr />
+        <CardTitle className="leading-normal line-clamp-1">{name}</CardTitle>
+        <CardDescription className="flex-1 line-clamp-2">{description}</CardDescription>
+        <div className="flex justify-between items-center">
+          <div>{price}</div>
+          <Button variant="outline" size="icon">
+            <ShoppingCart size={16} />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
