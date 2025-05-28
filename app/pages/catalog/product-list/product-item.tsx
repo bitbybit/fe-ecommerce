@@ -16,10 +16,10 @@ export function ProductItem({ product }: { product: ProductProjection }): ReactE
   const discountPrice = product.masterVariant.prices?.[0].discounted?.value.centAmount
 
   return (
-    <Card className="w-full max-w-2xs aspect-[3/4]">
+    <Card className="w-full max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 cursor-pointer hover:bg-stone-50">
       <CardContent className="space-y-0 h-full flex flex-col justify-between gap-y-2 relative">
         {discountPrice && <SaleBadge />}
-        <AspectRatio ratio={4 / 3}>
+        <AspectRatio ratio={4 / 3} className="bg-white rounded-md">
           <img src={image} alt={name} className="w-full h-full object-contain" />
         </AspectRatio>
         <hr />
