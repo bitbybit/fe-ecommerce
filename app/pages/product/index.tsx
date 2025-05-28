@@ -11,6 +11,7 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { Dialog, DialogTrigger, DialogContent, DialogClose } from '~/components/ui/dialog'
 
 type Image = {
   dimensions: {
@@ -70,30 +71,44 @@ export default function Routes(): ReactElement {
       </div>
       <Card className="w-full rounded-xl border border-muted bg-card shadow-sm">
         <CardContent className="flex flex-col md:flex-row gap-8 items-start justify-start p-6 text-left">
-          <div
-            className={`transition-opacity duration-700 ease-in ${
-              images.length === 1 ? 'opacity-10 pointer-events-none' : 'opacity-100'
-            }`}
-          >
-            <div className="w-full overflow-hidden">
-              <Swiper
-                spaceBetween={50}
-                slidesPerView={1}
-                modules={[Navigation]}
-                navigation
-                pagination={{ clickable: true }}
-                className="w-[350px]  sm:w-[500px] h-[60vh]"
-              >
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="cursor-pointer">
+                <Swiper
+                  spaceBetween={50}
+                  slidesPerView={1}
+                  modules={[Navigation]}
+                  navigation
+                  pagination={{ clickable: true }}
+                  className="w-[350px] sm:w-[500px] h-[60vh]"
+                >
+                  {images.map((img, index) => (
+                    <SwiperSlide key={index} className="w-full">
+                      <div className="flex items-center justify-center w-full h-full">
+                        <img
+                          src={img.url}
+                          alt={`Image ${index + 1}`}
+                          className="object-contain max-h-full max-w-full"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="max-w-[50vw] h-[70vh] flex items-center justify-center">
+              <Swiper spaceBetween={30} slidesPerView={1} modules={[Navigation]} navigation className="w-full h-full">
                 {images.map((img, index) => (
-                  <SwiperSlide key={index} className="w-full">
+                  <SwiperSlide key={index}>
                     <div className="flex items-center justify-center w-full h-full">
                       <img src={img.url} alt={`Image ${index + 1}`} className="object-contain max-h-full max-w-full" />
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
-            </div>
-          </div>
+              <DialogClose />
+            </DialogContent>
+          </Dialog>
 
           <div className="flex-1 flex flex-col justify-start gap-4 text-left">
             <H1 className="text-2xl font-semibold">{name ? name['en-US'] : 'Loading...'}</H1>
