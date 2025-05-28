@@ -1,20 +1,16 @@
 import type { ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/card'
-import { useTitle } from '~/hooks/use-title'
 import { ShoppingCart } from 'lucide-react'
 import { Button } from '~/components/ui/button'
 import { AspectRatio } from '~/components/ui/aspect-ratio'
+import { formatPoductItemPrice } from '~/utils/format-price'
 
-export default function Product({ product }: { product: ProductProjection }): ReactElement {
-  useTitle('Product')
-
+export function ProductItem({ product }: { product: ProductProjection }): ReactElement {
   const name = product.name['en-US']
   const description = product.description?.['en-US'] ?? name
   const image = product.masterVariant.images?.[0]?.url
-  const TO_CENT_DOLLAR = 100
-  const DOLLAR_SIGN = '$'
-  const price = DOLLAR_SIGN + Number(product.masterVariant.prices?.[0].value.centAmount) / TO_CENT_DOLLAR
+  const price = formatPoductItemPrice(product.masterVariant.prices?.[0].value.centAmount)
 
   return (
     <Card className="w-full max-w-2xs aspect-[3/4]">

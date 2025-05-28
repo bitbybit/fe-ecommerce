@@ -55,7 +55,7 @@ function CardFooter({ className, ...properties }: ComponentProps<'div'>): ReactE
   )
 }
 
-function CardDescription({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+function CardDescription({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return <div data-slot="card-description" className={cn('text-muted-foreground text-sm', className)} {...properties} />
 }
 
