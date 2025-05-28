@@ -55,4 +55,8 @@ function CardFooter({ className, ...properties }: ComponentProps<'div'>): ReactE
   )
 }
 
-export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardContent }
+function CardDescription({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+  return <div data-slot="card-description" className={cn('text-muted-foreground text-sm', className)} {...properties} />
+}
+
+export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardContent, CardDescription }
