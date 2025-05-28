@@ -22,7 +22,7 @@ type Image = {
 }
 
 /* eslint-disable-next-line max-lines-per-function */
-export default function Routes(): ReactElement {
+export default function Product(): ReactElement {
   useTitle('About')
   const images: Image[] = [
     {
@@ -44,6 +44,7 @@ export default function Routes(): ReactElement {
   const [description, setDescription] = useState<LocalizedString | undefined>()
   const [price, setPrice] = useState<number | undefined>()
   //const [image, setImage] = useState<Image | undefined>()
+  const [startIndex, setStartIndex] = useState(0)
 
   useEffect(() => {
     async function fetchProducts(): Promise<void> {
@@ -69,8 +70,8 @@ export default function Routes(): ReactElement {
           ← Back to catalog
         </Button>
       </div>
-      <Card className="w-full rounded-xl border border-muted bg-card shadow-sm">
-        <CardContent className="flex flex-col md:flex-row gap-8 items-start justify-start p-6 text-left">
+      <Card className="w-full rounded-xl border border-muted bg-card shadow-sm overflow-hidden">
+        <CardContent className="flex flex-col md:flex-row md:gap-40 items-start justify-start p-6 text-left break-words">
           <Dialog>
             <DialogTrigger asChild>
               <div className="cursor-pointer">
@@ -84,7 +85,10 @@ export default function Routes(): ReactElement {
                 >
                   {images.map((img, index) => (
                     <SwiperSlide key={index} className="w-full">
-                      <div className="flex items-center justify-center w-full h-full">
+                      <div
+                        className="flex items-center justify-center w-full h-full"
+                        onClick={() => setStartIndex(index)}
+                      >
                         <img
                           src={img.url}
                           alt={`Image ${index + 1}`}
@@ -96,8 +100,15 @@ export default function Routes(): ReactElement {
                 </Swiper>
               </div>
             </DialogTrigger>
-            <DialogContent className="max-w-[50vw] h-[70vh] flex items-center justify-center">
-              <Swiper spaceBetween={30} slidesPerView={1} modules={[Navigation]} navigation className="w-full h-full">
+            <DialogContent className="w-full max-w-[95vw] h-[90vh] flex items-center justify-center">
+              <Swiper
+                spaceBetween={30}
+                slidesPerView={1}
+                initialSlide={startIndex}
+                modules={[Navigation]}
+                navigation
+                className="w-full h-full"
+              >
                 {images.map((img, index) => (
                   <SwiperSlide key={index}>
                     <div className="flex items-center justify-center w-full h-full">
