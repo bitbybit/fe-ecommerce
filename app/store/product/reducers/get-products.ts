@@ -14,7 +14,7 @@ export const createGetProductsThunk = (
   create.asyncThunk<GetProductsThunkResult, GetProductsThunkPayload, GetProductsThunkConfig>(
     async (payload, { rejectWithValue }) => {
       try {
-        const response = await productApi.getProducts(payload)
+        const response = await productApi.getProducts({ ...payload, limit: 100 })
         return response.body
       } catch (error) {
         return rejectWithValue(String(error))

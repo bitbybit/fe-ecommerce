@@ -26,7 +26,7 @@ export function ProductItem({ product }: { product: ProductProjection }): ReactE
         <CardTitle className="leading-normal line-clamp-1">{name}</CardTitle>
         <CardDescription className="flex-1 line-clamp-2">{description}</CardDescription>
         <div className="flex justify-between items-center">
-          {discountPrice ? <SalePrice startPrice={price} discountPrice={discountPrice} /> : <div>{price}</div>}
+          <SalePrice startPrice={price} discountPrice={discountPrice} />
           <Button variant="outline" size="icon">
             <ShoppingCart size={16} />
           </Button>
