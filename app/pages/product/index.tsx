@@ -19,11 +19,13 @@ function useProductData(): {
   name: LocalizedString | undefined
   description: LocalizedString | undefined
   price: number | undefined
+  discount: number | undefined
   images: Image[] | undefined
 } {
   const [name, setName] = useState<LocalizedString | undefined>()
   const [description, setDescription] = useState<LocalizedString | undefined>()
   const [price, setPrice] = useState<number | undefined>()
+  const [discount, setDiscount] = useState<number | undefined>()
   const [images, setImages] = useState<Image[] | undefined>()
 
   useEffect(() => {
@@ -34,6 +36,8 @@ function useProductData(): {
         setDescription(response.body.description ?? undefined)
         setImages(response.body.masterVariant.images ?? undefined)
         setPrice(response.body.masterVariant.prices?.[0].value?.centAmount ?? undefined)
+        setDiscount(response.body.masterVariant.prices?.[0]?.discounted?.value?.centAmount)
+        console.log(response.body.masterVariant.prices?.[0]?.discounted?.value?.centAmount)
       } catch (error) {
         console.error('error while getting products:', error)
       }
@@ -41,7 +45,7 @@ function useProductData(): {
     void fetchProductsData()
   }, [])
 
-  return { name, description, price, images }
+  return { name, description, price, discount, images }
 }
 
 function ImageSwiper({
@@ -97,27 +101,39 @@ export function ProductImages({ images }: { images?: Image[] }): ReactElement {
 function ProductInfo({
   name,
   description,
-  price
+  price,
+  discount
 }: {
   name?: LocalizedString
   description?: LocalizedString
   price?: number
+  discount?: number
 }): ReactElement {
+  const lang = 'en-US'
+  const isLoading = price === undefined
+  const hasDiscount = discount !== undefined && discount < price!
+
   return (
     <div className="flex-1 flex flex-col justify-start gap-4 text-left">
-      <H1 className="text-2xl font-semibold">{name ? name['en-US'] : 'Loading...'}</H1>
-      <P className="text-muted-foreground">{description ? description['en-US'] : 'Loading...'}</P>
-      <H3>{price ? `$${(price / 100).toFixed(2)}` : 'Loading...'}</H3>
-      <Button variant="default" size="lg">
-        Add to cart
-      </Button>
+      <H1 className="text-2xl font-semibold">{name ? name[lang] : 'Loading...'}</H1>
+      <P className="text-muted-foreground">{description ? description[lang] : 'Loading...'}</P>
+      {isLoading ? (
+        <H3>Loading...</H3>
+      ) : hasDiscount ? (
+        <div className="flex items-baseline gap-2">
+          <P className="line-through text-muted-foreground">${(price / 100).toFixed(2)}</P>
+          <P className="text-destructive font-bold text-xl">${(discount / 100).toFixed(2)}</P>
+        </div>
+      ) : (
+        <H3>${(price / 100).toFixed(2)}</H3>
+      )}
     </div>
   )
 }
 
 export default function Product(): ReactElement {
   useTitle('Product')
-  const { name, description, price, images } = useProductData()
+  const { name, description, price, discount, images } = useProductData()
 
   return (
     <div className="w-full flex flex-col items-start gap-10">
@@ -127,7 +143,7 @@ export default function Product(): ReactElement {
       <Card className="w-full rounded-xl border border-muted bg-card shadow-sm overflow-hidden">
         <CardContent className="flex flex-col md:flex-row md:gap-40 items-start justify-start p-6 text-left break-words">
           <ProductImages images={images} />
-          <ProductInfo name={name} description={description} price={price} />
+          <ProductInfo name={name} description={description} price={price} discount={discount} />
         </CardContent>
       </Card>
     </div>
