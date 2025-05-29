@@ -27,7 +27,7 @@ function RoutesPublic(): ReactElement {
     <Route element={<PublicLayout />}>
       <Route index element={<Home />} />
       <Route path="catalog" element={<Catalog />} />
-      <Route path="product/:productId" element={<Product />} />
+      <Route path="product" element={<Product />} />
       <Route path="about" element={<About />} />
       <Route path="auth">
         <Route index element={<Navigate to="login" replace />} />
