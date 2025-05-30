@@ -4,6 +4,7 @@ import * as SliderPrimitive from '@radix-ui/react-slider'
 import { cn } from '~/utils/ui'
 import type { ComponentProps, ReactElement } from 'react'
 
+// eslint-disable-next-line max-lines-per-function
 function Slider({
   className,
   defaultValue,
