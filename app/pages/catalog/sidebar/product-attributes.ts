@@ -4,6 +4,7 @@ export interface AttributeProperties {
   name: string
   label: string
   type: AttributeType
+  onChange?: (name: string, value: string) => void
 }
 
 export const PRODUCT_ATTRIBUTES: AttributeProperties[] = [

@@ -3,24 +3,9 @@ import { useEffect, useState, type ReactElement } from 'react'
 import { productApi } from '~/api/namespaces/product'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import type { AttributeProperties } from './product-attributes'
+import { formatAttributeValue } from './format-attribute-value'
 
-function formatAttributeValue(attribute: string, value: string): string {
-  const VALUE_FALSE = 'F'
-  const VALUE_TRUE = 'T'
-  if (value === VALUE_FALSE) return 'No'
-  if (value === VALUE_TRUE) return 'Yes'
-
-  if (attribute.includes('weight')) {
-    return `${Number(value)} kg`
-  }
-  if (attribute.includes('height') || attribute.includes('width')) {
-    return `${Number(value)} cm`
-  }
-
-  return value
-}
-
-export function AttributeSelect({ name, label, type }: AttributeProperties): ReactElement {
+export function AttributeSelect({ name, label, type, onChange }: AttributeProperties): ReactElement {
   const [options, setOptions] = useState<string[]>([])
 
   const facetKey = type === 'set:lenum' ? `variants.attributes.${name}.key` : `variants.attributes.${name}`
@@ -38,8 +23,14 @@ export function AttributeSelect({ name, label, type }: AttributeProperties): Rea
     void fetchOptions()
   }, [facetKey])
 
+  function handleSelectChange(selected: string): void {
+    if (onChange) {
+      const position = selected.indexOf('.')
+      onChange(name, position === -1 ? selected : selected.slice(0, position))
+    }
+  }
   return (
-    <Select>
+    <Select onValueChange={handleSelectChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={label} />
       </SelectTrigger>

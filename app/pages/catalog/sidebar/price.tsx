@@ -4,8 +4,12 @@ import { productApi } from '~/api/namespaces/product'
 import { Button } from '~/components/ui/button'
 import { Slider } from '~/components/ui/slider'
 
-export function Price(): ReactElement {
-  const [range, setRange] = useState([0, 1000])
+interface PriceProperties {
+  onChange: (range: [number, number]) => void
+}
+
+export function Price({ onChange }: PriceProperties): ReactElement {
+  const [range, setRange] = useState<[number, number]>([0, 1000])
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(1000)
 
@@ -23,6 +27,13 @@ export function Price(): ReactElement {
     }
     void fetchPriceLimits()
   }, [])
+  function handleSliderChange(range: [number, number]): void {
+    setRange(range)
+  }
+
+  function applyPriceFilter(): void {
+    onChange(range)
+  }
 
   return (
     <div className="flex flex-col gap-y-[15px]">
@@ -31,7 +42,11 @@ export function Price(): ReactElement {
         <Button variant="outline">{'$' + range[0]}</Button>
         <Button variant="outline">{'$' + range[1]}</Button>
       </div>
-      <Slider min={minPrice} max={maxPrice} value={range} />
+      <Slider min={minPrice} max={maxPrice} value={range} onValueChange={handleSliderChange} />
+      <Button variant="gray" onClick={applyPriceFilter}>
+        Apply
+      </Button>
+      <hr />
     </div>
   )
 }

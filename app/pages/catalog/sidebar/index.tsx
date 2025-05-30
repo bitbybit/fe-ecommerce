@@ -2,13 +2,27 @@ import type { ReactElement } from 'react'
 import { Price } from './price'
 import { AttributeSelect } from './select'
 import { PRODUCT_ATTRIBUTES } from './product-attributes'
+import type { Filters } from './create-filter-query'
 
-export default function Sidebar(): ReactElement {
+interface SidebarProperties {
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>
+}
+
+export default function Sidebar({ setFilters }: SidebarProperties): ReactElement {
+  function handlePriceChange(range: [number, number]): void {
+    const [min, max] = range
+    setFilters((previous) => ({ ...previous, price: { min: min * 100, max: max * 100 } }))
+  }
+
+  function handleAttributeChange(name: string, value: string): void {
+    setFilters((previous) => ({ ...previous, [name]: value }))
+  }
+
   return (
     <div className="w-2xs p-5 flex flex-col gap-y-[40px] shrink-0 shadow-md shadow-gray-300">
-      <Price />
+      <Price onChange={handlePriceChange} />
       {PRODUCT_ATTRIBUTES.map(({ name, label, type }) => {
-        return <AttributeSelect key={name} name={name} label={label} type={type} />
+        return <AttributeSelect key={name} name={name} label={label} type={type} onChange={handleAttributeChange} />
       })}
     </div>
   )
