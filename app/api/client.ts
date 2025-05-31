@@ -6,7 +6,7 @@ import {
   type Customer,
   type CustomerSignInResult
 } from '@commercetools/platform-sdk'
-import { SessionStorageTokenCache } from '~/api/token-cache'
+import { SessionStorageTokenCache } from '~/api/TokenCache'
 
 type ApiClientProperties = {
   authUri?: string

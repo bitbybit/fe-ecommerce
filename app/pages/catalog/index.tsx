@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react'
-import { useTitle } from '~/hooks/use-title'
-import ProductList from './product-list'
+import { useTitle } from '~/hooks/useTitle'
+import { ProductList } from './ProductList'
 
 export default function Catalog(): ReactElement {
   useTitle('Catalog')

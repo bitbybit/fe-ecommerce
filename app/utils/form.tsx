@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 import { type z, type TypeOf, type ZodType } from 'zod'
 import { type useForm, type Path, type ControllerRenderProps, type FieldValues } from 'react-hook-form'
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/Form'
 
 export type FormType<T extends ZodType> = ReturnType<typeof useForm<z.infer<T>>>
 

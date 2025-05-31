@@ -2,10 +2,10 @@ import { type Customer } from '@commercetools/platform-sdk'
 import { createSelector } from '@reduxjs/toolkit'
 import { type RootState } from '~/store'
 import { createAppSlice } from '~/store/hooks'
-import { createSignInThunk } from './reducers/sign-in'
-import { createSignUpThunk } from './reducers/sign-up'
-import { createLogOutThunk } from './reducers/log-out'
-import { createCheckAuthThunk } from './reducers/check-auth'
+import { createSignInThunk } from './reducers/signIn'
+import { createSignUpThunk } from './reducers/signUp'
+import { createLogOutThunk } from './reducers/logOut'
+import { createCheckAuthThunk } from './reducers/checkAuth'
 
 export enum AUTH_STATUS {
   LOADING = 'LOADING',

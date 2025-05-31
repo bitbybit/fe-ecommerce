@@ -32,6 +32,15 @@ const rules = {
       }
     }
   ],
+  'unicorn/filename-case': [
+    'error',
+    {
+      cases: {
+        camelCase: true,
+        pascalCase: true
+      }
+    }
+  ],
   'max-lines-per-function': ['error', 40],
   'no-restricted-imports': [
     2,
