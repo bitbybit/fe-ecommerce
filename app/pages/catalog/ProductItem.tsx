@@ -1,14 +1,14 @@
-import { type ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
-import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
 import { ShoppingCart } from 'lucide-react'
+import { type ProductProjection } from '@commercetools/platform-sdk'
+import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
 import { Button } from '~/components/ui/Button'
-import { AspectRatio } from '~/components/ui/AspectRatio'
-import { formatProductItemPrice } from '~/utils/formatPrice'
 import { SaleBadge } from '~/components/product/SaleBadge'
 import { SalePrice } from '~/components/product/SalePrice'
+import { AspectRatio } from '~/components/ui/AspectRatio'
+import { formatProductItemPrice } from '~/utils/formatPrice'
 
-export function ProductItem({ product }: { product: ProductProjection }): ReactElement {
+export function ProductItem({ product }: Readonly<{ product: ProductProjection }>): ReactElement {
   const name = product.name['en-US']
   const description = product.description?.['en-US'] ?? name
   const image = product.masterVariant.images?.[0]?.url
