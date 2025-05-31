@@ -1,6 +1,6 @@
 import type { ProductProjection } from '@commercetools/platform-sdk'
 import { createAppSlice } from '~/store/hooks'
-import { createGetProductsThunk } from './reducers/get-products'
+import { createGetProductsThunk } from './reducers/getProducts'
 
 export enum PRODUCT_STATUS {
   LOADING = 'LOADING',

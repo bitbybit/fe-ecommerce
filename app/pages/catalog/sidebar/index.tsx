@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react'
-import { Price } from './price'
-import { AttributeSelect } from './select'
-import { PRODUCT_ATTRIBUTES } from './product-attributes'
-import type { Filters } from './create-filter-query'
+import { Price } from './Price'
+import { AttributeSelect } from './Select'
+import { PRODUCT_ATTRIBUTES } from './productAttributes'
+import type { Filters } from './createFilterQuery'
 
 interface SidebarProperties {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>

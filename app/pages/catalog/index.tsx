@@ -1,10 +1,10 @@
 import { useEffect, useState, type ReactElement } from 'react'
-import { useTitle } from '~/hooks/use-title'
-import ProductList from './product-list'
+import { useTitle } from '~/hooks/useTitle'
+import { ProductList } from './ProductList'
 import Sidebar from './sidebar'
 import type { ProductProjection } from '@commercetools/platform-sdk'
 import { productApi } from '~/api/namespaces/product'
-import { createFilterQueryArguments, type Filters } from './sidebar/create-filter-query'
+import { createFilterQueryArguments, type Filters } from './sidebar/createFilterQuery'
 
 export default function Catalog(): ReactElement {
   useTitle('Catalog')
