@@ -1,3 +1,5 @@
+import { type ComponentProps, type ReactElement } from 'react'
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 import {
   Root,
   Group,
@@ -15,23 +17,21 @@ import {
   ScrollUpButton,
   ScrollDownButton
 } from '@radix-ui/react-select'
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 import { cn } from '~/utils/ui'
-import { type ComponentProps, type ReactElement } from 'react'
 
-function Select({ ...properties }: ComponentProps<typeof Root>): ReactElement {
+export function Select({ ...properties }: ComponentProps<typeof Root>): ReactElement {
   return <Root data-slot="select" {...properties} />
 }
 
-function SelectGroup({ ...properties }: ComponentProps<typeof Group>): ReactElement {
+export function SelectGroup({ ...properties }: ComponentProps<typeof Group>): ReactElement {
   return <Group data-slot="select-group" {...properties} />
 }
 
-function SelectValue({ ...properties }: ComponentProps<typeof Value>): ReactElement {
+export function SelectValue({ ...properties }: ComponentProps<typeof Value>): ReactElement {
   return <Value data-slot="select-value" {...properties} />
 }
 
-function SelectTrigger({
+export function SelectTrigger({
   className,
   size = 'default',
   children,
@@ -57,7 +57,7 @@ function SelectTrigger({
   )
 }
 
-function SelectContent({
+export function SelectContent({
   className,
   children,
   position = 'popper',
@@ -92,7 +92,7 @@ function SelectContent({
   )
 }
 
-function SelectLabel({ className, ...properties }: ComponentProps<typeof Label>): ReactElement {
+export function SelectLabel({ className, ...properties }: ComponentProps<typeof Label>): ReactElement {
   return (
     <Label
       data-slot="select-label"
@@ -102,7 +102,7 @@ function SelectLabel({ className, ...properties }: ComponentProps<typeof Label>)
   )
 }
 
-function SelectItem({ className, children, ...properties }: ComponentProps<typeof Item>): ReactElement {
+export function SelectItem({ className, children, ...properties }: ComponentProps<typeof Item>): ReactElement {
   return (
     <Item
       data-slot="select-item"
@@ -122,7 +122,7 @@ function SelectItem({ className, children, ...properties }: ComponentProps<typeo
   )
 }
 
-function SelectSeparator({ className, ...properties }: ComponentProps<typeof Separator>): ReactElement {
+export function SelectSeparator({ className, ...properties }: ComponentProps<typeof Separator>): ReactElement {
   return (
     <Separator
       data-slot="select-separator"
@@ -132,7 +132,10 @@ function SelectSeparator({ className, ...properties }: ComponentProps<typeof Sep
   )
 }
 
-function SelectScrollUpButton({ className, ...properties }: ComponentProps<typeof ScrollUpButton>): ReactElement {
+export function SelectScrollUpButton({
+  className,
+  ...properties
+}: ComponentProps<typeof ScrollUpButton>): ReactElement {
   return (
     <ScrollUpButton
       data-slot="select-scroll-up-button"
@@ -144,7 +147,10 @@ function SelectScrollUpButton({ className, ...properties }: ComponentProps<typeo
   )
 }
 
-function SelectScrollDownButton({ className, ...properties }: ComponentProps<typeof ScrollDownButton>): ReactElement {
+export function SelectScrollDownButton({
+  className,
+  ...properties
+}: ComponentProps<typeof ScrollDownButton>): ReactElement {
   return (
     <ScrollDownButton
       data-slot="select-scroll-down-button"
@@ -154,17 +160,4 @@ function SelectScrollDownButton({ className, ...properties }: ComponentProps<typ
       <ChevronDownIcon className="size-4" />
     </ScrollDownButton>
   )
-}
-
-export {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue
 }

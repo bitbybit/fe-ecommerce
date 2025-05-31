@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes'
 import { type ToasterProps } from 'sonner'
 import { Toaster as Sonner } from 'sonner'
 
-const Toaster = ({ ...properties }: ToasterProps): ReactElement => {
+export const Toaster = ({ ...properties }: ToasterProps): ReactElement => {
   const { theme = 'system' } = useTheme()
 
   return (
@@ -23,5 +23,3 @@ const Toaster = ({ ...properties }: ToasterProps): ReactElement => {
     />
   )
 }
-
-export { Toaster }

@@ -2,15 +2,15 @@ import { type ComponentProps, type ReactElement } from 'react'
 import { Root, Trigger, Portal, Content, Anchor } from '@radix-ui/react-popover'
 import { cn } from '~/utils/ui'
 
-function Popover({ ...properties }: Readonly<ComponentProps<typeof Root>>): ReactElement {
+export function Popover({ ...properties }: Readonly<ComponentProps<typeof Root>>): ReactElement {
   return <Root data-slot="popover" {...properties} />
 }
 
-function PopoverTrigger({ ...properties }: ComponentProps<typeof Trigger>): ReactElement {
+export function PopoverTrigger({ ...properties }: ComponentProps<typeof Trigger>): ReactElement {
   return <Trigger data-slot="popover-trigger" {...properties} />
 }
 
-function PopoverContent({
+export function PopoverContent({
   className,
   align = 'center',
   sideOffset = 4,
@@ -32,8 +32,6 @@ function PopoverContent({
   )
 }
 
-function PopoverAnchor({ ...properties }: ComponentProps<typeof Anchor>): ReactElement {
+export function PopoverAnchor({ ...properties }: ComponentProps<typeof Anchor>): ReactElement {
   return <Anchor data-slot="popover-anchor" {...properties} />
 }
-
-export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }

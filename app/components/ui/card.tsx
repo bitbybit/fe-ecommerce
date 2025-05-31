@@ -1,7 +1,7 @@
 import { type ComponentProps, type ReactElement } from 'react'
 import { cn } from '~/utils/ui'
 
-function Card({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function Card({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card"
@@ -14,7 +14,7 @@ function Card({ className, ...properties }: ComponentProps<'div'>): ReactElement
   )
 }
 
-function CardHeader({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function CardHeader({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card-header"
@@ -27,11 +27,11 @@ function CardHeader({ className, ...properties }: ComponentProps<'div'>): ReactE
   )
 }
 
-function CardTitle({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function CardTitle({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return <div data-slot="card-title" className={cn('leading-none font-semibold', className)} {...properties} />
 }
 
-function CardAction({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function CardAction({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card-action"
@@ -41,11 +41,11 @@ function CardAction({ className, ...properties }: ComponentProps<'div'>): ReactE
   )
 }
 
-function CardContent({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function CardContent({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return <div data-slot="card-content" className={cn('space-y-6 px-6', className)} {...properties} />
 }
 
-function CardFooter({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function CardFooter({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="card-footer"
@@ -55,8 +55,6 @@ function CardFooter({ className, ...properties }: ComponentProps<'div'>): ReactE
   )
 }
 
-function CardDescription({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function CardDescription({ className, ...properties }: ComponentProps<'div'>): ReactElement {
   return <div data-slot="card-description" className={cn('text-muted-foreground text-sm', className)} {...properties} />
 }
-
-export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardContent, CardDescription }

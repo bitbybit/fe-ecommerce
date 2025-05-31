@@ -2,7 +2,7 @@ import { type ComponentProps, type ReactElement } from 'react'
 import { Root, Thumb } from '@radix-ui/react-switch'
 import { cn } from '~/utils/ui'
 
-function Switch({ className, ...properties }: ComponentProps<typeof Root>): ReactElement {
+export function Switch({ className, ...properties }: ComponentProps<typeof Root>): ReactElement {
   return (
     <Root
       data-slot="switch"
@@ -21,5 +21,3 @@ function Switch({ className, ...properties }: ComponentProps<typeof Root>): Reac
     </Root>
   )
 }
-
-export { Switch }

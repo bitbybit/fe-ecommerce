@@ -107,7 +107,7 @@ function Dropdown({ ...properties }: Readonly<DropdownProps>): ReactElement {
   )
 }
 
-function Calendar({
+export function Calendar({
   className,
   showOutsideDays = true,
   ...properties
@@ -128,5 +128,3 @@ function Calendar({
 }
 
 Calendar.displayName = 'Calendar'
-
-export { Calendar }

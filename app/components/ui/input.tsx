@@ -1,7 +1,7 @@
 import { type ComponentProps, type ReactElement } from 'react'
 import { cn } from '~/utils/ui'
 
-function Input({ className, type, ...properties }: ComponentProps<'input'>): ReactElement {
+export function Input({ className, type, ...properties }: ComponentProps<'input'>): ReactElement {
   return (
     <input
       type={type}
@@ -16,5 +16,3 @@ function Input({ className, type, ...properties }: ComponentProps<'input'>): Rea
     />
   )
 }
-
-export { Input }

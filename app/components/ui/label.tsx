@@ -2,7 +2,7 @@ import { type ComponentProps, type ReactElement } from 'react'
 import { Root } from '@radix-ui/react-label'
 import { cn } from '~/utils/ui'
 
-function Label({ className, ...properties }: ComponentProps<typeof Root>): ReactElement {
+export function Label({ className, ...properties }: ComponentProps<typeof Root>): ReactElement {
   return (
     <Root
       data-slot="label"
@@ -14,5 +14,3 @@ function Label({ className, ...properties }: ComponentProps<typeof Root>): React
     />
   )
 }
-
-export { Label }

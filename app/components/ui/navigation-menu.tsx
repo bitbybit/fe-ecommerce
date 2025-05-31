@@ -1,10 +1,12 @@
 import { forwardRef, type ComponentPropsWithoutRef, type ReactElement, type ComponentRef } from 'react'
-import { Root, List, Item, Trigger, Content, Link, Viewport, Indicator } from '@radix-ui/react-navigation-menu'
+import { Root, List, Trigger, Content, Viewport, Indicator } from '@radix-ui/react-navigation-menu'
 import { ChevronDown } from 'lucide-react'
 import { cva } from 'class-variance-authority'
 import { cn } from '~/utils/ui'
 
-const NavigationMenu = forwardRef<ComponentRef<typeof Root>, ComponentPropsWithoutRef<typeof Root>>(
+export { Item as NavigationMenuItem, Link as NavigationMenuLink } from '@radix-ui/react-navigation-menu'
+
+export const NavigationMenu = forwardRef<ComponentRef<typeof Root>, ComponentPropsWithoutRef<typeof Root>>(
   ({ className, children, ...properties }, reference): ReactElement => (
     <Root
       ref={reference}
@@ -19,7 +21,7 @@ const NavigationMenu = forwardRef<ComponentRef<typeof Root>, ComponentPropsWitho
 
 NavigationMenu.displayName = Root.displayName
 
-const NavigationMenuList = forwardRef<ComponentRef<typeof List>, ComponentPropsWithoutRef<typeof List>>(
+export const NavigationMenuList = forwardRef<ComponentRef<typeof List>, ComponentPropsWithoutRef<typeof List>>(
   ({ className, ...properties }, reference): ReactElement => (
     <List
       ref={reference}
@@ -31,13 +33,11 @@ const NavigationMenuList = forwardRef<ComponentRef<typeof List>, ComponentPropsW
 
 NavigationMenuList.displayName = List.displayName
 
-const NavigationMenuItem = Item
-
-const navigationMenuTriggerStyle = cva(
+export const navigationMenuTriggerStyle = cva(
   'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:text-accent-foreground data-[state=open]:bg-accent/50 data-[state=open]:hover:bg-accent data-[state=open]:focus:bg-accent'
 )
 
-const NavigationMenuTrigger = forwardRef<ComponentRef<typeof Trigger>, ComponentPropsWithoutRef<typeof Trigger>>(
+export const NavigationMenuTrigger = forwardRef<ComponentRef<typeof Trigger>, ComponentPropsWithoutRef<typeof Trigger>>(
   ({ className, children, ...properties }, reference): ReactElement => (
     <Trigger ref={reference} className={cn(navigationMenuTriggerStyle(), 'group', className)} {...properties}>
       {children}{' '}
@@ -51,7 +51,7 @@ const NavigationMenuTrigger = forwardRef<ComponentRef<typeof Trigger>, Component
 
 NavigationMenuTrigger.displayName = Trigger.displayName
 
-const NavigationMenuContent = forwardRef<ComponentRef<typeof Content>, ComponentPropsWithoutRef<typeof Content>>(
+export const NavigationMenuContent = forwardRef<ComponentRef<typeof Content>, ComponentPropsWithoutRef<typeof Content>>(
   ({ className, ...properties }, reference): ReactElement => (
     <Content
       ref={reference}
@@ -66,9 +66,10 @@ const NavigationMenuContent = forwardRef<ComponentRef<typeof Content>, Component
 
 NavigationMenuContent.displayName = Content.displayName
 
-const NavigationMenuLink = Link
-
-const NavigationMenuViewport = forwardRef<ComponentRef<typeof Viewport>, ComponentPropsWithoutRef<typeof Viewport>>(
+export const NavigationMenuViewport = forwardRef<
+  ComponentRef<typeof Viewport>,
+  ComponentPropsWithoutRef<typeof Viewport>
+>(
   ({ className, ...properties }, reference): ReactElement => (
     <div className={cn('absolute left-0 top-full flex justify-center')}>
       <Viewport
@@ -85,7 +86,10 @@ const NavigationMenuViewport = forwardRef<ComponentRef<typeof Viewport>, Compone
 
 NavigationMenuViewport.displayName = Viewport.displayName
 
-const NavigationMenuIndicator = forwardRef<ComponentRef<typeof Indicator>, ComponentPropsWithoutRef<typeof Indicator>>(
+export const NavigationMenuIndicator = forwardRef<
+  ComponentRef<typeof Indicator>,
+  ComponentPropsWithoutRef<typeof Indicator>
+>(
   ({ className, ...properties }, reference): ReactElement => (
     <Indicator
       ref={reference}
@@ -101,15 +105,3 @@ const NavigationMenuIndicator = forwardRef<ComponentRef<typeof Indicator>, Compo
 )
 
 NavigationMenuIndicator.displayName = Indicator.displayName
-
-export {
-  navigationMenuTriggerStyle,
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuContent,
-  NavigationMenuTrigger,
-  NavigationMenuLink,
-  NavigationMenuIndicator,
-  NavigationMenuViewport
-}
