@@ -19,7 +19,7 @@ class ProductApi {
   public async getProducts(): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
     return this.client.root.productProjections().get().execute()
   }
-
+  //TODO: change id
   public async getProductByID(): Promise<ClientResponse<ProductProjection>> {
     return this.client.root.productProjections().withId({ ID: '424783fa-d6b2-40cb-97fd-1b5f7b4ee9fd' }).get().execute()
   }

@@ -1,11 +1,11 @@
 import { type ReactElement } from 'react'
 import { Card, CardContent } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
-import { useProductData } from './use-product-data'
+import { useProductData } from '../hooks/use-product-data'
 import { ProductImages } from './product-images'
 import { ProductInfo } from './product-info'
 
-export default function ProductCard(): ReactElement {
+export default function ProductDetail(): ReactElement {
   const { name, description, price, discount, images } = useProductData()
 
   return (

@@ -27,6 +27,7 @@ function RoutesPublic(): ReactElement {
     <Route element={<PublicLayout />}>
       <Route index element={<Home />} />
       <Route path="catalog" element={<Catalog />} />
+      {/*TODO: change path to 'product/:productId'*/}
       <Route path="product" element={<Product />} />
       <Route path="about" element={<About />} />
       <Route path="auth">

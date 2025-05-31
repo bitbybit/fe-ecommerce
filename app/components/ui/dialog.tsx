@@ -1,9 +1,7 @@
-'use client'
-
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
-import type { ReactElement } from 'react'
 import { cn } from '~/utils/ui'
+import { type ComponentPropsWithoutRef, type ReactElement, type HTMLAttributes } from 'react'
 
 const Dialog = DialogPrimitive.Root
 const DialogTrigger = DialogPrimitive.Trigger
@@ -13,7 +11,7 @@ const DialogClose = DialogPrimitive.Close
 const DialogOverlay = ({
   className,
   ...properties
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>): ReactElement => (
+}: ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>): ReactElement => (
   <DialogPrimitive.Overlay
     className={cn(
       'fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
@@ -27,7 +25,7 @@ const DialogContent = ({
   className,
   children,
   ...properties
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>): ReactElement => (
+}: ComponentPropsWithoutRef<typeof DialogPrimitive.Content>): ReactElement => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
@@ -46,18 +44,18 @@ const DialogContent = ({
   </DialogPortal>
 )
 
-const DialogHeader = ({ className, ...properties }: React.HTMLAttributes<HTMLDivElement>): ReactElement => (
+const DialogHeader = ({ className, ...properties }: HTMLAttributes<HTMLDivElement>): ReactElement => (
   <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...properties} />
 )
 
-const DialogFooter = ({ className, ...properties }: React.HTMLAttributes<HTMLDivElement>): ReactElement => (
+const DialogFooter = ({ className, ...properties }: HTMLAttributes<HTMLDivElement>): ReactElement => (
   <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...properties} />
 )
 
 const DialogTitle = ({
   className,
   ...properties
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>): ReactElement => (
+}: ComponentPropsWithoutRef<typeof DialogPrimitive.Title>): ReactElement => (
   <DialogPrimitive.Title
     className={cn('text-lg font-semibold leading-none tracking-tight', className)}
     {...properties}
@@ -67,7 +65,7 @@ const DialogTitle = ({
 const DialogDescription = ({
   className,
   ...properties
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>): ReactElement => (
+}: ComponentPropsWithoutRef<typeof DialogPrimitive.Description>): ReactElement => (
   <DialogPrimitive.Description className={cn('text-sm text-muted-foreground', className)} {...properties} />
 )
 
