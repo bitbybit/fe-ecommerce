@@ -22,40 +22,43 @@ const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
 const NotFound = lazy(() => import('~/pages/not-found'))
 
+export enum ROUTES {
+  ABOUT = '/about',
+  AUTH = '/auth',
+  CART = '/cart',
+  CATALOG = '/catalog',
+  HOME = '/',
+  LOGIN = '/auth/login',
+  LOGOUT = '/auth/logout',
+  PRODUCT = '/product/:productId',
+  PROFILE = '/profile',
+  REGISTER = '/auth/register'
+}
+
 function RoutesPublic(): ReactElement {
   return (
     <Route element={<PublicLayout />}>
       <Route index element={<Home />} />
-      <Route path="catalog" element={<Catalog />} />
-      <Route path="product/:productId" element={<Product />} />
-      <Route path="about" element={<About />} />
-      <Route path="auth">
-        <Route index element={<Navigate to="login" replace />} />
-        <Route
-          path="login"
-          element={
-            <AccessPublic>
-              <Login />
-            </AccessPublic>
-          }
-        />
-        <Route
-          path="register"
-          element={
-            <AccessPublic>
-              <Register />
-            </AccessPublic>
-          }
-        />
-        <Route
-          path="logout"
-          element={
-            <AccessProtected>
-              <Logout />
-            </AccessProtected>
-          }
-        />
-      </Route>
+      <Route path={ROUTES.CATALOG} element={<Catalog />} />
+      <Route path={ROUTES.PRODUCT} element={<Product />} />
+      <Route path={ROUTES.ABOUT} element={<About />} />
+      <Route path={ROUTES.AUTH} element={<Navigate to={ROUTES.LOGIN} replace />} />
+      <Route
+        path={ROUTES.LOGIN}
+        element={
+          <AccessPublic>
+            <Login />
+          </AccessPublic>
+        }
+      />
+      <Route
+        path={ROUTES.REGISTER}
+        element={
+          <AccessPublic>
+            <Register />
+          </AccessPublic>
+        }
+      />
     </Route>
   )
 }
@@ -64,7 +67,7 @@ function RoutesProtected(): ReactElement {
   return (
     <Route element={<ProtectedLayout />}>
       <Route
-        path="profile"
+        path={ROUTES.PROFILE}
         element={
           <AccessProtected>
             <Profile />
@@ -72,10 +75,18 @@ function RoutesProtected(): ReactElement {
         }
       />
       <Route
-        path="cart"
+        path={ROUTES.CART}
         element={
           <AccessProtected>
             <Cart />
+          </AccessProtected>
+        }
+      />
+      <Route
+        path={ROUTES.LOGOUT}
+        element={
+          <AccessProtected>
+            <Logout />
           </AccessProtected>
         }
       />

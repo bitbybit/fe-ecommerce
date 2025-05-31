@@ -15,6 +15,7 @@ import { signIn, AUTH_STATUS, resetAuthError } from '~/store/auth'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { defaultValues } from './default-values'
 import { schema, type SchemaType } from './schema'
+import { ROUTES } from '~/app'
 
 const Fields = ({ form, status }: { form: FormType<SchemaType>; status: AUTH_STATUS }): ReactElement => {
   return (
@@ -45,7 +46,7 @@ export const LoginForm = (): ReactElement => {
   const handleLogin = async (payload: z.infer<typeof schema>): Promise<void> => {
     try {
       await dispatch(signIn(payload)).unwrap()
-      await navigate('/', { replace: true })
+      await navigate(ROUTES.HOME, { replace: true })
     } catch {
       setIsErrorMessageVisible(true)
     }

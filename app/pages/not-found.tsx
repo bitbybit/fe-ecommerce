@@ -1,6 +1,7 @@
 import { type ReactElement } from 'react'
 import { Button } from '~/components/ui/button'
 import { NavLink } from 'react-router'
+import { ROUTES } from '~/app'
 
 export default function NotFound(): ReactElement {
   return (
@@ -10,7 +11,7 @@ export default function NotFound(): ReactElement {
       <p className="text-xl text-gray-500 mb-8">Oops! The page you're looking for doesn't exist.</p>
 
       <Button asChild>
-        <NavLink to="/">← Back to Home</NavLink>
+        <NavLink to={ROUTES.HOME}>← Back to Home</NavLink>
       </Button>
     </div>
   )

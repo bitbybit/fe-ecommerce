@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { signUp, AUTH_STATUS, signIn, resetAuthError } from '~/store/auth'
 import { schema, type SchemaType } from './schema'
 import { defaultValues } from './default-values'
+import { ROUTES } from '~/app'
 
 const Header = (): ReactElement => {
   return (
@@ -28,7 +29,7 @@ const Header = (): ReactElement => {
       <CardTitle>Registration</CardTitle>
       <P>
         Already registered?{' '}
-        <NavLink to="/auth/login" className="underline hover:no-underline">
+        <NavLink to={ROUTES.LOGIN} className="underline hover:no-underline">
           Please sign in
         </NavLink>
       </P>
@@ -109,7 +110,7 @@ export const RegisterForm = (): ReactElement => {
   const handleRegister = async (payload: z.infer<typeof schema>): Promise<void> => {
     await dispatch(signUp(payload)).unwrap()
     await dispatch(signIn({ email: payload.email, password: payload.password })).unwrap()
-    await navigate('/', { replace: true })
+    await navigate(ROUTES.HOME, { replace: true })
     toast('You are successfully registered!')
   }
 

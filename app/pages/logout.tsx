@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { Loading } from '~/components/loading'
 import { useAppDispatch } from '~/store/hooks'
 import { logOut } from '~/store/auth'
+import { ROUTES } from '~/app'
 
 export default function Logout(): ReactElement {
   const navigate = useNavigate()
@@ -11,7 +12,7 @@ export default function Logout(): ReactElement {
   useEffect(() => {
     void dispatch(logOut())
       .unwrap()
-      .then((): Promise<void> | void => navigate('/auth/login', { replace: true }))
+      .then((): Promise<void> | void => navigate(ROUTES.LOGIN, { replace: true }))
   }, [dispatch, navigate])
 
   return <Loading />
