@@ -55,7 +55,7 @@ export class ProductApi {
     this.client = client
   }
 
-  private static attributesToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {
+  private static attributeToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {
     const options: ProductListFilterFromAttributes['options'] =
       type.name === 'set' && 'values' in type.elementType
         ? type.elementType.values.map((value) => ({
@@ -127,7 +127,7 @@ export class ProductApi {
       }
     }
 
-    const result = [...attributes.values()].map((attribute) => ProductApi.attributesToFilter(attribute))
+    const result = [...attributes.values()].map((attribute) => ProductApi.attributeToFilter(attribute))
 
     const priceKey = 'price'
     const priceFacetKey = `variants.${priceKey}.centAmount`
