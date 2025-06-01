@@ -2,8 +2,7 @@ import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
 import ProductDetail from './ProductDetail/ProductDetail'
 import { Loading } from '~/components/Loading'
-import { useProductData } from './hooks/useProductData'
-import { PRODUCT_STATUS } from './hooks/useProductData'
+import { PRODUCT_STATUS, useProductData } from './hooks/useProductData'
 
 export default function Product(): ReactElement {
   useTitle('Product')
