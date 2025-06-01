@@ -1,16 +1,9 @@
-import { useEffect, type ReactElement } from 'react'
-import { productApi } from '~/api/namespaces/product'
-import { useTitle } from '~/hooks/use-title'
+import { type ReactElement } from 'react'
+import { useTitle } from '~/hooks/useTitle'
+import { ProductList } from './ProductList'
 
-export default function Routes(): ReactElement {
+export default function Catalog(): ReactElement {
   useTitle('Catalog')
 
-  useEffect(() => {
-    productApi
-      .getProducts()
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error))
-  }, [])
-
-  return <>Catalog</>
+  return <ProductList />
 }

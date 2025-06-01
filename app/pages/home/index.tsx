@@ -1,10 +1,11 @@
 import { type ReactElement } from 'react'
-import { useTitle } from '~/hooks/use-title'
+import { useTitle } from '~/hooks/useTitle'
 import { NavLink } from 'react-router'
 import { H2, P } from '~/components/ui/typography'
-import { Button } from '~/components/ui/button'
+import { Button } from '~/components/ui/Button'
 import { useAppSelector } from '~/store/hooks'
 import { selectIsAuth } from '~/store/auth'
+import { ROUTES } from '~/routes'
 
 export default function Home(): ReactElement {
   useTitle('eCommerce')
@@ -21,12 +22,12 @@ export default function Home(): ReactElement {
 
       <div className="flex gap-4 flex-wrap justify-center">
         <Button variant="blue" asChild>
-          <NavLink to="/catalog">Browse Catalog</NavLink>
+          <NavLink to={ROUTES.CATALOG}>Browse Catalog</NavLink>
         </Button>
 
         {!isAuth && (
           <Button variant="gray" asChild>
-            <NavLink to="/auth/login">Login</NavLink>
+            <NavLink to={ROUTES.LOGIN}>Login</NavLink>
           </Button>
         )}
       </div>
