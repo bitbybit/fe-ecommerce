@@ -15,7 +15,7 @@ export enum CATALOG_STATUS {
 }
 
 export type UseCatalogDataResult = {
-  fetchProducts: (payload?: ProductListQueryParameters) => Promise<void>
+  fetchProducts: (payload?: ProductListQueryParameters, filters?: ProductListAppliedFilters) => Promise<void>
   filters: ProductListFilter[]
   products: ProductProjection[]
   status: CATALOG_STATUS

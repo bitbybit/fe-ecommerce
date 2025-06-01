@@ -15,7 +15,7 @@ export function ProductItem({ product }: Readonly<{ product: ProductProjection }
   const discountPrice = product.masterVariant.prices?.[0].discounted?.value.centAmount
 
   return (
-    <Card className="w-full max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 cursor-pointer hover:bg-stone-50">
+    <Card className="w-full m-0 max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 cursor-pointer hover:bg-stone-50">
       <CardContent className="space-y-0 h-full flex flex-col justify-between gap-y-2 relative">
         {discountPrice && <SaleBadge />}
         <AspectRatio ratio={4 / 3} className="bg-white rounded-md">

@@ -72,29 +72,28 @@ export class ProductApi {
     }
   }
 
-  private static appliedFiltersToQueryArgument(filters: ProductListAppliedFilters): string {
-    let result: string = ''
+  private static convertFiltersToQuery(filters: ProductListAppliedFilters): string[] {
+    const result: string[] = []
 
     for (const { type, key, value } of filters) {
       switch (type) {
         case 'set': {
-          result += `variants.attributes.${key}.key:"${value}"`
+          result.push(`variants.attributes.${key}.key:"${value}"`)
           break
         }
 
         case 'range': {
-          result += `variants.${key}.centAmount:range(${value[0]} to ${value[1]})`
+          result.push(`variants.${key}.centAmount:range(${value[0]} to ${value[1]})`)
           break
         }
 
-        // TODO: implement
         case 'boolean': {
-          result += ''
+          result.push(`variants.attributes.${key}:"${value}"`)
           break
         }
 
         default: {
-          result += `variants.attributes.${key}:"${value}"`
+          result.push(`variants.attributes.${key}:"${value}"`)
           break
         }
       }
@@ -110,7 +109,14 @@ export class ProductApi {
     return this.client.root
       .productProjections()
       .search()
-      .get({ queryArgs: { ...parameters, filter: ProductApi.appliedFiltersToQueryArgument(filters) } })
+      .get({
+        queryArgs: {
+          ...parameters,
+          ...(filters.length > 0 && {
+            filter: ProductApi.convertFiltersToQuery(filters)
+          })
+        }
+      })
       .execute()
   }
 

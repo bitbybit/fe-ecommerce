@@ -4,27 +4,34 @@ import { Slider } from '~/components/ui/Slider'
 import { formatProductItemPrice } from '~/utils/formatPrice'
 
 interface PriceProperties {
+  name: string
   range: [number, number]
-  onChange: (range: [number, number]) => void
+  onChange: (name: string, range: [number, number]) => void
 }
 
-export function Price({ range, onChange }: Readonly<PriceProperties>): ReactElement {
+export function Price({ name, range, onChange }: Readonly<PriceProperties>): ReactElement {
   const [priceRange, setPriceRange] = useState<[number, number]>(range)
-  const [minPrice, maxPrice] = range
+  const [startMinPrice, startMaxPrice] = range
+  const minPrice = priceRange[0]
+  const maxPrice = priceRange[1]
 
   function handleSliderChange(range: [number, number]): void {
     setPriceRange(range)
-    onChange(range)
+    onChange(name, range)
   }
 
   return (
     <div className="flex flex-col gap-y-[15px]">
       <p>Price</p>
       <div className="flex justify-between">
-        <Button variant="outline">{formatProductItemPrice(priceRange[0])}</Button>
-        <Button variant="outline">{formatProductItemPrice(priceRange[1])}</Button>
+        <Button variant="outline" className="pointer-events-none cursor-default">
+          {formatProductItemPrice(minPrice)}
+        </Button>
+        <Button variant="outline" className="pointer-events-none cursor-default">
+          {formatProductItemPrice(maxPrice)}
+        </Button>
       </div>
-      <Slider min={minPrice} max={maxPrice} value={priceRange} onValueChange={handleSliderChange} />
+      <Slider min={startMinPrice} max={startMaxPrice} value={priceRange} onValueChange={handleSliderChange} />
       <hr />
     </div>
   )
