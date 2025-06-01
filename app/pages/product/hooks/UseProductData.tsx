@@ -1,23 +1,7 @@
 import { useState, useEffect } from 'react'
-import type { LocalizedString } from '@commercetools/platform-sdk'
 import { productApi } from '~/api/namespaces/product'
 import { toast } from 'sonner'
-
-type Image = {
-  dimensions: {
-    w: number
-    h: number
-  }
-  url: string
-}
-
-type ProductData = {
-  name?: LocalizedString
-  description?: LocalizedString
-  price?: number
-  discount?: number
-  images?: Image[]
-}
+import { type ProductData } from '../types/productTypes'
 
 export function useProductData(): ProductData {
   const [product, setProduct] = useState<ProductData>({})

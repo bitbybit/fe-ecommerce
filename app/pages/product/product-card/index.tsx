@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react'
 import ProductDetail from './ProductDetail'
-import { useProductData } from '../hooks/UseProductData'
 import { Loading } from '~/components/Loading'
+import { useProductData } from '../hooks/useProductData'
 
 export default function ProductCardContainer(): ReactElement {
   const { name, description, price, discount, images } = useProductData()

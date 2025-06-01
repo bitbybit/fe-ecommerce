@@ -4,16 +4,7 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-
-type Image = { dimensions: { w: number; h: number }; url: string }
-
-type ImageSwiperProperties = {
-  images?: Image[]
-  onClick?: (index: number) => void
-  initialSlide?: number
-  swiperClassName?: string
-  showPagination?: boolean
-}
+import { type ImageSwiperProperties } from '../types/productTypes'
 
 export function ImageSwiper({
   images,
