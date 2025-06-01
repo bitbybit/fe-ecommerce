@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { productApi } from '~/api/namespaces/product'
 import { toast } from 'sonner'
 import type { ProductProjection } from '@commercetools/platform-sdk'
+
 export enum PRODUCT_STATUS {
   LOADING = 'LOADING',
   READY = 'READY',
@@ -12,6 +13,7 @@ type UseProductDataResult = {
   product: ProductProjection | undefined
   status: PRODUCT_STATUS
 }
+
 export function useProductData(): UseProductDataResult {
   const [product, setProduct] = useState<ProductProjection>()
   const [status, setStatus] = useState<PRODUCT_STATUS>(PRODUCT_STATUS.LOADING)
