@@ -1,14 +1,16 @@
-import { useState, type ReactElement } from 'react'
+import { type ReactElement } from 'react'
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/Select'
 import { type ProductListFilter } from '~/api/namespaces/product'
 
 interface AttributeProperties {
   name: string
   label: string
-  type: ProductListFilter['type']
-  onChange?: (name: string, value: string) => void
+  options: ProductListFilter['options']
+  onChange: (name: string, value: string) => void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function formatAttributeValue(attribute: string, value: string): string {
   const VALUE_FALSE = 'F'
   const VALUE_TRUE = 'T'
@@ -25,15 +27,32 @@ function formatAttributeValue(attribute: string, value: string): string {
   return value
 }
 
-// TODO: refactor for form builder
-export function AttributeSelect({ name, label, onChange }: Readonly<AttributeProperties>): ReactElement {
-  const [options] = useState<string[]>([])
-
-  function handleSelectChange(selected: string): void {
-    if (onChange) {
-      const position = selected.indexOf('.')
-      onChange(name, position === -1 ? selected : selected.slice(0, position))
+function getAttributeName(attributeLabel: string): string {
+  switch (attributeLabel) {
+    case 'Height (cm)': {
+      return 'height'
     }
+    case 'Width (cm)': {
+      return 'width'
+    }
+    case 'Brand': {
+      return 'brand'
+    }
+    case 'Material': {
+      return 'material'
+    }
+    case 'Is Returnable': {
+      return 'is-returnable'
+    }
+    default: {
+      return 'color'
+    }
+  }
+}
+
+export function AttributeSelect({ name, label, options, onChange }: Readonly<AttributeProperties>): ReactElement {
+  function handleSelectChange(selected: string): void {
+    onChange(getAttributeName(name), selected)
   }
 
   return (
@@ -43,8 +62,8 @@ export function AttributeSelect({ name, label, onChange }: Readonly<AttributePro
       </SelectTrigger>
       <SelectContent>
         {options.map((item) => (
-          <SelectItem key={item} value={item}>
-            {formatAttributeValue(name, item)}
+          <SelectItem key={item.value} value={String(item.value)}>
+            {item.label}
           </SelectItem>
         ))}
       </SelectContent>

@@ -53,10 +53,21 @@ export class ProductApi {
     parameters: ProductListQueryParameters,
     filters: ProductListAppliedFilters = []
   ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
-    // TODO: convert filters to commercetool format
-    console.log('getProducts filters', filters)
+    const formattedFilters = filters.map((filter) => {
+      if (filter.type === 'range') {
+        return `variants.price.centAmount:range(${filter.value[0]} to ${filter.value[1]})`
+      } else if (filter.type === 'set') {
+        return `variants.attributes.${filter.key}.key:"${filter.value}"`
+      }
+      return `variants.attributes.${filter.key}:"${filter.value}"`
+    })
+    // console.log(filters, '66')
 
-    return this.client.root.productProjections().search().get({ queryArgs: parameters }).execute()
+    return this.client.root
+      .productProjections()
+      .search()
+      .get({ queryArgs: { ...parameters, filter: formattedFilters } })
+      .execute()
   }
 
   public async getFilters(): Promise<ProductListFilter[]> {
