@@ -29,7 +29,7 @@ export class ProductApi {
 
   //TODO: change id
   public async getProductByID(): Promise<ClientResponse<ProductProjection>> {
-    return this.client.root.productProjections().withId({ ID: '424783fa-d6b2-40cb-97fd-1b5f7b4ee9fd' }).get().execute()
+    return this.client.root.productProjections().withId({ ID: '1e1e3e7b-7c7b-4d77-b603-d3ae384e19ed' }).get().execute()
   }
 }
 

@@ -1,8 +1,8 @@
 import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
-import ProductDetail from './product-card'
+import ProductCardContainer from './product-card/index.tsx'
 
 export default function Product(): ReactElement {
   useTitle('Product')
-  return <ProductDetail />
+  return <ProductCardContainer />
 }

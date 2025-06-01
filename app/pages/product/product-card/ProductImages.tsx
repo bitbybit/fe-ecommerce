@@ -1,9 +1,9 @@
 import { useState, type ReactElement } from 'react'
-import { Dialog, DialogTrigger, DialogContent, DialogClose } from '~/components/ui/dialog'
+import { Dialog, DialogTrigger, DialogContent, DialogClose } from '~/components/ui/Dialog'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { ImageSwiper } from './image-swiper'
+import { ImageSwiper } from './ImageSwiper'
 
 type Image = { dimensions: { w: number; h: number }; url: string }
 

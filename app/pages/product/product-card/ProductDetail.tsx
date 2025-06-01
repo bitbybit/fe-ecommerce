@@ -1,13 +1,30 @@
 import { type ReactElement } from 'react'
-import { Card, CardContent } from '~/components/ui/card'
-import { Button } from '~/components/ui/button'
-import { useProductData } from '../hooks/use-product-data'
-import { ProductImages } from './product-images'
-import { ProductInfo } from './product-info'
+import { Card, CardContent } from '~/components/ui/Card'
+import { Button } from '~/components/ui/Button'
+import { ProductImages } from './ProductImages'
+import { ProductInfo } from './ProductInfo'
+import type { LocalizedString } from '@commercetools/platform-sdk'
 
-export default function ProductDetail(): ReactElement {
-  const { name, description, price, discount, images } = useProductData()
+type Image = {
+  dimensions: { w: number; h: number }
+  url: string
+}
 
+export type ProductCardProperties = {
+  name: LocalizedString
+  description: LocalizedString
+  price: number
+  discount?: number
+  images?: Image[]
+}
+
+export default function ProductDetail({
+  name,
+  description,
+  price,
+  discount,
+  images
+}: ProductCardProperties): ReactElement {
   return (
     <div className="w-full flex flex-col items-start gap-10">
       <Button variant="outline" onClick={() => history.back()}>
