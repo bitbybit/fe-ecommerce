@@ -1,3 +1,4 @@
+import { type ClientResponse, type Customer } from '@commercetools/platform-sdk'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 
 type UserApiProperties = {
@@ -9,6 +10,24 @@ export class UserApi {
 
   constructor({ client }: UserApiProperties) {
     this.client = client
+  }
+
+  public async changeCustomerPassword(
+    currentPassword: string,
+    newPassword: string,
+    version: number
+  ): Promise<ClientResponse<Customer>> {
+    return this.client.root
+      .me()
+      .password()
+      .post({
+        body: {
+          currentPassword,
+          newPassword,
+          version
+        }
+      })
+      .execute()
   }
 }
 
