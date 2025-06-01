@@ -9,9 +9,9 @@ export type Image = {
 }
 
 export type ProductData = {
-  name?: LocalizedString
-  description?: LocalizedString
-  price?: number
+  name: LocalizedString
+  description: LocalizedString
+  price: number
   discount?: number
   images?: Image[]
 }

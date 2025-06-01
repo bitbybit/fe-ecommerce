@@ -1,12 +1,10 @@
-import { type ReactElement } from 'react'
-import { useTitle } from '~/hooks/useTitle'
-import ProductDetail from './ProductDetail/ProductDetail'
+import type { ReactElement } from 'react'
+import ProductDetail from './ProductDetail'
 import { Loading } from '~/components/Loading'
-import { useProductData } from './hooks/useProductData1'
-import { PRODUCT_STATUS } from './hooks/useProductData1'
+import { useProductData } from '../hooks/useProductData1'
+import { PRODUCT_STATUS } from '../hooks/useProductData1'
 
-export default function Product(): ReactElement {
-  useTitle('Product')
+export default function ProductCardContainer(): ReactElement {
   const { product, status } = useProductData()
   if (
     status !== PRODUCT_STATUS.READY ||

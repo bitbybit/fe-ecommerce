@@ -7,10 +7,10 @@ import 'swiper/css/pagination'
 import { type ImageSwiperProperties } from '../types/productTypes'
 
 export function ImageSwiper({
-  images,
+  images = [],
   onClick,
   initialSlide = 0,
-  swiperClassName,
+  swiperClassName = '',
   showPagination = true
 }: ImageSwiperProperties): ReactElement {
   return (
@@ -23,7 +23,7 @@ export function ImageSwiper({
       pagination={showPagination ? { clickable: true } : undefined}
       className={swiperClassName}
     >
-      {images?.map((img, index) => (
+      {images.map((img, index) => (
         <SwiperSlide key={index}>
           <div className="flex items-center justify-center w-full h-full" onClick={() => onClick?.(index)}>
             <img src={img.url} alt={`Image ${index + 1}`} className="object-contain max-h-full max-w-full" />

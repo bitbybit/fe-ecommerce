@@ -13,7 +13,7 @@ import 'swiper/css/pagination'
 import { ImageSwiper } from './ImageSwiper'
 import type { Image } from '../types/productTypes'
 
-export function ProductImages({ images }: { images?: Image[] }): ReactElement {
+export function ProductImages({ images = [] }: { images?: Image[] }): ReactElement {
   const [startIndex, setStartIndex] = useState(0)
 
   return (
