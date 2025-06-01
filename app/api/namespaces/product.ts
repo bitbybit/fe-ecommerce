@@ -1,30 +1,52 @@
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 import {
   type ClientResponse,
-  type ProductProjectionPagedQueryResponse,
   type ByProjectKeyProductProjectionsSearchRequestBuilder,
-  type AttributeDefinition
+  type AttributeDefinition,
+  type ProductProjectionPagedSearchResponse,
+  type ProductTypePagedQueryResponse
 } from '@commercetools/platform-sdk'
 
 type ProductApiProperties = {
   client: CtpApiClient
 }
 
-export type ProductListFilter = {
+export type ProductListFilterOption<T> = {
+  value: T
   label: string
-  type: AttributeDefinition['type']['name'] | 'range'
-  options: { value: string | number; label: string }[]
 }
+
+export type ProductListFilterBase = {
+  key: string
+  label: string
+}
+
+export type ProductListFilterFromAttributes = {
+  options: ProductListFilterOption<string>[]
+  type: AttributeDefinition['type']['name']
+} & ProductListFilterBase
+
+export type ProductListFilterFromFacets = {
+  options: ProductListFilterOption<number>[]
+  type: 'range'
+} & ProductListFilterBase
+
+export type ProductListFilter = ProductListFilterFromAttributes | ProductListFilterFromFacets
 
 export type ProductListQueryParameters = NonNullable<
   Parameters<ByProjectKeyProductProjectionsSearchRequestBuilder['get']>[0]
 >['queryArgs']
 
-export type ProductListAppliedFilters = {
-  key: string
-  type: ProductListFilter['type']
-  value: string
-}[]
+export type ProductListAppliedFilters = ((
+  | {
+      type: ProductListFilterFromAttributes['type']
+      value: ProductListFilterFromAttributes['options'][0]['value']
+    }
+  | {
+      type: ProductListFilterFromFacets['type']
+      value: [ProductListFilterFromFacets['options'][0]['value'], ProductListFilterFromFacets['options'][0]['value']]
+    }
+) & { key: string })[]
 
 export class ProductApi {
   private readonly client: CtpApiClient
@@ -33,8 +55,8 @@ export class ProductApi {
     this.client = client
   }
 
-  private static attributesToFilter({ label, type }: AttributeDefinition): ProductListFilter {
-    const options: { value: string; label: string }[] =
+  private static attributesToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {
+    const options: ProductListFilterFromAttributes['options'] =
       type.name === 'set' && 'values' in type.elementType
         ? type.elementType.values.map((value) => ({
             value: value.key,
@@ -43,39 +65,59 @@ export class ProductApi {
         : []
 
     return {
+      key: name,
       label: label['en-US'],
-      type: type.name,
-      options
+      options,
+      type: type.name
     }
+  }
+
+  private static appliedFiltersToQueryArgument(filters: ProductListAppliedFilters): string {
+    let result: string = ''
+
+    for (const { type, key, value } of filters) {
+      switch (type) {
+        case 'set': {
+          result += `variants.attributes.${key}.key:"${value}"`
+          break
+        }
+
+        case 'range': {
+          result += `variants.${key}.centAmount:range(${value[0]} to ${value[1]})`
+          break
+        }
+
+        // TODO: implement
+        case 'boolean': {
+          result += ''
+          break
+        }
+
+        default: {
+          result += `variants.attributes.${key}:"${value}"`
+          break
+        }
+      }
+    }
+
+    return result
   }
 
   public async getProducts(
     parameters: ProductListQueryParameters,
     filters: ProductListAppliedFilters = []
-  ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
-    const formattedFilters = filters.map((filter) => {
-      if (filter.type === 'range') {
-        return `variants.price.centAmount:range(${filter.value[0]} to ${filter.value[1]})`
-      } else if (filter.type === 'set') {
-        return `variants.attributes.${filter.key}.key:"${filter.value}"`
-      }
-      return `variants.attributes.${filter.key}:"${filter.value}"`
-    })
-    // console.log(filters, '66')
-
+  ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
     return this.client.root
       .productProjections()
       .search()
-      .get({ queryArgs: { ...parameters, filter: formattedFilters } })
+      .get({ queryArgs: { ...parameters, filter: ProductApi.appliedFiltersToQueryArgument(filters) } })
       .execute()
   }
 
   public async getFilters(): Promise<ProductListFilter[]> {
     const attributes: Map<AttributeDefinition['name'], AttributeDefinition> = new Map()
-    const types = await this.client.root
-      .productTypes()
-      .get({ queryArgs: { limit: 100 } })
-      .execute()
+
+    const types = await this.getTypes()
 
     for (const type of types.body.results) {
       for (const attribute of type.attributes ?? []) {
@@ -86,12 +128,11 @@ export class ProductApi {
     }
 
     const result = [...attributes.values()].map((attribute) => ProductApi.attributesToFilter(attribute))
-    const priceFacetKey = 'variants.price.centAmount'
-    const facets = await this.client.root
-      .productProjections()
-      .search()
-      .get({ queryArgs: { facet: `${priceFacetKey}: range(0 to *)`, limit: 0 } })
-      .execute()
+
+    const priceKey = 'price'
+    const priceFacetKey = `variants.${priceKey}.centAmount`
+
+    const facets = await this.getFacets(`${priceFacetKey}: range(0 to *)`)
 
     for (const [key, facet] of Object.entries(facets.body?.facets ?? {})) {
       if (key !== priceFacetKey || !('ranges' in facet) || facet.ranges.length === 0) {
@@ -100,15 +141,33 @@ export class ProductApi {
 
       result.push({
         label: 'Price',
-        type: 'range',
-        options: [facet.ranges?.[0]?.min ?? 0, facet?.ranges?.[0]?.max ?? 0].map((value) => ({
+        key: priceKey,
+        options: [facet.ranges[0].min, facet.ranges[0].max].map((value) => ({
           value,
           label: String(value)
-        }))
+        })),
+        type: 'range'
       })
     }
 
+    console.log(result)
+
     return result
+  }
+
+  private getTypes(): Promise<ClientResponse<ProductTypePagedQueryResponse>> {
+    return this.client.root
+      .productTypes()
+      .get({ queryArgs: { limit: 100 } })
+      .execute()
+  }
+
+  private getFacets(facetArgument: string): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
+    return this.client.root
+      .productProjections()
+      .search()
+      .get({ queryArgs: { facet: facetArgument, limit: 0 } })
+      .execute()
   }
 }
 
