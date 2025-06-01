@@ -1,12 +1,12 @@
 import { type ReactElement } from 'react'
 import { CalendarIcon } from 'lucide-react'
-import { format } from 'date-fns'
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/Popover'
 import { Calendar } from '~/components/ui/Calendar'
 import { Button } from '~/components/ui/Button'
 import { FormControl } from '~/components/ui/Form'
 import { createFormField, type FormType } from '~/utils/form'
 import { cn } from '~/utils/ui'
+import { formatDateOfBirth } from '~/utils/formatDate'
 import { type SchemaType } from '../schema'
 
 export const DateOfBirth = (form: FormType<SchemaType>): ReactElement =>
@@ -22,7 +22,7 @@ export const DateOfBirth = (form: FormType<SchemaType>): ReactElement =>
               variant={'outline'}
               className={cn('pl-3 text-left font-normal w-full', !field.value && 'text-muted-foreground')}
             >
-              {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+              {field.value instanceof Date ? formatDateOfBirth(field.value) : <span>Pick a date</span>}
               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
             </Button>
           </FormControl>
