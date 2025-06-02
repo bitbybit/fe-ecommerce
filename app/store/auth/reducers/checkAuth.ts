@@ -27,11 +27,16 @@ export const createCheckAuthThunk = (
 
     {
       pending: (state) => {
-        state.customer = undefined
+        state.checkedAuth = false
       },
 
       fulfilled: (state, action) => {
         state.customer = action.payload
+        state.checkedAuth = true
+      },
+
+      rejected: (state) => {
+        state.checkedAuth = true
       }
     }
   )

@@ -7,7 +7,8 @@ import { Toaster } from '~/components/ui/Sonner'
 
 import PublicLayout from '~/layouts/PublicLayout'
 import ProtectedLayout from '~/layouts/ProtectedLayout'
-import { useAppDispatch } from '~/store/hooks'
+
+import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { checkAuth } from '~/store/auth'
 import { ROUTES } from '~/routes'
 
@@ -82,9 +83,14 @@ function RoutesProtected(): ReactElement {
 }
 
 export function App(): ReactElement {
+  const { checkedAuth } = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
 
   useEffect(() => void dispatch(checkAuth()), [dispatch])
+
+  if (!checkedAuth) {
+    return <Loading />
+  }
 
   return (
     <>

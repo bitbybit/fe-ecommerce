@@ -30,11 +30,9 @@ export const RegisterFormFields = ({
     <fieldset disabled={status === AUTH_STATUS.LOADING}>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          <Email {...form} />
-          <Password {...form} />
-          <FirstName {...form} />
-          <LastName {...form} />
-          <DateOfBirth {...form} />
+          {[Email, Password, FirstName, LastName, DateOfBirth].map((Field) => (
+            <Field {...form} />
+          ))}
         </div>
 
         <Address form={form} path="addressMain" title="Main address" />

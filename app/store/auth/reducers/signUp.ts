@@ -1,5 +1,5 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
-import { format } from 'date-fns'
+import { formatDateForSdk } from '~/utils/formatDate'
 import { ctpApiClient, type CtpApiClient, type CustomerAddress, CUSTOMER_ADDRESS_TYPE } from '~/api/client'
 import { AUTH_STATUS, type AuthState } from '~/store/auth'
 
@@ -31,7 +31,7 @@ const mapThunkToApi = (payload: SignUpThunkPayload): Parameters<CtpApiClient['si
     { ...payload.addressShipping, type: CUSTOMER_ADDRESS_TYPE.SHIPPING },
     { ...payload.addressBilling, type: CUSTOMER_ADDRESS_TYPE.BILLING }
   ],
-  dateOfBirth: format(payload.dateOfBirth, 'yyyy-MM-dd'),
+  dateOfBirth: formatDateForSdk(payload.dateOfBirth),
   email: payload.email,
   firstName: payload.firstName,
   lastName: payload.lastName,

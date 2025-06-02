@@ -14,13 +14,15 @@ export enum AUTH_STATUS {
 }
 
 export interface AuthState {
+  checkedAuth: boolean
   customer: Customer | undefined
-  status: AUTH_STATUS
   errorMessage: string
+  status: AUTH_STATUS
 }
 
 const initialState: AuthState = {
   customer: undefined,
+  checkedAuth: false,
   status: AUTH_STATUS.READY,
   errorMessage: ''
 }
@@ -38,6 +40,10 @@ const auth = createAppSlice({
     resetAuthError: create.reducer((state) => {
       state.errorMessage = ''
       state.status = AUTH_STATUS.READY
+    }),
+
+    setCustomer: create.reducer((state, { payload }: { payload: AuthState['customer'] }) => {
+      state.customer = payload
     })
   })
 })
@@ -46,5 +52,5 @@ const selectAuthSlice = (state: RootState): AuthState => state.auth
 
 export const selectIsAuth = createSelector([selectAuthSlice], (auth) => auth.customer !== undefined)
 
-export const { signIn, signUp, logOut, checkAuth, resetAuthError } = auth.actions
+export const { signIn, signUp, logOut, checkAuth, resetAuthError, setCustomer } = auth.actions
 export default auth.reducer
