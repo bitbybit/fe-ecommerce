@@ -1,7 +1,7 @@
 import { useState, type ReactElement } from 'react'
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '~/components/ui/Dialog'
 import { ImageSwiper } from './ImageSwiper'
-import { type Image } from '../types/productTypes'
+import { type Image } from '../types'
 
 export function ProductImages({ images = [] }: Readonly<{ images?: Image[] }>): ReactElement {
   const [startIndex, setStartIndex] = useState(0)

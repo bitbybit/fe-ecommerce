@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
-import { type Image } from '../types/productTypes'
+import { type Image } from '../types'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
