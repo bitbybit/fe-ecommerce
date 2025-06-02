@@ -5,25 +5,33 @@ import { useForm } from 'react-hook-form'
 import { Button } from '~/components/ui/Button'
 import { transformFormFieldValues } from './transformFormValues'
 import { FilterFormFields } from './FilterFormFields'
-import { filterFormHandlers } from './filterFormHandlers'
+import { getFilterFormHandlers } from './filterFormHandlers'
+import { splitValues } from './splitSortValues'
+import { sort } from './fields/Sort'
 
 export const PRODUCTS_LIMIT = 100
+const KEY_INCREMENT = 1
 
+// eslint-disable-next-line max-lines-per-function
 export function FilterFormBody({
   filters,
   fetch
 }: Readonly<{ filters: ProductListFilter[]; fetch: UseCatalogDataResult['fetchProducts'] }>): ReactElement {
   const { handleSubmit, setValue, getValues, reset } = useForm()
   const [formKey, setFormKey] = useState(0)
-  const { setPriceRange, setAttributeValue, setSwitcherState } = filterFormHandlers(setValue)
+  const { setPriceRange, setAttributeValue } = getFilterFormHandlers(setValue)
+
   function onSubmit(): void {
     const values = getValues()
-    const transformedFilters = transformFormFieldValues(values, filters)
-    void fetch({ limit: PRODUCTS_LIMIT }, transformedFilters)
+    const { sort, filter } = splitValues(values)
+    console.log(sort)
+    const transformedFilters = transformFormFieldValues(filter, filters)
+    void fetch({ limit: PRODUCTS_LIMIT }, transformedFilters, sort)
   }
+
   function onReset(): void {
     reset()
-    setFormKey((previous) => previous + 1)
+    setFormKey((previous) => previous + KEY_INCREMENT)
     void fetch({ limit: PRODUCTS_LIMIT }, [])
   }
   return (
@@ -38,10 +46,12 @@ export function FilterFormBody({
             key={`${field.key}-${formKey}`}
             field={field}
             onPriceChange={setPriceRange}
-            onSwitcherChange={setSwitcherState}
             onAttributeChange={setAttributeValue}
           />
         ))}
+      {[sort].map((field) => (
+        <FilterFormFields field={field} onAttributeChange={setAttributeValue} />
+      ))}
       <Button variant="outline">Apply</Button>
       <Button variant="outline" type="button" onClick={onReset}>
         Reset

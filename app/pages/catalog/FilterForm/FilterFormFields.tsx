@@ -3,12 +3,12 @@ import type { ProductListFilter } from '~/api/namespaces/product'
 import { Price } from './fields/Price'
 import { AttributeSwitch } from './fields/AttributeSwitch'
 import { AttributeSelect } from './fields/AttributeSelect'
+import { type ProductListSort } from './fields/Sort'
 
 type FilterFormFieldsProperties = {
-  field: ProductListFilter
-  onPriceChange: (name: string, range: [number, number]) => void
-  onSwitcherChange: (name: string, switched: string) => void
-  onAttributeChange: (name: string, value: string) => void
+  field: ProductListFilter | ProductListSort
+  onPriceChange?: (name: string, range: [number, number]) => void
+  onAttributeChange?: (name: string, value: string) => void
 }
 
 export enum FilterType {
@@ -20,21 +20,26 @@ export enum FilterType {
 export function FilterFormFields({
   field,
   onPriceChange,
-  onSwitcherChange,
   onAttributeChange
 }: FilterFormFieldsProperties): ReactElement | undefined {
-  if (field.type === FilterType.Range) {
+  if ('type' in field && field.type === FilterType.Range && onPriceChange) {
     const minPrice = +field.options[0].value
     const maxPrice = +field.options[1].value
 
     return <Price key={field.key} name={field.key} range={[minPrice, maxPrice]} onChange={onPriceChange} />
   }
-  if (field.type === FilterType.Boolean) {
+  if ('type' in field && field.type === FilterType.Boolean && onAttributeChange) {
     return (
-      <AttributeSwitch key={field.key} name={field.key} label={field.label} value={false} onChange={onSwitcherChange} />
+      <AttributeSwitch
+        key={field.key}
+        name={field.key}
+        label={field.label}
+        value={false}
+        onChange={onAttributeChange}
+      />
     )
   }
-  if (field.type === FilterType.Set) {
+  if (onAttributeChange) {
     return (
       <AttributeSelect
         key={field.key}

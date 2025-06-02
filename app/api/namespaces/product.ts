@@ -6,6 +6,7 @@ import {
   type ProductProjectionPagedSearchResponse,
   type ProductTypePagedQueryResponse
 } from '@commercetools/platform-sdk'
+import type { ProductListAppliedSort } from '~/pages/catalog/FilterForm/fields/Sort'
 
 type ProductApiProperties = {
   client: CtpApiClient
@@ -102,9 +103,20 @@ export class ProductApi {
     return result
   }
 
+  private static convertSortToQuery(sort: ProductListAppliedSort): string[] {
+    const result: string[] = []
+
+    for (const { key, value } of sort) {
+      result.push(`${key} ${value}`)
+    }
+
+    return result
+  }
+
   public async getProducts(
     parameters: ProductListQueryParameters,
-    filters: ProductListAppliedFilters = []
+    filters: ProductListAppliedFilters = [],
+    sort: ProductListAppliedSort = []
   ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
     return this.client.root
       .productProjections()
@@ -114,6 +126,9 @@ export class ProductApi {
           ...parameters,
           ...(filters.length > 0 && {
             filter: ProductApi.convertFiltersToQuery(filters)
+          }),
+          ...(sort.length > 0 && {
+            sort: ProductApi.convertSortToQuery(sort)
           })
         }
       })

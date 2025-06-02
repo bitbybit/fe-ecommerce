@@ -7,6 +7,7 @@ import {
   type ProductListQueryParameters,
   type ProductListAppliedFilters
 } from '~/api/namespaces/product'
+import type { ProductListAppliedSort } from '../FilterForm/fields/Sort'
 
 export enum CATALOG_STATUS {
   LOADING = 'LOADING',
@@ -15,7 +16,11 @@ export enum CATALOG_STATUS {
 }
 
 export type UseCatalogDataResult = {
-  fetchProducts: (payload?: ProductListQueryParameters, filters?: ProductListAppliedFilters) => Promise<void>
+  fetchProducts: (
+    payload?: ProductListQueryParameters,
+    filters?: ProductListAppliedFilters,
+    sort?: ProductListAppliedSort
+  ) => Promise<void>
   filters: ProductListFilter[]
   products: ProductProjection[]
   status: CATALOG_STATUS
@@ -32,13 +37,14 @@ export function useCatalogData(): UseCatalogDataResult {
 
   const fetchProducts = async (
     payload?: ProductListQueryParameters,
-    filters?: ProductListAppliedFilters
+    filters?: ProductListAppliedFilters,
+    sort?: ProductListAppliedSort
   ): Promise<void> => {
     setProducts([])
     setStatus(CATALOG_STATUS.LOADING)
 
     try {
-      const response = await productApi.getProducts({ ...payload, limit: 100 }, filters)
+      const response = await productApi.getProducts({ ...payload, limit: 100 }, filters, sort)
       setProducts(response.body.results)
       setStatus(CATALOG_STATUS.READY)
     } catch (error) {
@@ -50,7 +56,6 @@ export function useCatalogData(): UseCatalogDataResult {
   const fetchFilters = async (): Promise<void> => {
     setFilters([])
     setStatus(CATALOG_STATUS.LOADING)
-
     try {
       const filters = await productApi.getFilters()
       setFilters(filters)
