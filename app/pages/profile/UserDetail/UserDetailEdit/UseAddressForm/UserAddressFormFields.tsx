@@ -32,7 +32,7 @@ export const UserAddressFormFields = ({
 }: UserAddressFormFieldsProperties): ReactElement => {
   return (
     <fieldset disabled={status === ADDRESS_ACTION_STATUS.LOADING}>
-      <CardContent>
+      <CardContent className="px-0">
         <div className="grid gap-4 md:grid-cols-2 items-start">
           <FirstName {...form} />
           <LastName {...form} />
