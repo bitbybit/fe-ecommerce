@@ -13,7 +13,7 @@ export default function Catalog(): ReactElement {
   return (
     <div className="flex items-start justify-start flex-grow w-full h-full">
       <FilterFormBody filters={filters} fetch={fetchProducts} />
-      <div className="flex-gow w-full">
+      <div className="w-full h-full">
         <SearchFormBody fetch={fetchProducts} />
         <ProductList products={products} status={status} />
       </div>
