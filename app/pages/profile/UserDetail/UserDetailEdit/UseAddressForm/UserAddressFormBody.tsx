@@ -33,6 +33,8 @@ const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProp
       ...properties.address,
       city: payload.city,
       country: payload.country,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
       postalCode: payload.postalCode,
       streetName: payload.streetName
     })
@@ -68,6 +70,8 @@ export const UserAddressFormBody = ({
     defaultValues: {
       city: address.city,
       country: address.country,
+      firstName: address.firstName,
+      lastName: address.lastName,
       postalCode: address.postalCode,
       streetName: address.streetName
     }
