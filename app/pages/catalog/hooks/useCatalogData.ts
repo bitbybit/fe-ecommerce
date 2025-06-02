@@ -19,7 +19,8 @@ export type UseCatalogDataResult = {
   fetchProducts: (
     payload?: ProductListQueryParameters,
     filters?: ProductListAppliedFilters,
-    sort?: ProductListAppliedSort
+    sort?: ProductListAppliedSort,
+    searchText?: string
   ) => Promise<void>
   filters: ProductListFilter[]
   products: ProductProjection[]
@@ -38,13 +39,13 @@ export function useCatalogData(): UseCatalogDataResult {
   const fetchProducts = async (
     payload?: ProductListQueryParameters,
     filters?: ProductListAppliedFilters,
-    sort?: ProductListAppliedSort
+    sort?: ProductListAppliedSort,
+    searchText?: string
   ): Promise<void> => {
     setProducts([])
     setStatus(CATALOG_STATUS.LOADING)
-
     try {
-      const response = await productApi.getProducts({ ...payload, limit: 100 }, filters, sort)
+      const response = await productApi.getProducts({ ...payload, limit: 100 }, filters, sort, searchText)
       setProducts(response.body.results)
       setStatus(CATALOG_STATUS.READY)
     } catch (error) {

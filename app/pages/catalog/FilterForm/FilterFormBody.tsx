@@ -37,8 +37,7 @@ export function FilterFormBody({
   return (
     <form
       className="w-2xs p-8 flex flex-col gap-y-[30px] shrink-0 shadow-md shadow-gray-300"
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(event) => void handleSubmit(onSubmit)(event)}
     >
       {filters.length > 0 &&
         filters.map((field) => (

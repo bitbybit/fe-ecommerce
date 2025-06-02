@@ -121,7 +121,8 @@ export class ProductApi {
   public async getProducts(
     parameters: ProductListQueryParameters,
     filters: ProductListAppliedFilters = [],
-    sort: ProductListAppliedSort = []
+    sort: ProductListAppliedSort = [],
+    searchText: string = ''
   ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
     return this.client.root
       .productProjections()
@@ -134,6 +135,10 @@ export class ProductApi {
           }),
           ...(sort.length > 0 && {
             sort: ProductApi.convertSortToQuery(sort)
+          }),
+          ...(searchText.length > 0 && {
+            'text.en-US': searchText,
+            fuzzy: true
           })
         }
       })
