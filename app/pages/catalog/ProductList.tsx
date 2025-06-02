@@ -13,7 +13,7 @@ export function ProductList({
   const isNotReady = status !== CATALOG_STATUS.READY
 
   return (
-    <div className="flex gap-4 justify-evenly flex-wrap p-2 h-full">
+    <div className="flex gap-4 justify-evenly flex-wrap p-2 h-full w-full">
       {isNotReady
         ? Array.from({ length: SKELETON_COUNT }).map((_, index) => (
             <Skeleton className="w-2xs aspect-[3/4] mx-auto" key={index} />

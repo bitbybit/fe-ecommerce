@@ -12,7 +12,7 @@ export default function PublicLayout(): ReactElement {
     <div className="min-h-screen flex flex-col">
       <Header isAuth={isAuth} />
 
-      <main className="flex flex-col justify-center items-center flex-grow relative">
+      <main className="flex flex-col justify-center items-center flex-grow">
         <Outlet />
       </main>
 
