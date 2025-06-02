@@ -1,6 +1,6 @@
 import { type ReactElement, useState } from 'react'
 import { EditableSwitch } from './EditableSwitch'
-import { UserDetailFormBody } from './UserDetailForm/UserDetailFormBody'
+import { UserDetailEditBody } from './UserDetailEdit/UserDetailEditBody'
 import { UserDetailViewBody } from './UserDetailView/UserDetailViewBody'
 
 export const UserDetailBody = (): ReactElement => {
@@ -9,7 +9,7 @@ export const UserDetailBody = (): ReactElement => {
   return (
     <>
       <EditableSwitch value={editable} onChange={setEditable} />
-      {editable && <UserDetailFormBody />}
+      {editable && <UserDetailEditBody />}
       {!editable && <UserDetailViewBody />}
     </>
   )

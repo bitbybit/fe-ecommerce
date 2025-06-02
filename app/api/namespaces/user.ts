@@ -1,4 +1,5 @@
 import { type ClientResponse, type Customer } from '@commercetools/platform-sdk'
+import { formatDateForSdk } from '~/utils/formatDate'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 
 type UserApiProperties = {
@@ -24,6 +25,41 @@ export class UserApi {
         body: {
           currentPassword,
           newPassword,
+          version
+        }
+      })
+      .execute()
+  }
+
+  public async changeCustomerData(
+    firstName: string,
+    lastName: string,
+    dateOfBirth: Date,
+    email: string,
+    version: number
+  ): Promise<ClientResponse<Customer>> {
+    return this.client.root
+      .me()
+      .post({
+        body: {
+          actions: [
+            {
+              action: 'setFirstName',
+              firstName
+            },
+            {
+              action: 'setLastName',
+              lastName
+            },
+            {
+              action: 'setDateOfBirth',
+              dateOfBirth: formatDateForSdk(dateOfBirth)
+            },
+            {
+              action: 'changeEmail',
+              email
+            }
+          ],
           version
         }
       })

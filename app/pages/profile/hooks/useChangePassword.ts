@@ -19,7 +19,7 @@ export type UseChangePasswordResult = {
 
 /**
  * Change password and re-login
- * @returns UseCatalogDataResult
+ * @returns UseChangePasswordResult
  */
 export function useChangePassword(): UseChangePasswordResult {
   const navigate = useNavigate()
