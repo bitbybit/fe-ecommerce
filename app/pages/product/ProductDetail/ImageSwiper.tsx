@@ -1,10 +1,19 @@
 import { type ReactElement } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
+import { type Image } from '../types/productTypes'
+
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { type ImageSwiperProperties } from '../types/productTypes'
+
+type ImageSwiperProperties = {
+  images?: Image[]
+  onClick?: (index: number) => void
+  initialSlide?: number
+  swiperClassName?: string
+  showPagination?: boolean
+}
 
 export function ImageSwiper({
   images = [],
@@ -12,7 +21,7 @@ export function ImageSwiper({
   initialSlide = 0,
   swiperClassName = '',
   showPagination = true
-}: ImageSwiperProperties): ReactElement {
+}: Readonly<ImageSwiperProperties>): ReactElement {
   return (
     <Swiper
       spaceBetween={50}
@@ -25,8 +34,8 @@ export function ImageSwiper({
     >
       {images.map((img, index) => (
         <SwiperSlide key={index}>
-          <div className="flex items-center justify-center w-full h-full" onClick={() => onClick?.(index)}>
-            <img src={img.url} alt={`Image ${index + 1}`} className="object-contain max-h-full max-w-full" />
+          <div className="flex items-center justify-center w-full h-full rounded-lg" onClick={() => onClick?.(index)}>
+            <img src={img.url} alt={`Image ${index + 1}`} className="object-contain max-w-full rounded-lg" />
           </div>
         </SwiperSlide>
       ))}

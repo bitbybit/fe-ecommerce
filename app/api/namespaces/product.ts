@@ -27,9 +27,8 @@ export class ProductApi {
     return this.client.root.productProjections().get({ queryArgs: parameters }).execute()
   }
 
-  //TODO: change id
-  public async getProductByID(): Promise<ClientResponse<ProductProjection>> {
-    return this.client.root.productProjections().withId({ ID: '1e1e3e7b-7c7b-4d77-b603-d3ae384e19ed' }).get().execute()
+  public async getProductById(productProjectionId: string): Promise<ClientResponse<ProductProjection>> {
+    return this.client.root.productProjections().withId({ ID: productProjectionId }).get().execute()
   }
 }
 

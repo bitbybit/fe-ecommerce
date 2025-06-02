@@ -6,8 +6,7 @@ export enum ROUTES {
   HOME = '/',
   LOGIN = '/auth/login',
   LOGOUT = '/auth/logout',
-  //TODO: chane to '/product/:productId'
-  PRODUCT = '/product',
+  PRODUCT = '/product/:productId',
   PROFILE = '/profile',
   REGISTER = '/auth/register'
 }

@@ -1,19 +1,9 @@
 import { useState, type ReactElement } from 'react'
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogClose,
-  DialogTitle,
-  DialogDescription
-} from '~/components/ui/Dialog'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '~/components/ui/Dialog'
 import { ImageSwiper } from './ImageSwiper'
-import type { Image } from '../types/productTypes'
+import { type Image } from '../types/productTypes'
 
-export function ProductImages({ images = [] }: { images?: Image[] }): ReactElement {
+export function ProductImages({ images = [] }: Readonly<{ images?: Image[] }>): ReactElement {
   const [startIndex, setStartIndex] = useState(0)
 
   return (
@@ -21,18 +11,17 @@ export function ProductImages({ images = [] }: { images?: Image[] }): ReactEleme
       <DialogTitle className="sr-only">Product Image Preview</DialogTitle>
       <DialogDescription className="sr-only">Detailed view of product image</DialogDescription>
       <DialogTrigger asChild>
-        <div className="cursor-pointer">
+        <div className="cursor-pointer mx-auto md:mx-6">
           <ImageSwiper
             images={images}
             onClick={setStartIndex}
-            swiperClassName="w-[350px] sm:w-[500px] h-[60vh]"
+            swiperClassName="w-[300px] max-w-full sm:w-[500px] rounded-lg"
             showPagination
           />
         </div>
       </DialogTrigger>
       <DialogContent className="w-full max-w-[95vw] h-[90vh] flex items-center justify-center">
         <ImageSwiper images={images} initialSlide={startIndex} swiperClassName="w-full h-full" showPagination={false} />
-        <DialogClose />
       </DialogContent>
     </Dialog>
   )
