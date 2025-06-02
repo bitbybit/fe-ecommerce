@@ -1,7 +1,7 @@
 import { type LocalizedString } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
 import { H1, H3, P } from '~/components/ui/typography'
-import { SalePrice } from '~/components/product/SalePrice'
+import { ProductPrice } from '~/components/product/ProductPrice'
 
 const LANG = 'en-US'
 
@@ -21,7 +21,7 @@ export function ProductInfo({
       <H1 className="text-2xl font-semibold">{name[LANG]}</H1>
       <P className="text-muted-foreground">{description[LANG]}</P>
       <H3>
-        <SalePrice startPrice={price} discountPrice={discount} />
+        <ProductPrice startPrice={price} discountPrice={discount} />
       </H3>
     </div>
   )
