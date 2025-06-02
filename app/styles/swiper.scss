@@ -1,0 +1,10 @@
+[role='dialog'] > .swiper + [type='button'] {
+  z-index: 1;
+  opacity: 1;
+  background: var(--background);
+}
+
+.swiper-wrapper {
+  display: flex;
+  align-items: center;
+}
