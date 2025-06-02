@@ -4,7 +4,8 @@ import {
   type ByProjectKeyProductProjectionsSearchRequestBuilder,
   type AttributeDefinition,
   type ProductProjectionPagedSearchResponse,
-  type ProductTypePagedQueryResponse
+  type ProductTypePagedQueryResponse,
+  type ProductProjection
 } from '@commercetools/platform-sdk'
 import type { ProductListAppliedSort } from '~/pages/catalog/FilterForm/fields/Sort'
 
@@ -111,6 +112,10 @@ export class ProductApi {
     }
 
     return result
+  }
+
+  public async getProductById(productProjectionId: string): Promise<ClientResponse<ProductProjection>> {
+    return this.client.root.productProjections().withId({ ID: productProjectionId }).get().execute()
   }
 
   public async getProducts(
