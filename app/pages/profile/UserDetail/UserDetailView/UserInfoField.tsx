@@ -1,10 +1,9 @@
 import { type ReactElement } from 'react'
 import { Label } from '~/components/ui/Label'
 
-export const UserInfoField = ({
-  label,
-  value
-}: Readonly<{ label: string; value: string | undefined }>): ReactElement => {
+type UserInfoFieldProperties = Readonly<{ label: string; value: string | undefined }>
+
+export const UserInfoField = ({ label, value }: UserInfoFieldProperties): ReactElement => {
   return (
     <div className="flex flex-col gap-2">
       <Label>{label}</Label>

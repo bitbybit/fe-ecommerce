@@ -16,10 +16,6 @@ export type UseChangeAddressResult = {
   status: ADDRESS_ACTION_STATUS
 }
 
-/**
- * Change address
- * @returns UseChangeAddressResult
- */
 export function useChangeAddress(): UseChangeAddressResult {
   const dispatch = useAppDispatch()
   const version = useAppSelector((state) => state.auth.customer?.version ?? 0)

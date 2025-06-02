@@ -11,10 +11,6 @@ export type UseAddAddressResult = {
   status: ADDRESS_ACTION_STATUS
 }
 
-/**
- * Add address
- * @returns UseAddAddressResult
- */
 export function useAddAddress(): UseAddAddressResult {
   const dispatch = useAppDispatch()
   const version = useAppSelector((state) => state.auth.customer?.version ?? 0)

@@ -10,10 +10,8 @@ import { useChangeInfo } from '../../../hooks/useChangeInfo'
 import { schema } from './schema'
 
 export const UserInfoFormBody = (): ReactElement => {
-  const dateOfBirth = useAppSelector((state) => state.auth.customer?.dateOfBirth ?? '')
-  const email = useAppSelector((state) => state.auth.customer?.email ?? '')
-  const firstName = useAppSelector((state) => state.auth.customer?.firstName ?? '')
-  const lastName = useAppSelector((state) => state.auth.customer?.lastName ?? '')
+  const customer = useAppSelector((state) => state.auth.customer)
+  const { dateOfBirth = '', email = '', firstName = '', lastName = '' } = customer ?? {}
   const { status, changeInfo } = useChangeInfo()
 
   const form = useForm<z.infer<typeof schema>>({

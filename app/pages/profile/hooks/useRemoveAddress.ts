@@ -10,10 +10,6 @@ export type UseRemoveAddressResult = {
   status: ADDRESS_ACTION_STATUS
 }
 
-/**
- * Remove address
- * @returns UseRemoveAddressResult
- */
 export function useRemoveAddress(): UseRemoveAddressResult {
   const dispatch = useAppDispatch()
   const version = useAppSelector((state) => state.auth.customer?.version ?? 0)

@@ -10,10 +10,6 @@ export type UseSetBillingAddressResult = {
   status: ADDRESS_ACTION_STATUS
 }
 
-/**
- * Set billing address
- * @returns UseSetBillingAddressResult
- */
 export function useSetBillingAddress(): UseSetBillingAddressResult {
   const dispatch = useAppDispatch()
   const version = useAppSelector((state) => state.auth.customer?.version ?? 0)

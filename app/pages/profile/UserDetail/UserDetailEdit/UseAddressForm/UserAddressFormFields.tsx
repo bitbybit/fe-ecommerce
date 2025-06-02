@@ -34,12 +34,9 @@ export const UserAddressFormFields = ({
     <fieldset disabled={status === ADDRESS_ACTION_STATUS.LOADING}>
       <CardContent className="px-0">
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          <FirstName {...form} />
-          <LastName {...form} />
-          <Country {...form} />
-          <City {...form} />
-          <StreetName {...form} />
-          <PostalCode {...form} />
+          {[FirstName, LastName, Country, City, StreetName, PostalCode].map((Field) => (
+            <Field {...form} />
+          ))}
         </div>
       </CardContent>
       <CardFooter className="flex gap-3 pb-3">

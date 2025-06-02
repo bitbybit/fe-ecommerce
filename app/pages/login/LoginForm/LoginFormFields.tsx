@@ -5,7 +5,7 @@ import { Password } from '~/pages/login/LoginForm/fields/Password'
 import { Button } from '~/components/ui/Button'
 import { type FormType } from '~/utils/form'
 import { AUTH_STATUS } from '~/store/auth'
-import type { SchemaType } from './schema'
+import { type SchemaType } from './schema'
 
 export const LoginFormFields = ({
   form,
@@ -17,8 +17,9 @@ export const LoginFormFields = ({
   return (
     <fieldset disabled={status === AUTH_STATUS.LOADING}>
       <CardContent>
-        <Email {...form} />
-        <Password {...form} />
+        {[Email, Password].map((Field) => (
+          <Field {...form} />
+        ))}
       </CardContent>
       <CardFooter>
         <Button type="submit">Submit</Button>

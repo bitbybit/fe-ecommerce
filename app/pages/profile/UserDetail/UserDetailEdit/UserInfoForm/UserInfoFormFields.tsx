@@ -9,21 +9,19 @@ import { CHANGE_INFO_STATUS } from '../../../hooks/useChangeInfo'
 import { type FormType } from '~/utils/form'
 import { type SchemaType } from './schema'
 
-export const UserInfoFormFields = ({
-  form,
-  status
-}: {
+type UserInfoFormFieldsProperties = {
   form: FormType<SchemaType>
   status: CHANGE_INFO_STATUS
-}): ReactElement => {
+}
+
+export const UserInfoFormFields = ({ form, status }: UserInfoFormFieldsProperties): ReactElement => {
   return (
     <fieldset disabled={status === CHANGE_INFO_STATUS.LOADING}>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          <FirstName {...form} />
-          <LastName {...form} />
-          <DateOfBirth {...form} />
-          <Email {...form} />
+          {[FirstName, LastName, DateOfBirth, Email].map((Field) => (
+            <Field {...form} />
+          ))}
         </div>
       </CardContent>
       <CardFooter>

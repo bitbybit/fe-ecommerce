@@ -84,10 +84,7 @@ export default [
 
     rules: {
       ...rules,
-      'jsdoc/require-param-description': 0,
-      'jsdoc/require-property-description': 0,
-      'jsdoc/require-returns-description': 0,
-      'jsdoc/require-throws': 1
+      'jsdoc/require-jsdoc': 0
     }
   },
 

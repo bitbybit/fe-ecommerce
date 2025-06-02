@@ -5,10 +5,8 @@ import { UserAddressField } from './UserAddressField'
 import { useAppSelector } from '~/store/hooks'
 
 export const UserInfo = (): ReactElement => {
-  const firstName = useAppSelector((state) => state.auth.customer?.firstName ?? '')
-  const lastName = useAppSelector((state) => state.auth.customer?.lastName ?? '')
-  const dateOfBirth = formatDateOfBirth(useAppSelector((state) => state.auth.customer?.dateOfBirth ?? ''))
-  const email = useAppSelector((state) => state.auth.customer?.email ?? '')
+  const customer = useAppSelector((state) => state.auth.customer)
+  const { dateOfBirth = '', email = '', firstName = '', lastName = '' } = customer ?? {}
 
   return (
     <Card className="w-full max-w-full">
@@ -17,10 +15,14 @@ export const UserInfo = (): ReactElement => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          <UserAddressField label="First Name" value={firstName} />
-          <UserAddressField label="Last Name" value={lastName} />
-          <UserAddressField label="Date of Birth" value={dateOfBirth} />
-          <UserAddressField label="Email" value={email} />
+          {[
+            { label: 'First Name', value: firstName },
+            { label: 'Last Name', value: lastName },
+            { label: 'Date of Birth', value: formatDateOfBirth(dateOfBirth) },
+            { label: 'Email', value: email }
+          ].map((field) => (
+            <UserAddressField label={field.label} value={field.value} key={field.label} />
+          ))}
         </div>
       </CardContent>
     </Card>

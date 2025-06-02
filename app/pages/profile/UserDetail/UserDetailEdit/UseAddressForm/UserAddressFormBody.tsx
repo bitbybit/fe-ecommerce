@@ -20,6 +20,12 @@ type UserAddressFormBodyProviderProperties = Readonly<{
   form: FormType<SchemaType>
 }>
 
+type UserAddressFormBodyProperties = Readonly<{
+  address: Address
+  defaultBillingAddressId: string
+  defaultShippingAddressId: string
+}>
+
 const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProperties): ReactElement => {
   const isBilling = properties.address.id === properties.defaultBillingAddressId
   const isShipping = properties.address.id === properties.defaultShippingAddressId
@@ -63,7 +69,7 @@ export const UserAddressFormBody = ({
   address,
   defaultBillingAddressId,
   defaultShippingAddressId
-}: Readonly<{ address: Address; defaultBillingAddressId: string; defaultShippingAddressId: string }>): ReactElement => {
+}: UserAddressFormBodyProperties): ReactElement => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     mode: 'onChange',

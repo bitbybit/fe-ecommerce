@@ -4,9 +4,13 @@ import { countries } from '~/utils/countries'
 import { Badge } from '~/components/ui/Badge'
 import { UserAddressField } from './UserAddressField'
 
-export const UserAddress = (
-  properties: Readonly<{ address: Address; defaultBillingAddressId: string; defaultShippingAddressId: string }>
-): ReactElement => {
+type UserAddressProperties = Readonly<{
+  address: Address
+  defaultBillingAddressId: string
+  defaultShippingAddressId: string
+}>
+
+export const UserAddress = (properties: UserAddressProperties): ReactElement => {
   const isBilling = properties.address.id === properties.defaultBillingAddressId
   const isShipping = properties.address.id === properties.defaultShippingAddressId
 
@@ -17,12 +21,16 @@ export const UserAddress = (
         {isShipping && <Badge>Shipping</Badge>}
       </div>
       <div className="grid gap-4 md:grid-cols-2 items-start">
-        <UserAddressField label="First Name" value={properties.address.firstName} />
-        <UserAddressField label="Last Name" value={properties.address.lastName} />
-        <UserAddressField label="Country" value={countries[properties.address.country]} />
-        <UserAddressField label="City" value={properties.address.city} />
-        <UserAddressField label="Street name" value={properties.address.streetName} />
-        <UserAddressField label="Postal code" value={properties.address.postalCode} />
+        {[
+          { label: 'First Name', value: properties.address.firstName },
+          { label: 'Last Name', value: properties.address.lastName },
+          { label: 'Country', value: countries[properties.address.country] },
+          { label: 'City', value: properties.address.city },
+          { label: 'Street name', value: properties.address.streetName },
+          { label: 'Postal code', value: properties.address.postalCode }
+        ].map((field) => (
+          <UserAddressField label={field.label} value={field.value} key={field.label} />
+        ))}
       </div>
     </div>
   )

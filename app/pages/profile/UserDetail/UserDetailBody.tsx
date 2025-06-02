@@ -9,8 +9,7 @@ export const UserDetailBody = (): ReactElement => {
   return (
     <>
       <EditableSwitch value={editable} onChange={setEditable} />
-      {editable && <UserDetailEditBody />}
-      {!editable && <UserDetailViewBody />}
+      {editable ? <UserDetailEditBody /> : <UserDetailViewBody />}
     </>
   )
 }

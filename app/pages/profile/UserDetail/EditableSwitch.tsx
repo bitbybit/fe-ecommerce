@@ -2,10 +2,9 @@ import { type ReactElement } from 'react'
 import { Switch } from '~/components/ui/Switch'
 import { Label } from '~/components/ui/Label'
 
-export function EditableSwitch({
-  value,
-  onChange
-}: Readonly<{ value: boolean; onChange: (value: boolean) => void }>): ReactElement {
+type EditableSwitchProperties = Readonly<{ value: boolean; onChange: (value: boolean) => void }>
+
+export function EditableSwitch({ value, onChange }: EditableSwitchProperties): ReactElement {
   return (
     <div className="flex items-center gap-2 py-3">
       <Switch checked={value} onCheckedChange={onChange} id="editable-switch" />

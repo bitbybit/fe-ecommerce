@@ -15,10 +15,6 @@ export type UseChangeInfoResult = {
   status: CHANGE_INFO_STATUS
 }
 
-/**
- * Change user info
- * @returns UseChangeInfoResult
- */
 export function useChangeInfo(): UseChangeInfoResult {
   const dispatch = useAppDispatch()
   const version = useAppSelector((state) => state.auth.customer?.version ?? 0)

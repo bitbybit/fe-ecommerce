@@ -10,10 +10,6 @@ export type UseSetShippingAddressResult = {
   status: ADDRESS_ACTION_STATUS
 }
 
-/**
- * Set shipping address
- * @returns UseSetShippingAddressResult
- */
 export function useSetShippingAddress(): UseSetShippingAddressResult {
   const dispatch = useAppDispatch()
   const version = useAppSelector((state) => state.auth.customer?.version ?? 0)

@@ -17,10 +17,6 @@ export type UseChangePasswordResult = {
   status: CHANGE_PASSWORD_STATUS
 }
 
-/**
- * Change password and re-login
- * @returns UseChangePasswordResult
- */
 export function useChangePassword(): UseChangePasswordResult {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
