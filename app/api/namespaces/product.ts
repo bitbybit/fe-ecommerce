@@ -2,7 +2,8 @@ import { ctpApiClient, type CtpApiClient } from '~/api/client'
 import {
   type ClientResponse,
   type ProductProjectionPagedQueryResponse,
-  type ByProjectKeyProductProjectionsRequestBuilder
+  type ByProjectKeyProductProjectionsRequestBuilder,
+  type ProductProjection
 } from '@commercetools/platform-sdk'
 
 type ProductApiProperties = {
@@ -24,6 +25,10 @@ export class ProductApi {
     parameters: ProductListQueryParameters
   ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
     return this.client.root.productProjections().get({ queryArgs: parameters }).execute()
+  }
+
+  public async getProductById(productProjectionId: string): Promise<ClientResponse<ProductProjection>> {
+    return this.client.root.productProjections().withId({ ID: productProjectionId }).get().execute()
   }
 }
 
