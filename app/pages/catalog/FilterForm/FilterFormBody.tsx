@@ -11,6 +11,7 @@ import {
   PRODUCT_LIST_SORT_ASC,
   PRODUCT_LIST_SORT_DESC
 } from '~/api/namespaces/product'
+import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '~/components/ui/Sidebar'
 import { Button } from '~/components/ui/Button'
 import { Label } from '~/components/ui/Label'
 import { FilterFormField } from './FilterFormField'
@@ -119,38 +120,40 @@ function getDefaultFormValues(filters: ProductListFilter[], sorts: ProductListSo
 export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
   const defaultValues = getDefaultFormValues(filters, sorts)
   const form = useForm<FormValues>({ defaultValues })
-
   const handleApply = (data: FormValues): Promise<void> =>
     fetch(
       { limit: PRODUCTS_LIMIT },
       convertFormValuesToAppliedFilters(data, filters),
       convertFormValuesToSort(data, sorts)
     )
-
   const handleReset = (): Promise<void> => {
     form.reset(defaultValues)
     return handleApply(form.getValues())
   }
 
   return (
-    <form
-      onSubmit={(event) => void form.handleSubmit(handleApply)(event)}
-      className="space-y-4 pl-2 pt-2 w-1/4 min-w-[180px] max-w-[220px]"
-    >
-      {filters.map((filter, index) => (
-        <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
-      ))}
-      <Label>Sort</Label>
-      {sorts.map((sort, index) => (
-        <SortFormField sort={sort} sorts={sorts} key={`${sort.key}-${index}`} form={form} />
-      ))}
-      <hr />
-      <div className="flex justify-between">
-        <Button variant="outline" type="button" onClick={() => void handleReset()}>
-          Reset
-        </Button>
-        <Button type="submit">Apply</Button>
-      </div>
-    </form>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent className="p-4">
+          <form onSubmit={(event) => void form.handleSubmit(handleApply)(event)} className="space-y-4">
+            {filters.map((filter, index) => (
+              <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
+            ))}
+            <Label>Sort</Label>
+            {sorts.map((sort, index) => (
+              <SortFormField sort={sort} sorts={sorts} key={`${sort.key}-${index}`} form={form} />
+            ))}
+            <hr />
+            <div className="flex justify-between">
+              <Button variant="outline" type="button" onClick={() => void handleReset()}>
+                Reset
+              </Button>
+              <Button type="submit">Apply</Button>
+            </div>
+          </form>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarTrigger />
+    </SidebarProvider>
   )
 }
