@@ -10,6 +10,7 @@ import { Button } from '~/components/ui/Button'
 import { FilterFormField } from './FilterFormField'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 import { SortFormField } from '~/pages/catalog/FilterForm/SortFormField'
+import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '~/components/ui/Sidebar'
 
 // TODO: items per page
 export const PRODUCTS_LIMIT = 100
@@ -100,19 +101,26 @@ export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): Re
   }
 
   return (
-    <form onSubmit={(event) => void handleSubmit(handleFiltering)(event)} className="space-y-4">
-      {filters.map((filter, index) => (
-        <FilterFormField control={control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
-      ))}
-      {sortOptions.map((sort, index) => (
-        <SortFormField control={control} sort={sort} key={`${sort.key}-${index}`} />
-      ))}
-      <div className="flex justify-between">
-        <Button variant="outline" type="button" onClick={() => void handleReset()}>
-          Reset
-        </Button>
-        <Button type="submit">Apply</Button>
-      </div>
-    </form>
+    <SidebarProvider>
+      <Sidebar>
+        <form onSubmit={(event) => void handleSubmit(handleFiltering)(event)} className="space-y-4">
+          <SidebarContent className="p-4">
+            {filters.map((filter, index) => (
+              <FilterFormField control={control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
+            ))}
+            {sortOptions.map((sort, index) => (
+              <SortFormField control={control} sort={sort} key={`${sort.key}-${index}`} />
+            ))}
+            <div className="flex justify-between">
+              <Button variant="outline" type="button" onClick={() => void handleReset()}>
+                Reset
+              </Button>
+              <Button type="submit">Apply</Button>
+            </div>
+          </SidebarContent>
+        </form>
+      </Sidebar>
+      <SidebarTrigger />
+    </SidebarProvider>
   )
 }
