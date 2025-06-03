@@ -5,7 +5,9 @@ import {
   type AttributeDefinition,
   type ProductProjectionPagedSearchResponse,
   type ProductTypePagedQueryResponse,
-  type ProductProjection
+  type ProductProjection,
+  type ByProjectKeyCategoriesRequestBuilder,
+  type CategoryPagedQueryResponse
 } from '@commercetools/platform-sdk'
 
 type ProductApiProperties = {
@@ -41,8 +43,20 @@ export type ProductListSort = {
 
 export type ProductListFilter = ProductListFilterFromAttributes | ProductListFilterFromFacets
 
+export type CategoryFilter = {
+  id: string
+  label: string
+  url: string
+  parentId?: string
+  subCategories?: CategoryFilter[]
+}
+
 export type ProductListQueryParameters = NonNullable<
   Parameters<ByProjectKeyProductProjectionsSearchRequestBuilder['get']>[0]
+>['queryArgs']
+
+export type CategoriesQueryParameters = NonNullable<
+  Parameters<ByProjectKeyCategoriesRequestBuilder['get']>[0]
 >['queryArgs']
 
 export type ProductListAppliedFilters = ((
@@ -210,6 +224,43 @@ export class ProductApi {
     }
 
     return result
+  }
+
+  public async buildCategoriesTree(): Promise<CategoryFilter[]> {
+    const allCategories = new Map<string, CategoryFilter>()
+    const LOCALE = 'en'
+
+    const categories = await this.getCategories()
+
+    for (const category of categories.body.results) {
+      allCategories.set(category.id, {
+        id: category.id,
+        label: category.name[LOCALE],
+        url: `categories/${category.slug[LOCALE]}`,
+        parentId: category.parent?.id,
+        subCategories: []
+      })
+    }
+
+    const categoriesTree: CategoryFilter[] = []
+
+    for (const category of allCategories.values()) {
+      if (category.parentId) {
+        const parent = allCategories.get(category.parentId)
+        parent?.subCategories?.push(category)
+      } else {
+        categoriesTree.push(category)
+      }
+    }
+
+    return categoriesTree
+  }
+
+  public async getCategories(): Promise<ClientResponse<CategoryPagedQueryResponse>> {
+    return this.client.root
+      .categories()
+      .get({ queryArgs: { limit: 100 } })
+      .execute()
   }
 
   private getTypes(): Promise<ClientResponse<ProductTypePagedQueryResponse>> {

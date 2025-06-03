@@ -9,7 +9,8 @@ import { SearchFormBody } from './SearchForm/SearchFomBody'
 export default function Catalog(): ReactElement {
   useTitle('Catalog')
 
-  const { products, filters, status, fetchProducts } = useCatalogData()
+  const { products, filters, status, fetchProducts, categories } = useCatalogData()
+  console.log(categories, 'cat')
 
   if (filters.length === 0) {
     return <Loading />
