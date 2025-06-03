@@ -16,9 +16,9 @@ export default function Catalog(): ReactElement {
   }
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full w-full">
       <FilterFormBody filters={filters} fetch={fetchProducts} />
-      <div>
+      <div className="flex-grow">
         <SearchFormBody fetch={fetchProducts} />
         <ProductList products={products} status={status} />
       </div>

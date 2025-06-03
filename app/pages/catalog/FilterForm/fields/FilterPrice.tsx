@@ -18,11 +18,11 @@ export function FilterPrice(properties: FilterPriceProperties): ReactElement {
     <div className="flex flex-col gap-y-[15px]">
       <Label>{properties.label}</Label>
       <div className="flex justify-between">
-        <Button variant="outline" className="pointer-events-none cursor-default">
-          {formatProductItemPrice(min)}
+        <Button variant="outline" className="pointer-events-none cursor-default w-[80px]">
+          {formatProductItemPrice(properties.value[0])}
         </Button>
-        <Button variant="outline" className="pointer-events-none cursor-default">
-          {formatProductItemPrice(max)}
+        <Button variant="outline" className="pointer-events-none cursor-default w-[80px]">
+          {formatProductItemPrice(properties.value[1])}
         </Button>
       </div>
 
