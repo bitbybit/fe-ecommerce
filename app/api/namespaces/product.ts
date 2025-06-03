@@ -47,6 +47,7 @@ export type CategoryFilter = {
   id: string
   label: string
   url: string
+  slug: string
   parentId?: string
   subCategories?: CategoryFilter[]
 }
@@ -237,6 +238,7 @@ export class ProductApi {
         id: category.id,
         label: category.name[LOCALE],
         url: `categories/${category.slug[LOCALE]}`,
+        slug: category.slug[LOCALE],
         parentId: category.parent?.id,
         subCategories: []
       })

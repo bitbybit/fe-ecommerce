@@ -9,7 +9,8 @@ import {
   type ProductListFilter,
   type ProductListSort,
   PRODUCT_LIST_SORT_ASC,
-  PRODUCT_LIST_SORT_DESC
+  PRODUCT_LIST_SORT_DESC,
+  type CategoryFilter
 } from '~/api/namespaces/product'
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '~/components/ui/Sidebar'
 import { Button } from '~/components/ui/Button'
@@ -17,12 +18,14 @@ import { Label } from '~/components/ui/Label'
 import { FilterFormField } from './FilterFormField'
 import { SortFormField } from './SortFormField'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
+import { CategoryFormField } from './CategoryFormField'
 
 // TODO: items per page
 export const PRODUCTS_LIMIT = 100
 
 type FilterFormBodyProperties = {
   filters: ProductListFilter[]
+  categories: CategoryFilter[]
   fetch: UseCatalogDataResult['fetchProducts']
 }
 
@@ -117,7 +120,8 @@ function getDefaultFormValues(filters: ProductListFilter[], sorts: ProductListSo
   }
 }
 
-export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
+// eslint-disable-next-line max-lines-per-function
+export function FilterFormBody({ filters, categories, fetch }: FilterFormBodyProperties): ReactElement {
   const defaultValues = getDefaultFormValues(filters, sorts)
   const form = useForm<FormValues>({ defaultValues })
   const handleApply = (data: FormValues): Promise<void> =>
@@ -130,12 +134,14 @@ export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): Re
     form.reset(defaultValues)
     return handleApply(form.getValues())
   }
+  console.log(categories)
 
   return (
     <SidebarProvider>
       <Sidebar>
         <SidebarContent className="p-4">
           <form onSubmit={(event) => void form.handleSubmit(handleApply)(event)} className="space-y-4">
+            <CategoryFormField categories={categories} />
             {filters.map((filter, index) => (
               <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
             ))}
