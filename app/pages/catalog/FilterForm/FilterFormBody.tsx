@@ -1,60 +1,159 @@
-import { useState, type ReactElement } from 'react'
-import { type UseCatalogDataResult } from '~/pages/catalog/hooks/useCatalogData'
-import { type ProductListFilter } from '~/api/namespaces/product'
+import { type ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
+import {
+  PRODUCT_LIST_FILTER_FALSE,
+  PRODUCT_LIST_FILTER_TRUE,
+  PRODUCT_LIST_FILTER_NONE,
+  type ProductListAppliedFilters,
+  type ProductListAppliedSort,
+  type ProductListFilter,
+  type ProductListSort,
+  PRODUCT_LIST_SORT_ASC,
+  PRODUCT_LIST_SORT_DESC
+} from '~/api/namespaces/product'
+import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '~/components/ui/Sidebar'
 import { Button } from '~/components/ui/Button'
-import { transformFormFieldValues } from './transformFormValues'
-import { FilterFormFields } from './FilterFormFields'
-import { getFilterFormHandlers } from './filterFormHandlers'
-import { splitValues } from './splitSortValues'
-import { sort } from './fields/Sort'
+import { Label } from '~/components/ui/Label'
+import { FilterFormField } from './FilterFormField'
+import { SortFormField } from './SortFormField'
+import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 
+// TODO: items per page
 export const PRODUCTS_LIMIT = 100
-const KEY_INCREMENT = 1
 
-// eslint-disable-next-line max-lines-per-function
-export function FilterFormBody({
-  filters,
-  fetch
-}: Readonly<{ filters: ProductListFilter[]; fetch: UseCatalogDataResult['fetchProducts'] }>): ReactElement {
-  const { handleSubmit, setValue, getValues, reset } = useForm()
-  const [formKey, setFormKey] = useState(0)
-  const { setPriceRange, setAttributeValue } = getFilterFormHandlers(setValue)
+type FilterFormBodyProperties = {
+  filters: ProductListFilter[]
+  fetch: UseCatalogDataResult['fetchProducts']
+}
 
-  function onSubmit(): void {
-    const values = getValues()
-    const { sort, filter } = splitValues(values)
-    console.log(sort)
-    const transformedFilters = transformFormFieldValues(filter, filters)
-    void fetch({ limit: PRODUCTS_LIMIT }, transformedFilters, sort)
+const SORT_KEY_PREFIX = 'sort_'
+
+const sorts: ProductListSort[] = [
+  {
+    key: `${SORT_KEY_PREFIX}price`,
+    label: 'Price',
+    defaultValue: PRODUCT_LIST_SORT_DESC,
+    options: [
+      { label: 'Price', value: PRODUCT_LIST_FILTER_NONE },
+      { label: 'Price ↑', value: PRODUCT_LIST_SORT_ASC },
+      { label: 'Price ↓', value: PRODUCT_LIST_SORT_DESC }
+    ]
+  },
+  {
+    key: `${SORT_KEY_PREFIX}name_en-US`,
+    label: 'Name',
+    defaultValue: PRODUCT_LIST_FILTER_NONE,
+    options: [
+      { label: 'Name', value: PRODUCT_LIST_FILTER_NONE },
+      { label: 'Name ↑', value: PRODUCT_LIST_SORT_ASC },
+      { label: 'Name ↓', value: PRODUCT_LIST_SORT_DESC }
+    ]
+  }
+]
+
+export type FormValues = Record<string, unknown>
+
+const convertFormValuesToAppliedFilters = (
+  data: FormValues,
+  filters: ProductListFilter[]
+): ProductListAppliedFilters => {
+  return filters
+    .map((filter) => {
+      const formValue = data[filter.key]
+
+      if (
+        formValue === undefined ||
+        formValue === '' ||
+        formValue === PRODUCT_LIST_FILTER_NONE ||
+        (Array.isArray(formValue) && formValue.length === 0) ||
+        filter.key.startsWith(SORT_KEY_PREFIX)
+      ) {
+        return
+      }
+
+      let value = formValue
+      if (value === true) {
+        value = PRODUCT_LIST_FILTER_TRUE
+      } else if (value === false) {
+        value = PRODUCT_LIST_FILTER_FALSE
+      }
+
+      return {
+        key: filter.key,
+        type: filter.type,
+        value
+      }
+    })
+    .filter((filter): filter is ProductListAppliedFilters[number] => filter !== undefined)
+}
+
+const convertFormValuesToSort = (data: FormValues, sorts: ProductListSort[]): ProductListAppliedSort => {
+  return sorts
+    .map((sort) => {
+      const formValue = data[sort.key]
+
+      if (!sort.key.startsWith(SORT_KEY_PREFIX) || formValue === PRODUCT_LIST_FILTER_NONE) {
+        return
+      }
+
+      return {
+        key: sort.key.slice(SORT_KEY_PREFIX.length),
+        value: formValue
+      }
+    })
+    .filter((item): item is ProductListAppliedSort[number] => item !== undefined)
+}
+
+function getDefaultFormValues(filters: ProductListFilter[], sorts: ProductListSort[]): FormValues {
+  return {
+    ...Object.fromEntries(
+      filters
+        .filter((filter) => filter.type === 'range')
+        .map(({ key, options }) => [key, options.map(({ value }) => value)])
+    ),
+    ...Object.fromEntries(filters.filter((filter) => filter.type === 'boolean').map(({ key }) => [key, false])),
+    ...Object.fromEntries(filters.filter((filter) => filter.type === 'set').map(({ key }) => [key, ''])),
+    ...Object.fromEntries(sorts.map((sort) => [sort.key, sort.defaultValue]))
+  }
+}
+
+export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
+  const defaultValues = getDefaultFormValues(filters, sorts)
+  const form = useForm<FormValues>({ defaultValues })
+  const handleApply = (data: FormValues): Promise<void> =>
+    fetch(
+      { limit: PRODUCTS_LIMIT },
+      convertFormValuesToAppliedFilters(data, filters),
+      convertFormValuesToSort(data, sorts)
+    )
+  const handleReset = (): Promise<void> => {
+    form.reset(defaultValues)
+    return handleApply(form.getValues())
   }
 
-  function onReset(): void {
-    reset()
-    setFormKey((previous) => previous + KEY_INCREMENT)
-    void fetch({ limit: PRODUCTS_LIMIT }, [])
-  }
   return (
-    <form
-      className="w-2xs p-8 flex flex-col gap-y-[30px] shrink-0 shadow-md shadow-gray-300"
-      onSubmit={(event) => void handleSubmit(onSubmit)(event)}
-    >
-      {filters.length > 0 &&
-        filters.map((field) => (
-          <FilterFormFields
-            key={`${field.key}-${formKey}`}
-            field={field}
-            onPriceChange={setPriceRange}
-            onAttributeChange={setAttributeValue}
-          />
-        ))}
-      {[sort].map((field) => (
-        <FilterFormFields field={field} onAttributeChange={setAttributeValue} />
-      ))}
-      <Button variant="outline">Apply</Button>
-      <Button variant="outline" type="button" onClick={onReset}>
-        Reset
-      </Button>
-    </form>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent className="p-4">
+          <form onSubmit={(event) => void form.handleSubmit(handleApply)(event)} className="space-y-4">
+            {filters.map((filter, index) => (
+              <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
+            ))}
+            <Label>Sort</Label>
+            {sorts.map((sort, index) => (
+              <SortFormField sort={sort} sorts={sorts} key={`${sort.key}-${index}`} form={form} />
+            ))}
+            <hr />
+            <div className="flex justify-between">
+              <Button variant="outline" type="button" onClick={() => void handleReset()}>
+                Reset
+              </Button>
+              <Button type="submit">Apply</Button>
+            </div>
+          </form>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarTrigger />
+    </SidebarProvider>
   )
 }

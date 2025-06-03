@@ -5,7 +5,7 @@ import { Button } from '~/components/ui/Button'
 import { ProductImages } from './ProductImages'
 import { ProductInfo } from './ProductInfo'
 
-export default function ProductDetail({ product }: Readonly<{ product: ProductProjection | undefined }>): ReactElement {
+export default function ProductDetailBody({ product }: { product: ProductProjection | undefined }): ReactElement {
   if (product === undefined) {
     throw new Error('Product not found')
   }
@@ -17,7 +17,7 @@ export default function ProductDetail({ product }: Readonly<{ product: ProductPr
   const discount = product.masterVariant.prices?.[0].discounted?.value?.centAmount ?? undefined
 
   return (
-    <div className="w-full flex flex-col flex-grow items-start gap-10">
+    <div className="w-full flex flex-col flex-grow items-start gap-10 p-6">
       <Button variant="outline" onClick={() => history.back()}>
         ← Back to catalog
       </Button>

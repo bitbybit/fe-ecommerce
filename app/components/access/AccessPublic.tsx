@@ -4,7 +4,7 @@ import { selectIsAuth } from '~/store/auth'
 import { useAppSelector } from '~/store/hooks'
 import { ROUTES } from '~/routes'
 
-export function AccessPublic({ children }: Readonly<{ children: ReactElement }>): ReactElement {
+export function AccessPublic({ children }: { children: ReactElement }): ReactElement {
   const isAuth = useAppSelector(selectIsAuth)
   const location = useLocation()
 

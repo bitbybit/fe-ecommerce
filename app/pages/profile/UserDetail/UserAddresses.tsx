@@ -5,7 +5,7 @@ import { UserAddressFormBody } from './UserDetailEdit/UseAddressForm/UserAddress
 import { AddUserAddressFormBody } from './UserDetailEdit/UseAddressForm/AddUserAddressFormBody'
 import { useAppSelector } from '~/store/hooks'
 
-type UserAddressesProperties = Readonly<{ isEdit: boolean }>
+type UserAddressesProperties = { isEdit: boolean }
 
 export const UserAddresses = ({ isEdit }: UserAddressesProperties): ReactElement => {
   const addresses = useAppSelector((state) => state.auth.customer?.addresses ?? [])

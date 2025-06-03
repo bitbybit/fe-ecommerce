@@ -66,7 +66,7 @@ function IconRight(): ReactElement {
   return <ChevronRightIcon className="h-4 w-4" />
 }
 
-function Dropdown({ ...properties }: Readonly<DropdownProps>): ReactElement {
+function Dropdown({ ...properties }: DropdownProps): ReactElement {
   return (
     <Select
       {...properties}

@@ -40,7 +40,7 @@ export const LoginFormBody = (): ReactElement => {
   useEffect(() => void dispatch(resetAuthError()), [dispatch])
 
   return (
-    <Card className="md:min-w-lg">
+    <Card className="md:min-w-lg m-6">
       <CardHeader>
         <CardTitle>LOGIN</CardTitle>
       </CardHeader>

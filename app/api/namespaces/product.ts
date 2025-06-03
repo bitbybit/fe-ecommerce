@@ -7,7 +7,6 @@ import {
   type ProductTypePagedQueryResponse,
   type ProductProjection
 } from '@commercetools/platform-sdk'
-import type { ProductListAppliedSort } from '~/pages/catalog/FilterForm/fields/Sort'
 
 type ProductApiProperties = {
   client: CtpApiClient
@@ -33,6 +32,13 @@ export type ProductListFilterFromFacets = {
   type: 'range'
 } & ProductListFilterBase
 
+export type ProductListSort = {
+  defaultValue: 'asc' | 'desc' | 'none'
+  key: string
+  label: string
+  options: ProductListFilterOption<'asc' | 'desc' | 'none'>[]
+}
+
 export type ProductListFilter = ProductListFilterFromAttributes | ProductListFilterFromFacets
 
 export type ProductListQueryParameters = NonNullable<
@@ -50,6 +56,17 @@ export type ProductListAppliedFilters = ((
     }
 ) & { key: string })[]
 
+export type ProductListAppliedSort = {
+  key: string
+  value: 'asc' | 'desc'
+}[]
+
+export const PRODUCT_LIST_FILTER_TRUE = 'T'
+export const PRODUCT_LIST_FILTER_FALSE = 'F'
+export const PRODUCT_LIST_FILTER_NONE = 'none'
+export const PRODUCT_LIST_SORT_ASC = 'asc'
+export const PRODUCT_LIST_SORT_DESC = 'desc'
+
 export class ProductApi {
   private readonly client: CtpApiClient
 
@@ -57,7 +74,7 @@ export class ProductApi {
     this.client = client
   }
 
-  private static attributeToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {
+  private static convertAttributeToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {
     const options: ProductListFilterFromAttributes['options'] =
       type.name === 'set' && 'values' in type.elementType
         ? type.elementType.values.map((value) => ({
@@ -108,7 +125,7 @@ export class ProductApi {
     const result: string[] = []
 
     for (const { key, value } of sort) {
-      result.push(`${key} ${value}`)
+      result.push(`${key.replace('_', '.')} ${value}`)
     }
 
     return result
@@ -120,8 +137,19 @@ export class ProductApi {
 
   public async getProducts(
     parameters: ProductListQueryParameters,
-    filters: ProductListAppliedFilters = [],
-    sort: ProductListAppliedSort = [],
+    filters: ProductListAppliedFilters = [
+      {
+        type: 'boolean',
+        value: PRODUCT_LIST_FILTER_FALSE,
+        key: 'is-returnable'
+      }
+    ],
+    sort: ProductListAppliedSort = [
+      {
+        key: 'price',
+        value: PRODUCT_LIST_SORT_DESC
+      }
+    ],
     searchText: string = ''
   ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
     return this.client.root
@@ -158,7 +186,7 @@ export class ProductApi {
       }
     }
 
-    const result = [...attributes.values()].map((attribute) => ProductApi.attributeToFilter(attribute))
+    const result = [...attributes.values()].map((attribute) => ProductApi.convertAttributeToFilter(attribute))
 
     const priceKey = 'price'
     const priceFacetKey = `variants.${priceKey}.centAmount`
@@ -180,8 +208,6 @@ export class ProductApi {
         type: 'range'
       })
     }
-
-    console.log(result)
 
     return result
   }

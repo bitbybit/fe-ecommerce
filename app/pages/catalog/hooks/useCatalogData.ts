@@ -5,9 +5,9 @@ import {
   productApi,
   type ProductListFilter,
   type ProductListQueryParameters,
-  type ProductListAppliedFilters
+  type ProductListAppliedFilters,
+  type ProductListAppliedSort
 } from '~/api/namespaces/product'
-import type { ProductListAppliedSort } from '../FilterForm/fields/Sort'
 
 export enum CATALOG_STATUS {
   LOADING = 'LOADING',
@@ -27,10 +27,6 @@ export type UseCatalogDataResult = {
   status: CATALOG_STATUS
 }
 
-/**
- * Fetch products and available filters
- * @returns UseCatalogDataResult
- */
 export function useCatalogData(): UseCatalogDataResult {
   const [products, setProducts] = useState<ProductProjection[]>([])
   const [filters, setFilters] = useState<ProductListFilter[]>([])

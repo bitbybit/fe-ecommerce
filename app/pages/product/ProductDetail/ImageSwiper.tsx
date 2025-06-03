@@ -21,7 +21,7 @@ export function ImageSwiper({
   initialSlide = 0,
   swiperClassName = '',
   showPagination = true
-}: Readonly<ImageSwiperProperties>): ReactElement {
+}: ImageSwiperProperties): ReactElement {
   return (
     <Swiper
       spaceBetween={50}

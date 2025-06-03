@@ -42,7 +42,7 @@ export function useProductData(): UseProductDataResult {
     }
 
     void fetchProductData()
-  }, [])
+  }, [navigate, productId])
 
   return { product, status }
 }

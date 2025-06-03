@@ -3,7 +3,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } 
 import { ImageSwiper } from './ImageSwiper'
 import { type Image } from '../types'
 
-export function ProductImages({ images = [] }: Readonly<{ images?: Image[] }>): ReactElement {
+export function ProductImages({ images = [] }: { images?: Image[] }): ReactElement {
   const [startIndex, setStartIndex] = useState(0)
 
   return (

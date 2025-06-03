@@ -5,16 +5,20 @@ import { ProductItem } from './ProductItem'
 import { CATALOG_STATUS } from './hooks/useCatalogData'
 import { Sparkles } from 'lucide-react'
 
+// TODO: items per page
 const SKELETON_COUNT = 8
 
-export function ProductList({
-  products,
-  status
-}: Readonly<{ products: ProductProjection[]; status: CATALOG_STATUS }>): ReactElement {
+type ProductListProperties = {
+  products: ProductProjection[]
+  status: CATALOG_STATUS
+}
+
+export function ProductList({ products, status }: ProductListProperties): ReactElement {
   const isNotReady = status !== CATALOG_STATUS.READY
   const isEmpty = !isNotReady && products.length === 0
 
   if (isEmpty) {
+    // TODO: move to separate component
     return (
       <div className="w-full h-100 flex items-center justify-center">
         <div className="max-w-xs flex flex-col items-center justify-center gap-4 text-center">
@@ -26,9 +30,10 @@ export function ProductList({
   }
 
   return (
-    <div className="flex gap-4 justify-evenly flex-wrap p-2 h-full w-full">
+    <div className="flex gap-3 flex-wrap px-2 pt-1 pb-3">
       {isNotReady
-        ? Array.from({ length: SKELETON_COUNT }).map((_, index) => (
+        ? // TODO: move to separate component
+          Array.from({ length: SKELETON_COUNT }).map((_, index) => (
             <Skeleton className="w-2xs aspect-[3/4] mx-auto" key={index} />
           ))
         : products.map((product) => <ProductItem product={product} key={product.id} />)}
