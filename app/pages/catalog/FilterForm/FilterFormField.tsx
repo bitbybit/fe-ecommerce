@@ -10,7 +10,7 @@ type FilterFormFieldProperties = {
   filter: ProductListFilter
 }
 
-export function FilterPriceFormField({ control, filter }: FilterFormFieldProperties): ReactElement {
+export function FilterPriceController({ control, filter }: FilterFormFieldProperties): ReactElement {
   const [min, max] = filter.options.map(({ value }) => value)
 
   if (typeof min !== 'number' || typeof max !== 'number') {
@@ -35,7 +35,7 @@ export function FilterPriceFormField({ control, filter }: FilterFormFieldPropert
   )
 }
 
-export function FilterSwitchFormField({ control, filter }: FilterFormFieldProperties): ReactElement {
+export function FilterSwitchController({ control, filter }: FilterFormFieldProperties): ReactElement {
   return (
     <Controller
       key={filter.key}
@@ -53,7 +53,7 @@ export function FilterSwitchFormField({ control, filter }: FilterFormFieldProper
   )
 }
 
-export function FilterSelectFormField({ control, filter }: FilterFormFieldProperties): ReactElement {
+export function FilterSelectController({ control, filter }: FilterFormFieldProperties): ReactElement {
   return (
     <Controller
       key={filter.key}
@@ -77,15 +77,15 @@ export function FilterSelectFormField({ control, filter }: FilterFormFieldProper
 
 export function FilterFormField({ control, filter }: FilterFormFieldProperties): ReactElement {
   if (filter.type === 'range' && filter.key === 'price') {
-    return <FilterPriceFormField control={control} filter={filter} />
+    return <FilterPriceController control={control} filter={filter} />
   }
 
   if (filter.type === 'boolean') {
-    return <FilterSwitchFormField control={control} filter={filter} />
+    return <FilterSwitchController control={control} filter={filter} />
   }
 
   if (filter.type === 'set') {
-    return <FilterSelectFormField control={control} filter={filter} />
+    return <FilterSelectController control={control} filter={filter} />
   }
 
   throw new Error('Unknown field type')

@@ -33,10 +33,10 @@ export type ProductListFilterFromFacets = {
 } & ProductListFilterBase
 
 export type ProductListSort = {
-  defaultValue: 'asc' | 'desc'
+  defaultValue: 'asc' | 'desc' | 'none'
   key: string
   label: string
-  options: ProductListFilterOption<'asc' | 'desc'>[]
+  options: ProductListFilterOption<'asc' | 'desc' | 'none'>[]
 }
 
 export type ProductListFilter = ProductListFilterFromAttributes | ProductListFilterFromFacets
@@ -60,6 +60,12 @@ export type ProductListAppliedSort = {
   key: string
   value: 'asc' | 'desc'
 }[]
+
+export const PRODUCT_LIST_FILTER_TRUE = 'T'
+export const PRODUCT_LIST_FILTER_FALSE = 'F'
+export const PRODUCT_LIST_FILTER_NONE = 'none'
+export const PRODUCT_LIST_SORT_ASC = 'asc'
+export const PRODUCT_LIST_SORT_DESC = 'desc'
 
 export class ProductApi {
   private readonly client: CtpApiClient
@@ -131,8 +137,19 @@ export class ProductApi {
 
   public async getProducts(
     parameters: ProductListQueryParameters,
-    filters: ProductListAppliedFilters = [],
-    sort: ProductListAppliedSort = [],
+    filters: ProductListAppliedFilters = [
+      {
+        type: 'boolean',
+        value: PRODUCT_LIST_FILTER_FALSE,
+        key: 'is-returnable'
+      }
+    ],
+    sort: ProductListAppliedSort = [
+      {
+        key: 'price',
+        value: PRODUCT_LIST_SORT_DESC
+      }
+    ],
     searchText: string = ''
   ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
     return this.client.root

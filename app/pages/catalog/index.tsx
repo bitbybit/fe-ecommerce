@@ -1,5 +1,6 @@
 import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
+import { Loading } from '~/components/Loading'
 import { ProductList } from './ProductList'
 import { FilterFormBody } from './FilterForm/FilterFormBody'
 import { useCatalogData } from './hooks/useCatalogData'
@@ -9,6 +10,10 @@ export default function Catalog(): ReactElement {
   useTitle('Catalog')
 
   const { products, filters, status, fetchProducts } = useCatalogData()
+
+  if (filters.length === 0) {
+    return <Loading />
+  }
 
   return (
     <div className="flex items-start justify-start flex-grow w-full h-full">

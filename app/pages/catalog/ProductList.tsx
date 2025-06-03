@@ -18,6 +18,7 @@ export function ProductList({ products, status }: ProductListProperties): ReactE
   const isEmpty = !isNotReady && products.length === 0
 
   if (isEmpty) {
+    // TODO: move to separate component
     return (
       <div className="w-full h-100 flex items-center justify-center">
         <div className="max-w-xs flex flex-col items-center justify-center gap-4 text-center">
@@ -29,7 +30,7 @@ export function ProductList({ products, status }: ProductListProperties): ReactE
   }
 
   return (
-    <div className="flex gap-4 justify-evenly flex-wrap p-2 h-full w-full">
+    <div className="flex gap-3 flex-wrap px-2 pt-1 pb-3">
       {isNotReady
         ? // TODO: move to separate component
           Array.from({ length: SKELETON_COUNT }).map((_, index) => (

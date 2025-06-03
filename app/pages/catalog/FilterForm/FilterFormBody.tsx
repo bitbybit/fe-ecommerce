@@ -1,15 +1,21 @@
 import { type ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
 import {
+  PRODUCT_LIST_FILTER_FALSE,
+  PRODUCT_LIST_FILTER_TRUE,
+  PRODUCT_LIST_FILTER_NONE,
   type ProductListAppliedFilters,
   type ProductListAppliedSort,
   type ProductListFilter,
-  type ProductListSort
+  type ProductListSort,
+  PRODUCT_LIST_SORT_ASC,
+  PRODUCT_LIST_SORT_DESC
 } from '~/api/namespaces/product'
 import { Button } from '~/components/ui/Button'
+import { Label } from '~/components/ui/Label'
 import { FilterFormField } from './FilterFormField'
+import { SortFormField } from './SortFormField'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
-import { SortFormField } from '~/pages/catalog/FilterForm/SortFormField'
 
 // TODO: items per page
 export const PRODUCTS_LIMIT = 100
@@ -19,28 +25,32 @@ type FilterFormBodyProperties = {
   fetch: UseCatalogDataResult['fetchProducts']
 }
 
-const sortOptions: ProductListSort[] = [
+const SORT_KEY_PREFIX = 'sort_'
+
+const sorts: ProductListSort[] = [
   {
-    key: 'name_en-US',
-    label: 'Name',
-    defaultValue: 'asc',
+    key: `${SORT_KEY_PREFIX}price`,
+    label: 'Price',
+    defaultValue: PRODUCT_LIST_SORT_DESC,
     options: [
-      { label: 'Name ASC', value: 'asc' },
-      { label: 'Name DESC', value: 'desc' }
+      { label: 'Price', value: PRODUCT_LIST_FILTER_NONE },
+      { label: 'Price ↑', value: PRODUCT_LIST_SORT_ASC },
+      { label: 'Price ↓', value: PRODUCT_LIST_SORT_DESC }
     ]
   },
   {
-    key: 'price',
-    label: 'Price',
-    defaultValue: 'asc',
+    key: `${SORT_KEY_PREFIX}name_en-US`,
+    label: 'Name',
+    defaultValue: PRODUCT_LIST_FILTER_NONE,
     options: [
-      { label: 'Price ASC', value: 'asc' },
-      { label: 'Price DESC', value: 'desc' }
+      { label: 'Name', value: PRODUCT_LIST_FILTER_NONE },
+      { label: 'Name ↑', value: PRODUCT_LIST_SORT_ASC },
+      { label: 'Name ↓', value: PRODUCT_LIST_SORT_DESC }
     ]
   }
 ]
 
-type FormValues = Record<string, unknown>
+export type FormValues = Record<string, unknown>
 
 const convertFormValuesToAppliedFilters = (
   data: FormValues,
@@ -48,22 +58,29 @@ const convertFormValuesToAppliedFilters = (
 ): ProductListAppliedFilters => {
   return filters
     .map((filter) => {
-      const value = data[filter.key]
+      const formValue = data[filter.key]
 
       if (
-        value === undefined ||
-        value === '' ||
-        (Array.isArray(value) && value.length === 0) ||
-        value === 'asc' ||
-        value === 'desc'
+        formValue === undefined ||
+        formValue === '' ||
+        formValue === PRODUCT_LIST_FILTER_NONE ||
+        (Array.isArray(formValue) && formValue.length === 0) ||
+        filter.key.startsWith(SORT_KEY_PREFIX)
       ) {
         return
+      }
+
+      let value = formValue
+      if (value === true) {
+        value = PRODUCT_LIST_FILTER_TRUE
+      } else if (value === false) {
+        value = PRODUCT_LIST_FILTER_FALSE
       }
 
       return {
         key: filter.key,
         type: filter.type,
-        value: value
+        value
       }
     })
     .filter((filter): filter is ProductListAppliedFilters[number] => filter !== undefined)
@@ -72,41 +89,62 @@ const convertFormValuesToAppliedFilters = (
 const convertFormValuesToSort = (data: FormValues, sorts: ProductListSort[]): ProductListAppliedSort => {
   return sorts
     .map((sort) => {
-      const value = data[sort.key]
+      const formValue = data[sort.key]
 
-      if (value === 'asc' || value === 'desc') {
-        return {
-          key: sort.key,
-          value
-        }
+      if (!sort.key.startsWith(SORT_KEY_PREFIX) || formValue === PRODUCT_LIST_FILTER_NONE) {
+        return
+      }
+
+      return {
+        key: sort.key.slice(SORT_KEY_PREFIX.length),
+        value: formValue
       }
     })
     .filter((item): item is ProductListAppliedSort[number] => item !== undefined)
 }
 
-export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
-  const { control, handleSubmit, reset } = useForm<FormValues>()
+function getDefaultFormValues(filters: ProductListFilter[], sorts: ProductListSort[]): FormValues {
+  return {
+    ...Object.fromEntries(
+      filters
+        .filter((filter) => filter.type === 'range')
+        .map(({ key, options }) => [key, options.map(({ value }) => value)])
+    ),
+    ...Object.fromEntries(filters.filter((filter) => filter.type === 'boolean').map(({ key }) => [key, false])),
+    ...Object.fromEntries(filters.filter((filter) => filter.type === 'set').map(({ key }) => [key, ''])),
+    ...Object.fromEntries(sorts.map((sort) => [sort.key, sort.defaultValue]))
+  }
+}
 
-  const handleFiltering = (data: FormValues): Promise<void> =>
+export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
+  const defaultValues = getDefaultFormValues(filters, sorts)
+  const form = useForm<FormValues>({ defaultValues })
+
+  const handleApply = (data: FormValues): Promise<void> =>
     fetch(
       { limit: PRODUCTS_LIMIT },
       convertFormValuesToAppliedFilters(data, filters),
-      convertFormValuesToSort(data, sortOptions)
+      convertFormValuesToSort(data, sorts)
     )
 
   const handleReset = (): Promise<void> => {
-    reset()
-    return fetch({ limit: PRODUCTS_LIMIT }, [])
+    form.reset(defaultValues)
+    return handleApply(form.getValues())
   }
 
   return (
-    <form onSubmit={(event) => void handleSubmit(handleFiltering)(event)} className="space-y-4">
+    <form
+      onSubmit={(event) => void form.handleSubmit(handleApply)(event)}
+      className="space-y-4 pl-2 pt-2 w-1/4 min-w-[180px] max-w-[220px]"
+    >
       {filters.map((filter, index) => (
-        <FilterFormField control={control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
+        <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
       ))}
-      {sortOptions.map((sort, index) => (
-        <SortFormField control={control} sort={sort} key={`${sort.key}-${index}`} />
+      <Label>Sort</Label>
+      {sorts.map((sort, index) => (
+        <SortFormField sort={sort} sorts={sorts} key={`${sort.key}-${index}`} form={form} />
       ))}
+      <hr />
       <div className="flex justify-between">
         <Button variant="outline" type="button" onClick={() => void handleReset()}>
           Reset
