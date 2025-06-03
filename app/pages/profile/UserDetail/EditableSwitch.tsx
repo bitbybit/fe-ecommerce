@@ -2,7 +2,7 @@ import { type ReactElement } from 'react'
 import { Switch } from '~/components/ui/Switch'
 import { Label } from '~/components/ui/Label'
 
-type EditableSwitchProperties = Readonly<{ value: boolean; onChange: (value: boolean) => void }>
+type EditableSwitchProperties = { value: boolean; onChange: (value: boolean) => void }
 
 export function EditableSwitch({ value, onChange }: EditableSwitchProperties): ReactElement {
   return (

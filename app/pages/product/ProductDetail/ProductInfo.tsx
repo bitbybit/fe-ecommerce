@@ -10,12 +10,12 @@ export function ProductInfo({
   description,
   price,
   discount
-}: Readonly<{
+}: {
   name: LocalizedString
   description: LocalizedString
   price: number
   discount?: number
-}>): ReactElement {
+}): ReactElement {
   return (
     <div className="flex-1 flex flex-col justify-start gap-4 text-left mx-6">
       <H1 className="text-2xl font-semibold">{name[LANG]}</H1>

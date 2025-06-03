@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
   { to: ROUTES.LOGOUT, label: 'LogOut', icon: UserMinus, auth: true }
 ]
 
-export function Navigation({ isAuth }: Readonly<NavigationProperties>): ReactElement {
+export function Navigation({ isAuth }: NavigationProperties): ReactElement {
   const filteredItems = navItems.filter((item) => item.auth === undefined || item.auth === isAuth)
 
   return (

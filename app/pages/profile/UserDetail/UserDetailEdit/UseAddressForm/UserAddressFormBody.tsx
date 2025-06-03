@@ -13,18 +13,18 @@ import { useRemoveAddress } from '../../../hooks/useRemoveAddress'
 import { useSetBillingAddress } from '../../../hooks/useSetBillingAddress'
 import { useSetShippingAddress } from '../../../hooks/useSetShippingAddress'
 
-type UserAddressFormBodyProviderProperties = Readonly<{
+type UserAddressFormBodyProviderProperties = {
   address: Address
   defaultBillingAddressId: string
   defaultShippingAddressId: string
   form: FormType<SchemaType>
-}>
+}
 
-type UserAddressFormBodyProperties = Readonly<{
+type UserAddressFormBodyProperties = {
   address: Address
   defaultBillingAddressId: string
   defaultShippingAddressId: string
-}>
+}
 
 const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProperties): ReactElement => {
   const isBilling = properties.address.id === properties.defaultBillingAddressId

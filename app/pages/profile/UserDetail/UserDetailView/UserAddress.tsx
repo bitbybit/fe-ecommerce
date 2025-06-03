@@ -4,11 +4,11 @@ import { countries } from '~/utils/countries'
 import { Badge } from '~/components/ui/Badge'
 import { UserAddressField } from './UserAddressField'
 
-type UserAddressProperties = Readonly<{
+type UserAddressProperties = {
   address: Address
   defaultBillingAddressId: string
   defaultShippingAddressId: string
-}>
+}
 
 export const UserAddress = (properties: UserAddressProperties): ReactElement => {
   const isBilling = properties.address.id === properties.defaultBillingAddressId

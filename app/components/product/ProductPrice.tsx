@@ -6,7 +6,7 @@ type ProductPriceProperties = {
   discountPrice?: number
 }
 
-export function ProductPrice({ startPrice, discountPrice }: Readonly<ProductPriceProperties>): ReactElement {
+export function ProductPrice({ startPrice, discountPrice }: ProductPriceProperties): ReactElement {
   const hasDiscount = discountPrice !== undefined && discountPrice < startPrice
 
   const formattedStartPrice = formatProductItemPrice(startPrice)

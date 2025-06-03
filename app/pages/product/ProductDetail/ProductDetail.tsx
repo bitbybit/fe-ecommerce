@@ -5,7 +5,7 @@ import { Button } from '~/components/ui/Button'
 import { ProductImages } from './ProductImages'
 import { ProductInfo } from './ProductInfo'
 
-export default function ProductDetail({ product }: Readonly<{ product: ProductProjection | undefined }>): ReactElement {
+export default function ProductDetail({ product }: { product: ProductProjection | undefined }): ReactElement {
   if (product === undefined) {
     throw new Error('Product not found')
   }

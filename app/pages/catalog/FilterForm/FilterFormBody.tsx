@@ -1,60 +1,118 @@
-import { useState, type ReactElement } from 'react'
-import { type UseCatalogDataResult } from '~/pages/catalog/hooks/useCatalogData'
-import { type ProductListFilter } from '~/api/namespaces/product'
+import { type ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
+import {
+  type ProductListAppliedFilters,
+  type ProductListAppliedSort,
+  type ProductListFilter,
+  type ProductListSort
+} from '~/api/namespaces/product'
 import { Button } from '~/components/ui/Button'
-import { transformFormFieldValues } from './transformFormValues'
-import { FilterFormFields } from './FilterFormFields'
-import { getFilterFormHandlers } from './filterFormHandlers'
-import { splitValues } from './splitSortValues'
-import { sort } from './fields/Sort'
+import { FilterFormField } from './FilterFormField'
+import { type UseCatalogDataResult } from '../hooks/useCatalogData'
+import { SortFormField } from '~/pages/catalog/FilterForm/SortFormField'
 
+// TODO: items per page
 export const PRODUCTS_LIMIT = 100
-const KEY_INCREMENT = 1
 
-// eslint-disable-next-line max-lines-per-function
-export function FilterFormBody({
-  filters,
-  fetch
-}: Readonly<{ filters: ProductListFilter[]; fetch: UseCatalogDataResult['fetchProducts'] }>): ReactElement {
-  const { handleSubmit, setValue, getValues, reset } = useForm()
-  const [formKey, setFormKey] = useState(0)
-  const { setPriceRange, setAttributeValue } = getFilterFormHandlers(setValue)
+type FilterFormBodyProperties = {
+  filters: ProductListFilter[]
+  fetch: UseCatalogDataResult['fetchProducts']
+}
 
-  function onSubmit(): void {
-    const values = getValues()
-    const { sort, filter } = splitValues(values)
-    console.log(sort)
-    const transformedFilters = transformFormFieldValues(filter, filters)
-    void fetch({ limit: PRODUCTS_LIMIT }, transformedFilters, sort)
+const sortOptions: ProductListSort[] = [
+  {
+    key: 'name_en-US',
+    label: 'Name',
+    defaultValue: 'asc',
+    options: [
+      { label: 'Name ASC', value: 'asc' },
+      { label: 'Name DESC', value: 'desc' }
+    ]
+  },
+  {
+    key: 'price',
+    label: 'Price',
+    defaultValue: 'asc',
+    options: [
+      { label: 'Price ASC', value: 'asc' },
+      { label: 'Price DESC', value: 'desc' }
+    ]
   }
+]
 
-  function onReset(): void {
+type FormValues = Record<string, unknown>
+
+const convertFormValuesToAppliedFilters = (
+  data: FormValues,
+  filters: ProductListFilter[]
+): ProductListAppliedFilters => {
+  return filters
+    .map((filter) => {
+      const value = data[filter.key]
+
+      if (
+        value === undefined ||
+        value === '' ||
+        (Array.isArray(value) && value.length === 0) ||
+        value === 'asc' ||
+        value === 'desc'
+      ) {
+        return
+      }
+
+      return {
+        key: filter.key,
+        type: filter.type,
+        value: value
+      }
+    })
+    .filter((filter): filter is ProductListAppliedFilters[number] => filter !== undefined)
+}
+
+const convertFormValuesToSort = (data: FormValues, sorts: ProductListSort[]): ProductListAppliedSort => {
+  return sorts
+    .map((sort) => {
+      const value = data[sort.key]
+
+      if (value === 'asc' || value === 'desc') {
+        return {
+          key: sort.key,
+          value
+        }
+      }
+    })
+    .filter((item): item is ProductListAppliedSort[number] => item !== undefined)
+}
+
+export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
+  const { control, handleSubmit, reset } = useForm<FormValues>()
+
+  const handleFiltering = (data: FormValues): Promise<void> =>
+    fetch(
+      { limit: PRODUCTS_LIMIT },
+      convertFormValuesToAppliedFilters(data, filters),
+      convertFormValuesToSort(data, sortOptions)
+    )
+
+  const handleReset = (): Promise<void> => {
     reset()
-    setFormKey((previous) => previous + KEY_INCREMENT)
-    void fetch({ limit: PRODUCTS_LIMIT }, [])
+    return fetch({ limit: PRODUCTS_LIMIT }, [])
   }
+
   return (
-    <form
-      className="w-2xs p-8 flex flex-col gap-y-[30px] shrink-0 shadow-md shadow-gray-300"
-      onSubmit={(event) => void handleSubmit(onSubmit)(event)}
-    >
-      {filters.length > 0 &&
-        filters.map((field) => (
-          <FilterFormFields
-            key={`${field.key}-${formKey}`}
-            field={field}
-            onPriceChange={setPriceRange}
-            onAttributeChange={setAttributeValue}
-          />
-        ))}
-      {[sort].map((field) => (
-        <FilterFormFields field={field} onAttributeChange={setAttributeValue} />
+    <form onSubmit={(event) => void handleSubmit(handleFiltering)(event)} className="space-y-4">
+      {filters.map((filter, index) => (
+        <FilterFormField control={control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
       ))}
-      <Button variant="outline">Apply</Button>
-      <Button variant="outline" type="button" onClick={onReset}>
-        Reset
-      </Button>
+      {sortOptions.map((sort, index) => (
+        <SortFormField control={control} sort={sort} key={`${sort.key}-${index}`} />
+      ))}
+      <div className="flex justify-between">
+        <Button variant="outline" type="button" onClick={() => void handleReset()}>
+          Reset
+        </Button>
+        <Button type="submit">Apply</Button>
+      </div>
     </form>
   )
 }

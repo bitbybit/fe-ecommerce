@@ -2,7 +2,7 @@ import { type ComponentProps, type ReactElement } from 'react'
 import { Root, Trigger, Portal, Content, Anchor } from '@radix-ui/react-popover'
 import { cn } from '~/utils/ui'
 
-export function Popover({ ...properties }: Readonly<ComponentProps<typeof Root>>): ReactElement {
+export function Popover({ ...properties }: ComponentProps<typeof Root>): ReactElement {
   return <Root data-slot="popover" {...properties} />
 }
 

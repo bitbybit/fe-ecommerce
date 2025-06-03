@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 import { Label } from '~/components/ui/Label'
 
-type UserInfoFieldProperties = Readonly<{ label: string; value: string | undefined }>
+type UserInfoFieldProperties = { label: string; value: string | undefined }
 
 export const UserInfoField = ({ label, value }: UserInfoFieldProperties): ReactElement => {
   return (

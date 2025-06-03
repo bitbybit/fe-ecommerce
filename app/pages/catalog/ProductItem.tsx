@@ -9,7 +9,9 @@ import { AspectRatio } from '~/components/ui/AspectRatio'
 import { ProductPrice } from '~/components/product/ProductPrice'
 import { ROUTES } from '~/routes'
 
-export function ProductItem({ product }: Readonly<{ product: ProductProjection }>): ReactElement {
+type ProductItemProperties = { product: ProductProjection }
+
+export function ProductItem({ product }: ProductItemProperties): ReactElement {
   const navigate = useNavigate()
 
   const name = product.name['en-US']

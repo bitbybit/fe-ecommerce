@@ -6,7 +6,9 @@ import { Button } from '~/components/ui/Button'
 import { Search } from 'lucide-react'
 import { PRODUCTS_LIMIT } from '../FilterForm/FilterFormBody'
 
-export function SearchFormBody({ fetch }: Readonly<{ fetch: UseCatalogDataResult['fetchProducts'] }>): ReactElement {
+type SearchFormBodyProperties = { fetch: UseCatalogDataResult['fetchProducts'] }
+
+export function SearchFormBody({ fetch }: SearchFormBodyProperties): ReactElement {
   const { register, handleSubmit, getValues } = useForm<{ search: string }>()
 
   function onSubmit(): void {
