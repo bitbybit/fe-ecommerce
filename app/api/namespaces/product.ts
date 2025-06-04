@@ -173,7 +173,7 @@ export class ProductApi {
           ...((filters.length > 0 || categoryId.length > 0) && {
             filter: [
               ...ProductApi.convertFiltersToQuery(filters),
-              ...(categoryId.length > 0 ? [`categories.id:"${categoryId}"`] : [])
+              ...(categoryId.length > 0 ? [`categories.id: subtree("${categoryId}")`] : [])
             ]
           }),
           ...(sort.length > 0 && { sort: ProductApi.convertSortToQuery(sort) }),
