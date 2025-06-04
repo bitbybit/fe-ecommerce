@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 import { Button } from '~/components/ui/Button'
 import { Slider } from '~/components/ui/Slider'
-import { Label } from '~/components/ui/Label'
+import { SidebarGroupLabel } from '~/components/ui/Sidebar'
 import { formatProductItemPrice } from '~/utils/formatPrice'
 
 interface FilterPriceProperties {
@@ -16,7 +16,7 @@ export function FilterPrice(properties: FilterPriceProperties): ReactElement {
 
   return (
     <div className="flex flex-col gap-y-[15px]">
-      <Label>{properties.label}</Label>
+      <SidebarGroupLabel>{properties.label}</SidebarGroupLabel>
       <div className="flex justify-between">
         <Button variant="outline" className="pointer-events-none cursor-default w-[80px]">
           {formatProductItemPrice(properties.value[0])}
@@ -27,7 +27,6 @@ export function FilterPrice(properties: FilterPriceProperties): ReactElement {
       </div>
 
       <Slider min={min} max={max} value={properties.value} onValueChange={properties.onChange} />
-      <hr />
     </div>
   )
 }

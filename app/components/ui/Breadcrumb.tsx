@@ -1,14 +1,13 @@
+import { type ComponentProps, type ReactElement } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
-import type { ComponentProps, ReactElement } from 'react'
-
 import { cn } from '~/utils/ui'
 
-function Breadcrumb({ ...properties }: ComponentProps<'nav'>): ReactElement {
+export function Breadcrumb({ ...properties }: ComponentProps<'nav'>): ReactElement {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...properties} />
 }
 
-function BreadcrumbList({ className, ...properties }: ComponentProps<'ol'>): ReactElement {
+export function BreadcrumbList({ className, ...properties }: ComponentProps<'ol'>): ReactElement {
   return (
     <ol
       data-slot="breadcrumb-list"
@@ -21,13 +20,13 @@ function BreadcrumbList({ className, ...properties }: ComponentProps<'ol'>): Rea
   )
 }
 
-function BreadcrumbItem({ className, ...properties }: ComponentProps<'li'>): ReactElement {
+export function BreadcrumbItem({ className, ...properties }: ComponentProps<'li'>): ReactElement {
   return (
     <li data-slot="breadcrumb-item" className={cn('inline-flex items-center gap-1.5', className)} {...properties} />
   )
 }
 
-function BreadcrumbLink({
+export function BreadcrumbLink({
   asChild,
   className,
   ...properties
@@ -45,7 +44,7 @@ function BreadcrumbLink({
   )
 }
 
-function BreadcrumbPage({ className, ...properties }: ComponentProps<'span'>): ReactElement {
+export function BreadcrumbPage({ className, ...properties }: ComponentProps<'span'>): ReactElement {
   return (
     <span
       data-slot="breadcrumb-page"
@@ -58,7 +57,7 @@ function BreadcrumbPage({ className, ...properties }: ComponentProps<'span'>): R
   )
 }
 
-function BreadcrumbSeparator({ children, className, ...properties }: ComponentProps<'li'>): ReactElement {
+export function BreadcrumbSeparator({ children, className, ...properties }: ComponentProps<'li'>): ReactElement {
   return (
     <li
       data-slot="breadcrumb-separator"
@@ -72,7 +71,7 @@ function BreadcrumbSeparator({ children, className, ...properties }: ComponentPr
   )
 }
 
-function BreadcrumbEllipsis({ className, ...properties }: ComponentProps<'span'>): ReactElement {
+export function BreadcrumbEllipsis({ className, ...properties }: ComponentProps<'span'>): ReactElement {
   return (
     <span
       data-slot="breadcrumb-ellipsis"
@@ -85,14 +84,4 @@ function BreadcrumbEllipsis({ className, ...properties }: ComponentProps<'span'>
       <span className="sr-only">More</span>
     </span>
   )
-}
-
-export {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  BreadcrumbEllipsis
 }

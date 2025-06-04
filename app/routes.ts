@@ -3,6 +3,7 @@ export enum ROUTES {
   AUTH = '/auth',
   CART = '/cart',
   CATALOG = '/catalog',
+  CATEGORY = '/catalog/:categoryId',
   HOME = '/',
   LOGIN = '/auth/login',
   LOGOUT = '/auth/logout',

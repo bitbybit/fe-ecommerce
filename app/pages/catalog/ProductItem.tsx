@@ -1,6 +1,6 @@
 import { type ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
-import { useNavigate } from 'react-router'
+import { generatePath, useNavigate } from 'react-router'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
 import { ShoppingCart } from 'lucide-react'
 import { Button } from '~/components/ui/Button'
@@ -21,8 +21,7 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
   const discountPrice = product.masterVariant.prices?.[0].discounted?.value?.centAmount
 
   const navigateTo = (productId: string): Promise<void> | void => {
-    // TODO: get rid of replace
-    return navigate(ROUTES.PRODUCT.replace(':productId', productId))
+    return navigate(generatePath(ROUTES.PRODUCT, { productId }))
   }
 
   return (

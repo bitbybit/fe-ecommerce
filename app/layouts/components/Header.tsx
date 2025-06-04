@@ -10,7 +10,7 @@ interface HeaderProperties {
 
 export default function Header({ isAuth }: HeaderProperties): ReactElement {
   return (
-    <header className="bg-sky-100/50 shadow-md">
+    <header className="bg-sky-500/40 shadow-md">
       <nav className="container mx-auto md:flex items-center justify-between p-4">
         <Button asChild variant="link" className="text-xl font-semibold">
           <NavLink to={ROUTES.HOME}>Shop</NavLink>
