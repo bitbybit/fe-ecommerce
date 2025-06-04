@@ -10,12 +10,46 @@ type FilterFormFieldProperties = {
   filter: ProductListFilter
 }
 
-export function FilterPriceController({ control, filter }: FilterFormFieldProperties): ReactElement {
-  const [min, max] = filter.options.map(({ value }) => value)
-
-  if (typeof min !== 'number' || typeof max !== 'number') {
-    throw new TypeError('Range values must be a number')
+function getDefaultFilterValue(filter: ProductListFilter): number[] | boolean | string {
+  if (filter.type === 'range') {
+    return filter.options.map(({ value }) => value)
   }
+
+  if (filter.type === 'boolean') {
+    return false
+  }
+
+  if (filter.type === 'set') {
+    return ''
+  }
+
+  throw new Error('Can not get default value for unknown filter type')
+}
+
+function isRangeFilterValue(value: unknown): value is number[] {
+  return Array.isArray(value) && typeof value?.[0] === 'number' && typeof value?.[1] === 'number'
+}
+
+function isBooleanFilterValue(value: unknown): value is boolean {
+  return typeof value === 'boolean'
+}
+
+function isSetFilterValue(value: unknown): value is string {
+  return typeof value === 'string'
+}
+
+export function FilterPriceController({ control, filter }: FilterFormFieldProperties): ReactElement {
+  if (filter.type !== 'range') {
+    throw new Error('Price filter controller must be a range type')
+  }
+
+  const defaultValue = getDefaultFilterValue(filter)
+
+  if (!isRangeFilterValue(defaultValue)) {
+    throw new TypeError('Range filter value must be a number tuple')
+  }
+
+  const [min, max] = defaultValue
 
   return (
     <Controller
@@ -26,7 +60,7 @@ export function FilterPriceController({ control, filter }: FilterFormFieldProper
       render={({ field }) => (
         <FilterPrice
           label={filter.label}
-          value={Array.isArray(field.value) ? field.value : [min, max]}
+          value={isRangeFilterValue(field.value) ? field.value : [min, max]}
           range={[min, max]}
           onChange={field.onChange}
         />
@@ -36,17 +70,27 @@ export function FilterPriceController({ control, filter }: FilterFormFieldProper
 }
 
 export function FilterSwitchController({ control, filter }: FilterFormFieldProperties): ReactElement {
+  if (filter.type !== 'boolean') {
+    throw new Error('Switch filter controller must be a boolean type')
+  }
+
+  const defaultValue = getDefaultFilterValue(filter)
+
+  if (!isBooleanFilterValue(defaultValue)) {
+    throw new TypeError('Boolean filter value must be a boolean')
+  }
+
   return (
     <Controller
       key={filter.key}
       name={filter.key}
       control={control}
-      defaultValue={false}
+      defaultValue={defaultValue}
       render={({ field }) => (
         <FilterSwitch
           label={filter.label}
           onChange={field.onChange}
-          value={typeof field.value === 'boolean' ? field.value : false}
+          value={isBooleanFilterValue(field.value) ? field.value : defaultValue}
         />
       )}
     />
@@ -54,21 +98,31 @@ export function FilterSwitchController({ control, filter }: FilterFormFieldPrope
 }
 
 export function FilterSelectController({ control, filter }: FilterFormFieldProperties): ReactElement {
+  if (filter.type !== 'set') {
+    throw new Error('Select filter controller must be a set type')
+  }
+
+  const defaultValue = getDefaultFilterValue(filter)
+
+  if (!isSetFilterValue(defaultValue)) {
+    throw new TypeError('Set filter value must be a string')
+  }
+
   return (
     <Controller
       key={filter.key}
       name={filter.key}
       control={control}
-      defaultValue=""
+      defaultValue={defaultValue}
       render={({ field }) => (
         <FilterSelect
           label={filter.label}
           options={filter.options.map((option) => ({
             ...option,
-            value: String(option.value)
+            value: option.value
           }))}
           onChange={field.onChange}
-          value={typeof field.value === 'string' ? field.value : ''}
+          value={isSetFilterValue(field.value) ? field.value : defaultValue}
         />
       )}
     />
@@ -88,5 +142,5 @@ export function FilterFormField({ control, filter }: FilterFormFieldProperties):
     return <FilterSelectController control={control} filter={filter} />
   }
 
-  throw new Error('Unknown field type')
+  throw new Error('Can not get controller for unknown filter type')
 }
