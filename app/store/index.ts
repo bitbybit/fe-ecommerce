@@ -2,12 +2,10 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import authReducer from '~/store/auth'
 import cartReducer from '~/store/cart'
-import profileReducer from '~/store/profile'
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  cart: cartReducer,
-  profile: profileReducer
+  cart: cartReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

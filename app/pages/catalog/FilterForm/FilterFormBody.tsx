@@ -10,7 +10,8 @@ import {
   type ProductListSort,
   PRODUCT_LIST_SORT_ASC,
   PRODUCT_LIST_SORT_DESC,
-  type ProductListCategory
+  type ProductListCategory,
+  PRODUCT_LIST_DEFAULT_APPLIED_FILTERS
 } from '~/api/namespaces/product'
 import {
   Sidebar,
@@ -120,7 +121,16 @@ function getDefaultFormValues(filters: ProductListFilter[], sorts: ProductListSo
         .filter((filter) => filter.type === 'range')
         .map(({ key, options }) => [key, options.map(({ value }) => value)])
     ),
-    ...Object.fromEntries(filters.filter((filter) => filter.type === 'boolean').map(({ key }) => [key, false])),
+    ...Object.fromEntries(
+      filters
+        .filter((filter) => filter.type === 'boolean')
+        .map(({ key }) => [
+          key,
+          PRODUCT_LIST_DEFAULT_APPLIED_FILTERS.find(
+            (defaultAppliedFilter) => defaultAppliedFilter.type === 'boolean' && defaultAppliedFilter.key === key
+          )?.value === PRODUCT_LIST_FILTER_TRUE
+        ])
+    ),
     ...Object.fromEntries(filters.filter((filter) => filter.type === 'set').map(({ key }) => [key, ''])),
     ...Object.fromEntries(sorts.map((sort) => [sort.key, sort.defaultValue]))
   }

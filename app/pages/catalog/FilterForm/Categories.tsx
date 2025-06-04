@@ -51,14 +51,14 @@ export function Categories({ categories }: CategoriesProperties): ReactElement {
                 open={open[category.id]}
                 onOpenChange={() => setOpen((previous) => ({ ...previous, [category.id]: !previous[category.id] }))}
               >
-                <CollapsibleTrigger asChild>
-                  <div className="flex justify-between items-center cursor-pointer">
-                    <span>{category.label}</span>
+                <div className="flex justify-between items-center cursor-pointer">
+                  <Link category={category} />
+                  <CollapsibleTrigger asChild>
                     <Button type="button" variant="ghost" size="icon" className="size-8 cursor-pointer">
                       <ChevronsUpDown />
                     </Button>
-                  </div>
-                </CollapsibleTrigger>
+                  </CollapsibleTrigger>
+                </div>
                 <CollapsibleContent>
                   <div className="pl-3">
                     <Categories categories={category.subCategories} />
