@@ -41,6 +41,13 @@ export type ProductListSort = {
 
 export type ProductListFilter = ProductListFilterFromAttributes | ProductListFilterFromFacets
 
+export type ProductListCategory = {
+  id: string
+  label: string
+  parentId?: string
+  subCategories?: ProductListCategory[]
+}
+
 export type ProductListQueryParameters = NonNullable<
   Parameters<ByProjectKeyProductProjectionsSearchRequestBuilder['get']>[0]
 >['queryArgs']
@@ -150,7 +157,8 @@ export class ProductApi {
         value: PRODUCT_LIST_SORT_DESC
       }
     ],
-    searchText: string = ''
+    searchText: string = '',
+    categoryId: string = ''
   ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
     return this.client.root
       .productProjections()
@@ -158,16 +166,14 @@ export class ProductApi {
       .get({
         queryArgs: {
           ...parameters,
-          ...(filters.length > 0 && {
-            filter: ProductApi.convertFiltersToQuery(filters)
+          ...((filters.length > 0 || categoryId.length > 0) && {
+            filter: [
+              ...ProductApi.convertFiltersToQuery(filters),
+              ...(categoryId.length > 0 ? [`categories.id:"${categoryId}"`] : [])
+            ]
           }),
-          ...(sort.length > 0 && {
-            sort: ProductApi.convertSortToQuery(sort)
-          }),
-          ...(searchText.length > 0 && {
-            'text.en-US': searchText,
-            fuzzy: true
-          })
+          ...(sort.length > 0 && { sort: ProductApi.convertSortToQuery(sort) }),
+          ...(searchText.length > 0 && { 'text.en-US': searchText, fuzzy: true })
         }
       })
       .execute()
@@ -207,6 +213,38 @@ export class ProductApi {
         })),
         type: 'range'
       })
+    }
+
+    return result
+  }
+
+  public async getCategories(): Promise<ProductListCategory[]> {
+    const categoryMap = new Map<string, ProductListCategory>()
+    const locale = 'en'
+
+    const categories = await this.client.root
+      .categories()
+      .get({ queryArgs: { limit: 100 } })
+      .execute()
+
+    for (const category of categories.body.results) {
+      categoryMap.set(category.id, {
+        id: category.id,
+        label: category.name[locale],
+        parentId: category.parent?.id,
+        subCategories: []
+      })
+    }
+
+    const result: ProductListCategory[] = []
+
+    for (const category of categoryMap.values()) {
+      if (category.parentId === undefined) {
+        result.push(category)
+      } else {
+        const parent = categoryMap.get(category.parentId)
+        parent?.subCategories?.push(category)
+      }
     }
 
     return result

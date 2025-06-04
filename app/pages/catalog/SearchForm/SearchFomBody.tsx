@@ -1,12 +1,14 @@
+import { type ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
-import type { UseCatalogDataResult } from '../hooks/useCatalogData'
-import type { ReactElement } from 'react'
+import { Search } from 'lucide-react'
 import { Input } from '~/components/ui/Input'
 import { Button } from '~/components/ui/Button'
-import { Search } from 'lucide-react'
 import { PRODUCTS_LIMIT } from '../FilterForm/FilterFormBody'
+import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 
-type SearchFormBodyProperties = { fetch: UseCatalogDataResult['fetchProducts'] }
+type SearchFormBodyProperties = {
+  fetch: UseCatalogDataResult['fetchProducts']
+}
 
 export function SearchFormBody({ fetch }: SearchFormBodyProperties): ReactElement {
   const { register, handleSubmit, getValues } = useForm<{ search: string }>()

@@ -9,13 +9,21 @@ import {
   type ProductListFilter,
   type ProductListSort,
   PRODUCT_LIST_SORT_ASC,
-  PRODUCT_LIST_SORT_DESC
+  PRODUCT_LIST_SORT_DESC,
+  type ProductListCategory
 } from '~/api/namespaces/product'
-import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '~/components/ui/Sidebar'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarProvider,
+  SidebarTrigger
+} from '~/components/ui/Sidebar'
 import { Button } from '~/components/ui/Button'
-import { Label } from '~/components/ui/Label'
 import { FilterFormField } from './FilterFormField'
 import { SortFormField } from './SortFormField'
+import { Categories } from './Categories'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 
 // TODO: items per page
@@ -23,6 +31,7 @@ export const PRODUCTS_LIMIT = 100
 
 type FilterFormBodyProperties = {
   filters: ProductListFilter[]
+  categories: ProductListCategory[]
   fetch: UseCatalogDataResult['fetchProducts']
 }
 
@@ -117,15 +126,42 @@ function getDefaultFormValues(filters: ProductListFilter[], sorts: ProductListSo
   }
 }
 
-export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): ReactElement {
+function FilterFormFields({
+  filters,
+  form
+}: {
+  filters: ProductListFilter[]
+  form: ReturnType<typeof useForm<FormValues>>
+}): ReactElement {
+  return (
+    <>
+      <SidebarGroup className="gap-3">
+        <SidebarGroupLabel>Filters</SidebarGroupLabel>
+        {filters.map((filter, index) => (
+          <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
+        ))}
+      </SidebarGroup>
+      <SidebarGroup className="gap-3">
+        <SidebarGroupLabel>Sort</SidebarGroupLabel>
+        {sorts.map((sort, index) => (
+          <SortFormField sort={sort} sorts={sorts} key={`${sort.key}-${index}`} form={form} />
+        ))}
+      </SidebarGroup>
+    </>
+  )
+}
+
+export function FilterFormBody({ filters, categories, fetch }: FilterFormBodyProperties): ReactElement {
   const defaultValues = getDefaultFormValues(filters, sorts)
   const form = useForm<FormValues>({ defaultValues })
+
   const handleApply = (data: FormValues): Promise<void> =>
     fetch(
       { limit: PRODUCTS_LIMIT },
       convertFormValuesToAppliedFilters(data, filters),
       convertFormValuesToSort(data, sorts)
     )
+
   const handleReset = (): Promise<void> => {
     form.reset(defaultValues)
     return handleApply(form.getValues())
@@ -136,20 +172,16 @@ export function FilterFormBody({ filters, fetch }: FilterFormBodyProperties): Re
       <Sidebar>
         <SidebarContent className="p-4">
           <form onSubmit={(event) => void form.handleSubmit(handleApply)(event)} className="space-y-4">
-            {filters.map((filter, index) => (
-              <FilterFormField control={form.control} filter={filter} key={`${filter.type}-${filter.key}-${index}`} />
-            ))}
-            <Label>Sort</Label>
-            {sorts.map((sort, index) => (
-              <SortFormField sort={sort} sorts={sorts} key={`${sort.key}-${index}`} form={form} />
-            ))}
-            <hr />
-            <div className="flex justify-between">
-              <Button variant="outline" type="button" onClick={() => void handleReset()}>
-                Reset
-              </Button>
-              <Button type="submit">Apply</Button>
-            </div>
+            <Categories categories={categories} />
+            <FilterFormFields filters={filters} form={form} />
+            <SidebarGroup>
+              <div className="flex justify-between">
+                <Button variant="outline" type="button" onClick={() => void handleReset()}>
+                  Reset
+                </Button>
+                <Button type="submit">Apply</Button>
+              </div>
+            </SidebarGroup>
           </form>
         </SidebarContent>
       </Sidebar>
