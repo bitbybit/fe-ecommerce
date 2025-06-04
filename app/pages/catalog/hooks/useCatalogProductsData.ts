@@ -3,6 +3,8 @@ import { useParams } from 'react-router'
 import { type ProductProjection } from '@commercetools/platform-sdk'
 import { toast } from 'sonner'
 import {
+  PRODUCT_LIST_DEFAULT_APPLIED_FILTERS,
+  PRODUCT_LIST_DEFAULT_APPLIED_SORT,
   productApi,
   type ProductListAppliedFilters,
   type ProductListAppliedSort,
@@ -25,7 +27,10 @@ export type ProductListAppliedPayload = {
   sort: ProductListAppliedSort
 }
 
-const cache: ProductListAppliedPayload = { filters: [], sort: [] }
+const cache: ProductListAppliedPayload = {
+  filters: [...PRODUCT_LIST_DEFAULT_APPLIED_FILTERS],
+  sort: [...PRODUCT_LIST_DEFAULT_APPLIED_SORT]
+}
 
 const updateCache = (
   filters: ProductListAppliedFilters | undefined,
