@@ -82,7 +82,7 @@ export const PRODUCT_LIST_DEFAULT_APPLIED_FILTERS: ProductListAppliedFilters = [
   }
 ]
 
-const PRODUCT_LIST_DEFAULT_APPLIED_SORT: ProductListAppliedSort = [
+export const PRODUCT_LIST_DEFAULT_APPLIED_SORT: ProductListAppliedSort = [
   {
     key: 'price',
     value: PRODUCT_LIST_SORT_DESC
@@ -159,8 +159,8 @@ export class ProductApi {
 
   public async getProducts(
     parameters: ProductListQueryParameters,
-    filters: ProductListAppliedFilters = PRODUCT_LIST_DEFAULT_APPLIED_FILTERS,
-    sort: ProductListAppliedSort = PRODUCT_LIST_DEFAULT_APPLIED_SORT,
+    filters: ProductListAppliedFilters = [...PRODUCT_LIST_DEFAULT_APPLIED_FILTERS],
+    sort: ProductListAppliedSort = [...PRODUCT_LIST_DEFAULT_APPLIED_SORT],
     searchText: string = '',
     categoryId: string = ''
   ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
