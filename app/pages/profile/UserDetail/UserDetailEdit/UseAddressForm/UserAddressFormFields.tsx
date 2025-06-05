@@ -47,10 +47,10 @@ export const UserAddressFormFields = ({
               Remove
             </Button>
             <Button type="button" variant="outline" onClick={() => void onSetAsBilling()}>
-              Set as billing
+              Set as default billing
             </Button>
             <Button type="button" variant="outline" onClick={() => void onSetAsShipping()}>
-              Set as shipping
+              Set as default shipping
             </Button>
           </>
         )}

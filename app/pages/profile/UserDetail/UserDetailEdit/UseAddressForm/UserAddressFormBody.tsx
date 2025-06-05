@@ -48,7 +48,7 @@ const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProp
   return (
     <div>
       <div className="flex gap-2 pb-2">
-        {isBilling && <Badge>Billing</Badge>} {isShipping && <Badge>Shipping</Badge>}
+        {isBilling && <Badge>Default billing</Badge>} {isShipping && <Badge>Default shipping</Badge>}
       </div>
       <Form {...properties.form}>
         <form onSubmit={(event) => void properties.form.handleSubmit(handleChangeAddress)(event)} className="space-y-6">
