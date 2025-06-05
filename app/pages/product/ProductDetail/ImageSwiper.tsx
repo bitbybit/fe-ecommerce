@@ -35,7 +35,7 @@ export function ImageSwiper({
       {images.map((img, index) => (
         <SwiperSlide key={index}>
           <div className="flex items-center justify-center w-full h-full rounded-lg" onClick={() => onClick?.(index)}>
-            <img src={img.url} alt={`Image ${index + 1}`} className="object-contain max-w-full rounded-lg" />
+            <img src={img.url} alt={`Image ${index + 1}`} className="object-contain w-full h-full rounded-lg" />
           </div>
         </SwiperSlide>
       ))}

@@ -1,11 +1,39 @@
 import { type ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
 import { Card, CardContent } from '~/components/ui/Card'
-import { Button } from '~/components/ui/Button'
 import { ProductImages } from './ProductImages'
 import { ProductInfo } from './ProductInfo'
+import { ProductBreadcrumbs } from './ProductBreadcrumbs'
+import { type ProductListCategory } from '~/api/namespaces/product'
 
-export default function ProductDetailBody({ product }: { product: ProductProjection | undefined }): ReactElement {
+function getBreadcrumbs(
+  categories: ProductListCategory[],
+  categoryId: string,
+  breadcrumbs: ProductListCategory[] = []
+): ProductListCategory[] {
+  for (const category of categories) {
+    const newBreadcrumbs = [...breadcrumbs, category]
+
+    if (category.id === categoryId) {
+      return newBreadcrumbs
+    }
+
+    if (category.subCategories !== undefined && category.subCategories.length > 0) {
+      const result = getBreadcrumbs(category.subCategories, categoryId, newBreadcrumbs)
+      if (result) return result
+    }
+  }
+
+  return []
+}
+
+export default function ProductDetailBody({
+  categories,
+  product
+}: {
+  categories: ProductListCategory[]
+  product: ProductProjection | undefined
+}): ReactElement {
   if (product === undefined) {
     throw new Error('Product not found')
   }
@@ -15,12 +43,12 @@ export default function ProductDetailBody({ product }: { product: ProductProject
   const price = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0
   const images = product.masterVariant.images ?? []
   const discount = product.masterVariant.prices?.[0].discounted?.value?.centAmount ?? undefined
+  const breadcrumbs =
+    product.categories?.[0]?.id === undefined ? [] : getBreadcrumbs(categories, product.categories[0].id)
 
   return (
     <div className="w-full flex flex-col flex-grow items-start gap-10 p-6">
-      <Button variant="outline" onClick={() => history.back()}>
-        ← Back to catalog
-      </Button>
+      <ProductBreadcrumbs breadcrumbs={breadcrumbs} />
       <Card className="w-full flex-grow rounded-xl border border-muted bg-card shadow-sm overflow-hidden">
         <CardContent className="flex flex-wrap items-start p-0">
           <ProductImages images={images} />
