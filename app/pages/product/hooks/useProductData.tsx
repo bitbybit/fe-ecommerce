@@ -2,7 +2,7 @@ import { type ProductProjection } from '@commercetools/platform-sdk'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { toast } from 'sonner'
-import { productApi } from '~/api/namespaces/product'
+import { productApi, type ProductListCategory } from '~/api/namespaces/product'
 import { ROUTES } from '~/routes'
 
 export enum PRODUCT_STATUS {
@@ -12,12 +12,14 @@ export enum PRODUCT_STATUS {
 }
 
 type UseProductDataResult = {
+  categories: ProductListCategory[]
   product: ProductProjection | undefined
   status: PRODUCT_STATUS
 }
 
 export function useProductData(): UseProductDataResult {
   const [product, setProduct] = useState<ProductProjection>()
+  const [categories, setCategories] = useState<ProductListCategory[]>([])
   const [status, setStatus] = useState<PRODUCT_STATUS>(PRODUCT_STATUS.LOADING)
 
   const navigate = useNavigate()
@@ -32,6 +34,8 @@ export function useProductData(): UseProductDataResult {
       setStatus(PRODUCT_STATUS.LOADING)
       try {
         const response = await productApi.getProductById(productId)
+        const categories = await productApi.getCategories()
+        setCategories(categories)
         setProduct(response.body)
         setStatus(PRODUCT_STATUS.READY)
       } catch (error) {
@@ -44,5 +48,5 @@ export function useProductData(): UseProductDataResult {
     void fetchProductData()
   }, [navigate, productId])
 
-  return { product, status }
+  return { categories, product, status }
 }
