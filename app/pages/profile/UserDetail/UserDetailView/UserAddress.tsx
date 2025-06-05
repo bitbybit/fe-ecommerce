@@ -17,8 +17,8 @@ export const UserAddress = (properties: UserAddressProperties): ReactElement => 
   return (
     <div>
       <div className="flex gap-2 pb-2">
-        {isBilling && <Badge>Billing</Badge>}
-        {isShipping && <Badge>Shipping</Badge>}
+        {isBilling && <Badge>Default billing</Badge>}
+        {isShipping && <Badge>Default shipping</Badge>}
       </div>
       <div className="grid gap-4 md:grid-cols-2 items-start">
         {[
