@@ -24,7 +24,7 @@ const product: ProductProjection = {
     ],
     images: [
       {
-        url: 'https://raw.githubusercontent.com/merucoding/school-project-pictures/main/case-10-1.jpeg',
+        url: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
         dimensions: { w: 100, h: 100 }
       }
     ]

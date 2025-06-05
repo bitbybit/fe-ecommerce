@@ -4,11 +4,11 @@ import type { Image } from '../types'
 
 const mockImages: Image[] = [
   {
-    url: 'https://yastatic.net/naydex/yandex-search/12nUDz235/f2db1aqc4A/azbTO1I9Wd_beAKjHkVH6KAuUFvCFLt4JfhyJtT11k1Zx_D0HpAhew33M60PNLUSmw23gd9va7JBW45s2e-GPkIW5hh_ASX7-EJiox5FR-igLlxH6WQ',
+    url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==',
     dimensions: { w: 100, h: 100 }
   },
   {
-    url: 'https://yastatic.net/naydex/yandex-search/12nUDz337/f2db1aqc4A/azbTO1I9Wd_beAKjHkVH6KAuUFvCFLt4JfhyJtT11k1Zx_D0HpAhewnxPqkPNrAEhQ21hd5naLZNUZMsxPSIBkII5htiETjg9kxllAZKTem9eBBcz2SD',
+    url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
     dimensions: { w: 100, h: 100 }
   }
 ]
