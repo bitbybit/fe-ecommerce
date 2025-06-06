@@ -34,8 +34,8 @@ export const UserAddressFormFields = ({
     <fieldset disabled={status === ADDRESS_ACTION_STATUS.LOADING}>
       <CardContent className="px-0">
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          {[FirstName, LastName, Country, City, StreetName, PostalCode].map((Field) => (
-            <Field {...form} />
+          {[FirstName, LastName, Country, City, StreetName, PostalCode].map((Field, index) => (
+            <Field key={index} {...form} />
           ))}
         </div>
       </CardContent>

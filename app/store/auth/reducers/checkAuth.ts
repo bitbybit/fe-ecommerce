@@ -1,6 +1,6 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
-import { type AuthState } from '~/store/auth'
+import { type AuthState } from '~/store/auth/types'
 
 type CheckAuthThunkResult = Awaited<ReturnType<CtpApiClient['getCurrentCustomer']>>['body']
 

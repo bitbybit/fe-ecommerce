@@ -1,24 +1,11 @@
-import { type Customer } from '@commercetools/platform-sdk'
 import { createSelector } from '@reduxjs/toolkit'
-import { type RootState } from '~/store'
+import { type RootState } from '~/store/types'
 import { createAppSlice } from '~/store/hooks'
-import { createSignInThunk } from './reducers/signIn'
-import { createSignUpThunk } from './reducers/signUp'
-import { createLogOutThunk } from './reducers/logOut'
-import { createCheckAuthThunk } from './reducers/checkAuth'
-
-export enum AUTH_STATUS {
-  LOADING = 'LOADING',
-  READY = 'READY',
-  ERROR = 'ERROR'
-}
-
-export interface AuthState {
-  checkedAuth: boolean
-  customer: Customer | undefined
-  errorMessage: string
-  status: AUTH_STATUS
-}
+import { AUTH_STATUS, type AuthState } from '~/store/auth/types'
+import { createSignInThunk } from '~/store/auth/reducers/signIn'
+import { createSignUpThunk } from '~/store/auth/reducers/signUp'
+import { createLogOutThunk } from '~/store/auth/reducers/logOut'
+import { createCheckAuthThunk } from '~/store/auth/reducers/checkAuth'
 
 const initialState: AuthState = {
   customer: undefined,

@@ -23,7 +23,7 @@ const Profile = lazy(() => import('~/pages/profile'))
 const Cart = lazy(() => import('~/pages/cart'))
 const NotFound = lazy(() => import('~/pages/NotFound'))
 
-function RoutesPublic(): ReactElement {
+export function RoutesPublic(): ReactElement {
   return (
     <Route element={<PublicLayout />}>
       <Route index element={<Home />} />
@@ -52,7 +52,7 @@ function RoutesPublic(): ReactElement {
   )
 }
 
-function RoutesProtected(): ReactElement {
+export function RoutesProtected(): ReactElement {
   return (
     <Route element={<ProtectedLayout />}>
       <Route

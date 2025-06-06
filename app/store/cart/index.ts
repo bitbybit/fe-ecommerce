@@ -1,11 +1,8 @@
 import { type PayloadAction } from '@reduxjs/toolkit'
 import { createAppSlice } from '~/store/hooks'
+import { type CartState } from '~/store/cart/types'
 
-interface State {
-  value: undefined
-}
-
-const initialState: State = {
+const initialState: CartState = {
   value: undefined
 }
 
