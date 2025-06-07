@@ -1,22 +1,9 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
+import { rootReducer } from '~/store/root'
 
-import authReducer from '~/store/auth'
-import cartReducer from '~/store/cart'
-import catalogReducer from '~/store/catalog'
-import productReducer from '~/store/product'
-import profileReducer from '~/store/profile'
-
-const rootReducer = combineReducers({
-  auth: authReducer,
-  cart: cartReducer,
-  catalog: catalogReducer,
-  product: productReducer,
-  profile: profileReducer
-})
-
-export type RootState = ReturnType<typeof rootReducer>
-
-export const makeStore = (preloadedState?: Partial<RootState>): ReturnType<typeof configureStore<RootState>> =>
+export const makeStore = (
+  preloadedState?: Partial<ReturnType<typeof rootReducer>>
+): ReturnType<typeof configureStore<ReturnType<typeof rootReducer>>> =>
   configureStore({
     reducer: rootReducer,
 
@@ -28,7 +15,3 @@ export const makeStore = (preloadedState?: Partial<RootState>): ReturnType<typeo
   })
 
 export const store = makeStore()
-
-export type AppStore = typeof store
-
-export type AppDispatch = AppStore['dispatch']

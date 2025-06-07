@@ -1,9 +1,9 @@
 import { type ReactElement } from 'react'
-import { useTitle } from '~/hooks/use-title'
-import { RegisterForm } from './register-form'
+import { useTitle } from '~/hooks/useTitle'
+import { RegisterFormBody } from './RegisterForm/RegisterFormBody'
 
 export default function Register(): ReactElement {
   useTitle('Register')
 
-  return <RegisterForm />
+  return <RegisterFormBody />
 }

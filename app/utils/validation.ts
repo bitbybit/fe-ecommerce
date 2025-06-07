@@ -21,7 +21,7 @@ export const passwordRule = z
   .refine((value) => new RegExp(/\d/).exec(value) !== null, {
     message: 'Password must include at least 1 number.'
   })
-  .refine((value) => new RegExp(/[A-z\d\-_!]/).exec(value) !== null, {
+  .refine((value) => new RegExp(/^[A-Za-z0-9\-_!]+$/).exec(value) !== null, {
     message: 'Allowed password characters are: A-z0-9-_!'
   })
 
@@ -30,7 +30,7 @@ export const firstNameRule = z
   .min(1, {
     message: 'First name must contain at least one character.'
   })
-  .refine((value) => new RegExp(/[A-z]/).exec(value) !== null, {
+  .refine((value) => new RegExp(/^[A-Za-z]+$/).exec(value) !== null, {
     message: 'Allowed first name characters are: A-z'
   })
 
@@ -39,7 +39,7 @@ export const lastNameRule = z
   .min(1, {
     message: 'Last name must contain at least one character.'
   })
-  .refine((value) => new RegExp(/[A-z]/).exec(value) !== null, {
+  .refine((value) => new RegExp(/^[A-Za-z]+$/).exec(value) !== null, {
     message: 'Allowed last name characters are: A-z'
   })
 
@@ -75,7 +75,7 @@ export const cityRule = z
   .min(1, {
     message: 'City must contain at least one character.'
   })
-  .refine((value) => new RegExp(/[A-z]/).exec(value) !== null, {
+  .refine((value) => new RegExp(/^[A-Za-z ]+$/).exec(value) !== null, {
     message: 'Allowed city characters are: A-z'
   })
 
@@ -87,7 +87,7 @@ export const postalCodeRule = z.string().min(1, { message: 'Postal code must con
 
 export const withCountryPostalCodeRule = <T extends z.ZodRawShape>(
   baseSchema: z.ZodObject<T>
-): ReturnType<typeof baseSchema.superRefine> => {
+): z.ZodEffects<z.ZodObject<T>> => {
   return baseSchema.superRefine(({ country, postalCode }, context) => {
     const isValid = !postcodeValidatorExistsForCountry(country) || postcodeValidator(postalCode, country)
 

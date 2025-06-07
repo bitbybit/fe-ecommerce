@@ -32,6 +32,15 @@ const rules = {
       }
     }
   ],
+  'unicorn/filename-case': [
+    'error',
+    {
+      cases: {
+        camelCase: true,
+        pascalCase: true
+      }
+    }
+  ],
   'max-lines-per-function': ['error', 40],
   'no-restricted-imports': [
     2,
@@ -75,10 +84,7 @@ export default [
 
     rules: {
       ...rules,
-      'jsdoc/require-param-description': 0,
-      'jsdoc/require-property-description': 0,
-      'jsdoc/require-returns-description': 0,
-      'jsdoc/require-throws': 1
+      'jsdoc/require-jsdoc': 0
     }
   },
 
