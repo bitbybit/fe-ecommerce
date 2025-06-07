@@ -1,9 +1,9 @@
 import type { ProductProjection } from '@commercetools/platform-sdk'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { ProductItem } from './ProductItem'
-import { MemoryRouter } from 'react-router'
+import { renderWithProviders } from '~/utils/test'
 
-export const mockProduct: ProductProjection = {
+const mockProduct: ProductProjection = {
   id: '8fec3465-6f2a-490b-bdb5-b4179cd84ff3',
   version: 2,
   productType: {
@@ -62,11 +62,7 @@ export const mockProduct: ProductProjection = {
 
 describe('ProductItem', () => {
   it('renders product item: name, description, image, prices', () => {
-    render(
-      <MemoryRouter>
-        <ProductItem product={mockProduct} />
-      </MemoryRouter>
-    )
+    renderWithProviders(<ProductItem product={mockProduct} />)
     const image = screen.getByRole('img')
     expect(image).toHaveAttribute('src', mockProduct.masterVariant.images?.[0]?.url)
     expect(image).toHaveAttribute('alt', mockProduct.name['en-US'])
