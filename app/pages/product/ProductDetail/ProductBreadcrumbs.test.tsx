@@ -1,10 +1,9 @@
-import { render, screen } from '@testing-library/react'
-import { ProductBreadcrumbs } from './ProductBreadcrumbs'
-import '@testing-library/jest-dom'
-import { type ProductListCategory } from '~/api/namespaces/product'
-import { MemoryRouter } from 'react-router'
-import { ROUTES } from '~/routes'
 import { generatePath } from 'react-router'
+import { screen } from '@testing-library/react'
+import { ProductBreadcrumbs } from './ProductBreadcrumbs'
+import { type ProductListCategory } from '~/api/namespaces/product'
+import { ROUTES } from '~/routes'
+import { renderWithProviders } from '~/utils/test'
 
 describe('ProductBreadcrumbs', () => {
   it('renders category breadcrumbs with correct labels and links', () => {
@@ -13,11 +12,7 @@ describe('ProductBreadcrumbs', () => {
       { id: 'table', label: 'Table' }
     ]
 
-    render(
-      <MemoryRouter>
-        <ProductBreadcrumbs breadcrumbs={breadcrumbs} />
-      </MemoryRouter>
-    )
+    renderWithProviders(<ProductBreadcrumbs breadcrumbs={breadcrumbs} />)
 
     expect(screen.getByText('Case')).toBeInTheDocument()
     expect(screen.getByText('Table')).toBeInTheDocument()

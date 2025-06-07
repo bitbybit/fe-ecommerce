@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { ImageSwiper } from './ImageSwiper'
-import type { Image } from '../types'
+import { type Image } from '../types'
+import { renderWithProviders } from '~/utils/test'
 
 const mockImages: Image[] = [
   {
@@ -15,7 +16,7 @@ const mockImages: Image[] = [
 
 describe('ImageSwiper', () => {
   it('renders all images', () => {
-    render(<ImageSwiper images={mockImages} />)
+    renderWithProviders(<ImageSwiper images={mockImages} />)
 
     const allImages = screen.getAllByRole('img')
     expect(allImages).toHaveLength(2)

@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react'
 import { ProductImages } from './ProductImages'
-import '@testing-library/jest-dom'
+import { renderWithProviders } from '~/utils/test'
 
-describe('ProductImages component', () => {
+describe('ProductImages', () => {
   it('renders without crashing when images prop is undefined', () => {
-    expect(() => render(<ProductImages />)).not.toThrow()
+    expect(() => renderWithProviders(<ProductImages />)).not.toThrow()
   })
 })

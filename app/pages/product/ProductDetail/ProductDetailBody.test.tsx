@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react'
-import ProductDetailBody from './ProductDetailBody'
-import type { ProductProjection } from '@commercetools/platform-sdk'
-import type { ProductListCategory } from '~/api/namespaces/product'
-import { MemoryRouter } from 'react-router'
+import { type ProductProjection } from '@commercetools/platform-sdk'
+import { screen } from '@testing-library/react'
+import { ProductDetailBody } from './ProductDetailBody'
+import { type ProductListCategory } from '~/api/namespaces/product'
+import { renderWithProviders } from '~/utils/test'
+
 const product: ProductProjection = {
   id: '1',
   version: 1,
@@ -46,14 +47,9 @@ describe('ProductDetailBody', () => {
   it('renders product name and breadcrumbs', () => {
     const categories: ProductListCategory[] = [{ id: 'cat-1', label: 'Category A', subCategories: [] }]
 
-    render(
-      <MemoryRouter>
-        <ProductDetailBody product={product} categories={categories} />
-      </MemoryRouter>
-    )
+    renderWithProviders(<ProductDetailBody product={product} categories={categories} />)
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Test Product')
-
     expect(screen.getByText('Category A')).toBeInTheDocument()
   })
 })
