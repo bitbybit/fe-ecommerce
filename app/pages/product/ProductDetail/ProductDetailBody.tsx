@@ -27,7 +27,7 @@ function getBreadcrumbs(
   return []
 }
 
-export default function ProductDetailBody({
+export function ProductDetailBody({
   categories,
   product
 }: {
