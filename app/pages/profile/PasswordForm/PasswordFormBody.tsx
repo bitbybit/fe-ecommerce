@@ -34,8 +34,8 @@ export const PasswordFormBody = (): ReactElement => {
           <fieldset disabled={status === CHANGE_PASSWORD_STATUS.LOADING}>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2 items-start">
-                {[CurrentPassword, NewPassword].map((Field) => (
-                  <Field {...form} />
+                {[CurrentPassword, NewPassword].map((Field, index) => (
+                  <Field key={index} {...form} />
                 ))}
               </div>
             </CardContent>

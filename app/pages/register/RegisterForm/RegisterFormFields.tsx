@@ -10,7 +10,7 @@ import { FirstName } from './fields/FirstName'
 import { LastName } from './fields/LastName'
 import { DateOfBirth } from './fields/DateOfBirth'
 import { SameAddress } from './fields/SameAddress'
-import { AUTH_STATUS } from '~/store/auth'
+import { AUTH_STATUS } from '~/store/auth/types'
 import { type SchemaType } from './schema'
 
 export const RegisterFormFields = ({
@@ -30,8 +30,8 @@ export const RegisterFormFields = ({
     <fieldset disabled={status === AUTH_STATUS.LOADING}>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          {[Email, Password, FirstName, LastName, DateOfBirth].map((Field) => (
-            <Field {...form} />
+          {[Email, Password, FirstName, LastName, DateOfBirth].map((Field, index) => (
+            <Field key={index} {...form} />
           ))}
         </div>
 

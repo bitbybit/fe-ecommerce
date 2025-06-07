@@ -1,6 +1,6 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
-import { AUTH_STATUS, type AuthState } from '~/store/auth'
+import { AUTH_STATUS, type AuthState } from '~/store/auth/types'
 import { ERROR_MESSAGE_INVALID_CREDENTIALS, isInvalidCredentials } from '~/utils/errors'
 
 type SignInThunkResult = Awaited<ReturnType<CtpApiClient['login']>>['body']

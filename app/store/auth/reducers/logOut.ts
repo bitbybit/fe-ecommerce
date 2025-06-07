@@ -1,6 +1,6 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
 import { ctpApiClient } from '~/api/client'
-import { AUTH_STATUS, type AuthState } from '~/store/auth'
+import { AUTH_STATUS, type AuthState } from '~/store/auth/types'
 
 type LogoutThunkConfig = { rejectValue: string }
 

@@ -1,7 +1,7 @@
 import { type ReducerCreators } from '@reduxjs/toolkit'
 import { formatDateForSdk } from '~/utils/formatDate'
 import { ctpApiClient, type CtpApiClient, type CustomerAddress, CUSTOMER_ADDRESS_TYPE } from '~/api/client'
-import { AUTH_STATUS, type AuthState } from '~/store/auth'
+import { AUTH_STATUS, type AuthState } from '~/store/auth/types'
 
 type SignUpThunkResult = Awaited<ReturnType<CtpApiClient['signup']>>['body']
 

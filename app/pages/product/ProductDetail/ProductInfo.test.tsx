@@ -1,7 +1,7 @@
+import { type LocalizedString } from '@commercetools/platform-sdk'
 import { screen } from '@testing-library/react'
 import { renderWithProviders } from '~/utils/test'
 import { ProductInfo } from './ProductInfo'
-import type { LocalizedString } from '@commercetools/platform-sdk'
 
 describe('ProductInfo', () => {
   const name: LocalizedString = { 'en-US': 'Test Product' }

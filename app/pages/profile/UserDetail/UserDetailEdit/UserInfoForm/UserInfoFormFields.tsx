@@ -19,8 +19,8 @@ export const UserInfoFormFields = ({ form, status }: UserInfoFormFieldsPropertie
     <fieldset disabled={status === CHANGE_INFO_STATUS.LOADING}>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2 items-start">
-          {[FirstName, LastName, DateOfBirth, Email].map((Field) => (
-            <Field {...form} />
+          {[FirstName, LastName, DateOfBirth, Email].map((Field, index) => (
+            <Field key={index} {...form} />
           ))}
         </div>
       </CardContent>
