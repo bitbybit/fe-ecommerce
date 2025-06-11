@@ -34,6 +34,7 @@ type FilterFormBodyProperties = {
   filters: ProductListFilter[]
   categories: ProductListCategory[]
   fetch: UseCatalogDataResult['fetchProducts']
+  onApply: () => void
 }
 
 const SORT_KEY_PREFIX = 'sort_'
@@ -161,16 +162,18 @@ function FilterFormFields({
   )
 }
 
-export function FilterFormBody({ filters, categories, fetch }: FilterFormBodyProperties): ReactElement {
+export function FilterFormBody({ filters, categories, fetch, onApply }: FilterFormBodyProperties): ReactElement {
   const defaultValues = getDefaultFormValues(filters, sorts)
   const form = useForm<FormValues>({ defaultValues })
 
-  const handleApply = (data: FormValues): Promise<void> =>
-    fetch(
+  const handleApply = (data: FormValues): Promise<void> => {
+    onApply()
+    return fetch(
       { limit: PRODUCTS_LIMIT },
       convertFormValuesToAppliedFilters(data, filters),
       convertFormValuesToSort(data, sorts)
     )
+  }
 
   const handleReset = (): Promise<void> => {
     form.reset(defaultValues)
@@ -182,7 +185,7 @@ export function FilterFormBody({ filters, categories, fetch }: FilterFormBodyPro
       <Sidebar>
         <SidebarContent className="p-4">
           <form onSubmit={(event) => void form.handleSubmit(handleApply)(event)} className="space-y-4">
-            <Categories categories={categories} />
+            <Categories categories={categories} onClick={onApply} />
             <FilterFormFields filters={filters} form={form} />
             <SidebarGroup>
               <div className="flex justify-between">
