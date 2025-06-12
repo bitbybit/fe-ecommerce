@@ -35,7 +35,7 @@ export default function Catalog(): ReactElement {
         }}
       />
       <div className="flex-grow">
-        <SearchFormBody fetch={fetchProducts} setSearch={setSearchText} />
+        <SearchFormBody fetch={fetchProducts} setSearch={setSearchText} onSearch={() => setCurrentPage(1)} />
         {noProductsFound ? (
           <NoProductsFound />
         ) : (

@@ -9,15 +9,17 @@ import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 type SearchFormBodyProperties = {
   fetch: UseCatalogDataResult['fetchProducts']
   setSearch: (search: string) => void
+  onSearch: () => void
 }
 
-export function SearchFormBody({ fetch, setSearch }: SearchFormBodyProperties): ReactElement {
+export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyProperties): ReactElement {
   const { register, handleSubmit, getValues } = useForm<{ search: string }>()
 
-  function onSubmit(): void {
+  const onSubmit = (): Promise<void> => {
+    onSearch()
     const { search } = getValues()
     setSearch(search)
-    void fetch({ limit: PRODUCTS_LIMIT }, [], [], search)
+    return fetch({ limit: PRODUCTS_LIMIT }, [], [], search)
   }
 
   return (
