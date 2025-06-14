@@ -3,7 +3,7 @@ import { type ProductProjection } from '@commercetools/platform-sdk'
 import { Skeleton } from '~/components/ui/Skeleton'
 import { ProductItem } from './ProductItem'
 import { CATALOG_STATUS } from './hooks/useCatalogData'
-import { ITEMS_PER_PAGE } from './PaginationControls'
+import { ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
 type ProductListProperties = {
   products: ProductProjection[]

@@ -6,12 +6,13 @@ import { FilterFormBody } from './FilterForm/FilterFormBody'
 import { CATALOG_STATUS, useCatalogData } from './hooks/useCatalogData'
 import { SearchFormBody } from './SearchForm/SearchFomBody'
 import { NoProductsFound } from './NoProductsFound'
-import { ITEMS_PER_PAGE, PaginationControls } from './PaginationControls'
+import { PaginationControls } from './PaginationControls'
+import { ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
 export default function Catalog(): ReactElement {
   useTitle('Catalog')
   const { products, filters, status, categories, fetchProducts, total } = useCatalogData()
-  const noProductsFound = status === CATALOG_STATUS.READY && products.length === 0
+  const hasNoProducts = status === CATALOG_STATUS.READY && products.length === 0
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [searchText, setSearchText] = useState<string>('')
   const pagesCount = Math.ceil(total / ITEMS_PER_PAGE)
@@ -36,7 +37,7 @@ export default function Catalog(): ReactElement {
       />
       <div className="flex-grow">
         <SearchFormBody fetch={fetchProducts} setSearch={setSearchText} onSearch={() => setCurrentPage(1)} />
-        {noProductsFound ? (
+        {hasNoProducts ? (
           <NoProductsFound />
         ) : (
           <div>

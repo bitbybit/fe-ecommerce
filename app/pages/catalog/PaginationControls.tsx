@@ -9,8 +9,6 @@ import {
   PaginationStart
 } from '~/components/ui/Pagination'
 
-export const ITEMS_PER_PAGE = 12
-
 type PaginationControlsProperties = {
   page: number
   totalPage: number
@@ -20,7 +18,7 @@ type PaginationControlsProperties = {
 export function PaginationControls({ page, totalPage, onPageChange }: PaginationControlsProperties): ReactElement {
   const isFirstPage = page === 1
   const isLastPage = page === totalPage
-  const disabledState = 'pointer-events-none opacity-50'
+  const classNamesDisabled = 'pointer-events-none opacity-50'
 
   return (
     <Pagination>
@@ -28,13 +26,13 @@ export function PaginationControls({ page, totalPage, onPageChange }: Pagination
         <PaginationItem>
           <PaginationStart
             onClick={() => !isFirstPage && onPageChange(1)}
-            className={isFirstPage ? disabledState : ''}
+            className={isFirstPage ? classNamesDisabled : ''}
           />
         </PaginationItem>
         <PaginationItem>
           <PaginationPrevious
             onClick={() => !isFirstPage && onPageChange(page - 1)}
-            className={isFirstPage ? disabledState : ''}
+            className={isFirstPage ? classNamesDisabled : ''}
           />
         </PaginationItem>
         <PaginationItem className="px-2.5 sm:pl-2.5 border rounded-sm">
@@ -43,13 +41,13 @@ export function PaginationControls({ page, totalPage, onPageChange }: Pagination
         <PaginationItem>
           <PaginationNext
             onClick={() => !isLastPage && onPageChange(page + 1)}
-            className={isLastPage ? disabledState : ''}
+            className={isLastPage ? classNamesDisabled : ''}
           />
         </PaginationItem>
         <PaginationItem>
           <PaginationEnd
             onClick={() => !isLastPage && onPageChange(totalPage)}
-            className={isLastPage ? disabledState : ''}
+            className={isLastPage ? classNamesDisabled : ''}
           />
         </PaginationItem>
       </PaginationContent>

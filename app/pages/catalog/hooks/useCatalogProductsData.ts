@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { type ProductProjection } from '@commercetools/platform-sdk'
 import { toast } from 'sonner'
 import {
+  ITEMS_PER_PAGE,
   PRODUCT_LIST_DEFAULT_APPLIED_FILTERS,
   PRODUCT_LIST_DEFAULT_APPLIED_SORT,
   productApi,
@@ -11,7 +12,6 @@ import {
   type ProductListQueryParameters
 } from '~/api/namespaces/product'
 import { CATALOG_STATUS } from './useCatalogData'
-import { ITEMS_PER_PAGE } from '../PaginationControls'
 
 export type UseCatalogProductsDataResult = {
   products: ProductProjection[]

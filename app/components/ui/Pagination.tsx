@@ -5,7 +5,7 @@ import type { Button } from '~/components/ui/Button'
 import { buttonVariants } from '~/components/ui/Button'
 import type { ComponentProps, ReactElement } from 'react'
 
-function Pagination({ className, ...properties }: ComponentProps<'nav'>): ReactElement {
+export function Pagination({ className, ...properties }: ComponentProps<'nav'>): ReactElement {
   return (
     <nav
       role="navigation"
@@ -17,13 +17,13 @@ function Pagination({ className, ...properties }: ComponentProps<'nav'>): ReactE
   )
 }
 
-function PaginationContent({ className, ...properties }: ComponentProps<'ul'>): ReactElement {
+export function PaginationContent({ className, ...properties }: ComponentProps<'ul'>): ReactElement {
   return (
     <ul data-slot="pagination-content" className={cn('flex flex-row items-center gap-1', className)} {...properties} />
   )
 }
 
-function PaginationItem({ ...properties }: ComponentProps<'li'>): ReactElement {
+export function PaginationItem({ ...properties }: ComponentProps<'li'>): ReactElement {
   return <li data-slot="pagination-item" {...properties} />
 }
 
@@ -32,7 +32,12 @@ type PaginationLinkProperties = {
 } & Pick<ComponentProps<typeof Button>, 'size'> &
   ComponentProps<'a'>
 
-function PaginationLink({ className, isActive, size = 'icon', ...properties }: PaginationLinkProperties): ReactElement {
+export function PaginationLink({
+  className,
+  isActive,
+  size = 'icon',
+  ...properties
+}: PaginationLinkProperties): ReactElement {
   return (
     <a
       aria-current={isActive ? 'page' : undefined}
@@ -50,7 +55,7 @@ function PaginationLink({ className, isActive, size = 'icon', ...properties }: P
   )
 }
 
-function PaginationPrevious({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
+export function PaginationPrevious({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
   return (
     <PaginationLink
       aria-label="Go to previous page"
@@ -64,7 +69,7 @@ function PaginationPrevious({ className, ...properties }: ComponentProps<typeof 
   )
 }
 
-function PaginationNext({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
+export function PaginationNext({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
   return (
     <PaginationLink
       aria-label="Go to next page"
@@ -78,7 +83,7 @@ function PaginationNext({ className, ...properties }: ComponentProps<typeof Pagi
   )
 }
 
-function PaginationStart({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
+export function PaginationStart({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
   return (
     <PaginationLink
       aria-label="Go to first page"
@@ -92,7 +97,7 @@ function PaginationStart({ className, ...properties }: ComponentProps<typeof Pag
   )
 }
 
-function PaginationEnd({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
+export function PaginationEnd({ className, ...properties }: ComponentProps<typeof PaginationLink>): ReactElement {
   return (
     <PaginationLink
       aria-label="Go to last page"
@@ -106,7 +111,7 @@ function PaginationEnd({ className, ...properties }: ComponentProps<typeof Pagin
   )
 }
 
-function PaginationEllipsis({ className, ...properties }: ComponentProps<'span'>): ReactElement {
+export function PaginationEllipsis({ className, ...properties }: ComponentProps<'span'>): ReactElement {
   return (
     <span
       aria-hidden
@@ -118,16 +123,4 @@ function PaginationEllipsis({ className, ...properties }: ComponentProps<'span'>
       <span className="sr-only">More pages</span>
     </span>
   )
-}
-
-export {
-  Pagination,
-  PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationEllipsis,
-  PaginationStart,
-  PaginationEnd
 }

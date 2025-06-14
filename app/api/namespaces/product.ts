@@ -68,6 +68,7 @@ export type ProductListAppliedSort = {
   value: 'asc' | 'desc'
 }[]
 
+export const ITEMS_PER_PAGE = 12
 export const PRODUCT_LIST_FILTER_TRUE = 'T'
 export const PRODUCT_LIST_FILTER_FALSE = 'F'
 export const PRODUCT_LIST_FILTER_NONE = 'none'
