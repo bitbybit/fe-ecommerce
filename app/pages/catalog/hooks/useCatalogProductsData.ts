@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { type ProductProjection } from '@commercetools/platform-sdk'
 import { toast } from 'sonner'
 import {
+  ITEMS_PER_PAGE,
   PRODUCT_LIST_DEFAULT_APPLIED_FILTERS,
   PRODUCT_LIST_DEFAULT_APPLIED_SORT,
   productApi,
@@ -20,6 +21,7 @@ export type UseCatalogProductsDataResult = {
     sort?: ProductListAppliedSort,
     searchText?: string
   ) => Promise<void>
+  total: number
 }
 
 export type ProductListAppliedPayload = {
@@ -46,6 +48,7 @@ export function useCatalogProductsData({
   setStatus: Dispatch<SetStateAction<CATALOG_STATUS>>
 }): UseCatalogProductsDataResult {
   const [products, setProducts] = useState<ProductProjection[]>([])
+  const [total, setTotal] = useState<number>(0)
   const { categoryId = '' } = useParams()
 
   const fetchProducts = async (
@@ -60,14 +63,14 @@ export function useCatalogProductsData({
 
     try {
       const response = await productApi.getProducts(
-        { ...parameters, limit: 100 },
+        { ...parameters, limit: ITEMS_PER_PAGE },
         cache.filters,
         cache.sort,
         searchText,
         categoryId
       )
-
       setProducts(response.body.results)
+      setTotal(response.body.total ?? 0)
       setStatus(CATALOG_STATUS.READY)
     } catch (error) {
       setStatus(CATALOG_STATUS.ERROR)
@@ -76,5 +79,5 @@ export function useCatalogProductsData({
     }
   }
 
-  return { products, fetchProducts }
+  return { products, fetchProducts, total }
 }

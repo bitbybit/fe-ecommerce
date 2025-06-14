@@ -16,6 +16,7 @@ export type UseCatalogDataResult = {
   products: UseCatalogProductsDataResult['products']
   categories: UseCatalogCategoriesDataResult['categories']
   status: CATALOG_STATUS
+  total: number
 }
 
 export function useCatalogData(): UseCatalogDataResult {
@@ -24,12 +25,12 @@ export function useCatalogData(): UseCatalogDataResult {
   const { categoryId = '' } = useParams()
 
   const { categories, fetchCategories } = useCatalogCategoriesData({ setStatus })
-  const { products, fetchProducts } = useCatalogProductsData({ setStatus })
+  const { products, fetchProducts, total } = useCatalogProductsData({ setStatus })
   const { filters, fetchFilters } = useCatalogFiltersData({ setStatus })
 
   useEffect(() => void Promise.all([fetchFilters(), fetchProducts(), fetchCategories()]), [])
 
   useEffect(() => void fetchProducts(), [categoryId])
 
-  return { products, filters, categories, status, fetchProducts }
+  return { products, filters, categories, status, total, fetchProducts }
 }
