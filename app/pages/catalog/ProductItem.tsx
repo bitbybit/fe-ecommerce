@@ -2,7 +2,7 @@ import { type ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
-import { ShoppingCart } from 'lucide-react'
+import { Check, ShoppingCart } from 'lucide-react'
 import { Button } from '~/components/ui/Button'
 import { SaleBadge } from '~/components/product/SaleBadge'
 import { AspectRatio } from '~/components/ui/AspectRatio'
@@ -26,7 +26,7 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
 
   return (
     <Card
-      className="w-full m-0 max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 cursor-pointer hover:bg-stone-50"
+      className="w-full m-0 max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 hover:bg-stone-50"
       onClick={() => void navigateTo(product.id)}
     >
       <CardContent className="space-y-0 h-full flex flex-col justify-between gap-y-2 relative">
@@ -39,11 +39,29 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
         <CardDescription className="flex-1 line-clamp-2">{description}</CardDescription>
         <div className="flex justify-between items-center">
           <ProductPrice startPrice={price} discountPrice={discountPrice} />
-          <Button variant="outline" size="icon">
-            <ShoppingCart size={16} />
-          </Button>
+          <AddToCartButton productId={product.id} />
         </div>
       </CardContent>
     </Card>
+  )
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function AddToCartButton({ productId }: { productId: string }): ReactElement {
+  // TODO:
+  const isProductInCart = false
+
+  return (
+    <div onClick={(event) => event.stopPropagation()}>
+      <Button
+        variant={isProductInCart ? 'secondary' : 'outline'}
+        size="icon"
+        className="relative cursor-pointer disabled:opacity-100"
+        disabled={isProductInCart}
+      >
+        <ShoppingCart size={16} />
+        {isProductInCart && <Check className="text-green-400 absolute bottom-0 right-0" />}
+      </Button>
+    </div>
   )
 }
