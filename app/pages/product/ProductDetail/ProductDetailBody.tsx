@@ -52,7 +52,7 @@ export function ProductDetailBody({
       <Card className="w-full flex-grow rounded-xl border border-muted bg-card shadow-sm overflow-hidden">
         <CardContent className="flex flex-wrap items-start p-0">
           <ProductImages images={images} />
-          <ProductInfo name={name} description={description} price={price} discount={discount} />
+          <ProductInfo name={name} description={description} price={price} discount={discount} product={product} />
         </CardContent>
       </Card>
     </div>
