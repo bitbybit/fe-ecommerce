@@ -1,4 +1,4 @@
-import { createSelector } from '@reduxjs/toolkit'
+import { createSelector, type Selector } from '@reduxjs/toolkit'
 import { type RootState } from '~/store/types'
 import { createAppSlice } from '~/store/hooks'
 import { AUTH_STATUS, type AuthState } from '~/store/auth/types'
@@ -35,9 +35,12 @@ const auth = createAppSlice({
   })
 })
 
-const selectAuthSlice = (state: RootState): AuthState => state.auth
+const selectAuthSlice: Selector<RootState, AuthState> = (state: RootState): AuthState => state.auth
 
-export const selectIsAuth = createSelector([selectAuthSlice], (auth) => auth.customer !== undefined)
+export const selectIsAuth: Selector<RootState, boolean> = createSelector(
+  [selectAuthSlice],
+  (auth) => auth.customer !== undefined
+)
 
 export const { signIn, signUp, logOut, checkAuth, resetAuthError, setCustomer } = auth.actions
 export default auth.reducer

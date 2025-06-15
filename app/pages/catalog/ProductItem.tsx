@@ -38,7 +38,7 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
         <CardDescription className="flex-1 line-clamp-2">{description}</CardDescription>
         <div className="flex justify-between items-center">
           <ProductPrice startPrice={price} discountPrice={discountPrice} />
-          <AddToCartButton productId={product.id} />
+          <AddToCartButton product={product} />
         </div>
       </CardContent>
     </Card>

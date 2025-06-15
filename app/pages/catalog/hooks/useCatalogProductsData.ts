@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { type ProductProjection } from '@commercetools/platform-sdk'
 import { toast } from 'sonner'
 import {
-  ITEMS_PER_PAGE,
+  PRODUCT_LIST_ITEMS_PER_PAGE,
   PRODUCT_LIST_DEFAULT_APPLIED_FILTERS,
   PRODUCT_LIST_DEFAULT_APPLIED_SORT,
   productApi,
@@ -63,7 +63,7 @@ export function useCatalogProductsData({
 
     try {
       const response = await productApi.getProducts(
-        { ...parameters, limit: ITEMS_PER_PAGE },
+        { ...parameters, limit: PRODUCT_LIST_ITEMS_PER_PAGE },
         cache.filters,
         cache.sort,
         searchText,
