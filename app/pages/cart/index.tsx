@@ -1,31 +1,61 @@
-import { type ReactElement, useEffect } from 'react'
+import { type MouseEvent, type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
-import { cartApi } from '~/api/namespaces/cart'
-import { productApi } from '~/api/namespaces/product'
+import { useFetchCart } from '~/hooks/useFetchCart'
+import { useAppDispatch, useAppSelector } from '~/store/hooks'
+import { removeProduct, selectCartItems, selectIsEmptyCart } from '~/store/cart'
 import { EmptyBasket } from './EmptyBasket'
+import { ProductPrice } from '~/components/product/ProductPrice'
+import { formatProductItemPrice } from '~/utils/formatPrice'
+import { CART_TABLE_STATUS } from '~/store/cart/types'
 
+// TODO: remove comment
+// eslint-disable-next-line max-lines-per-function
 export default function Routes(): ReactElement {
   useTitle('Cart')
+  useFetchCart()
 
-  useEffect(() => {
-    const cartExampleCalls = async (): Promise<void> => {
-      const product = await productApi.getProductById('1a4e9d76-3577-42aa-910f-17e1d68c80cc')
+  const dispatch = useAppDispatch()
+  const { status } = useAppSelector((state) => state.cart)
+  const isEmptyCart = useAppSelector(selectIsEmptyCart) && status === CART_TABLE_STATUS.READY
+  const cartItems = useAppSelector(selectCartItems)
 
-      const cartAfterAdd = await cartApi.addProduct(product.body, 1)
+  if (isEmptyCart) {
+    return <EmptyBasket />
+  }
 
-      console.log(cartAfterAdd.body)
+  // TODO: move to separate component
+  const handleClick = async (
+    event: MouseEvent<HTMLAnchorElement>,
+    productId: string,
+    quantity: number
+  ): Promise<void> => {
+    event.preventDefault()
+    await dispatch(removeProduct({ productId, quantity })).unwrap()
+  }
 
-      const cartAfterRemove = await cartApi.removeProduct(product.body, 1)
-
-      console.log(cartAfterRemove.body)
-    }
-
-    void cartExampleCalls()
-  })
-
+  // TODO: fetch products by id to get pictures
   return (
-    <div>
-      <EmptyBasket />
-    </div>
+    <>
+      {cartItems.map(({ name, productId, quantity, price, totalPrice }) => (
+        <div key={productId} className="flex gap-5">
+          <div>
+            {name['en-US']} (amount: {quantity})
+          </div>
+
+          <ProductPrice startPrice={price.value.centAmount} discountPrice={price.discounted?.value?.centAmount} />
+
+          {quantity > 1 && <div>Price of all items: {formatProductItemPrice(totalPrice.centAmount)}</div>}
+
+          {status === CART_TABLE_STATUS.LOADING ? (
+            // TODO: add some loader
+            <>...</>
+          ) : (
+            <a href="#" onClick={(event) => void handleClick(event, productId, quantity)}>
+              remove
+            </a>
+          )}
+        </div>
+      ))}
+    </>
   )
 }

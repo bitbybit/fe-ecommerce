@@ -1,5 +1,6 @@
 import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
+import { useFetchCart } from '~/hooks/useFetchCart'
 import { ProductApi } from '~/api/namespaces/product'
 import { Loading } from '~/components/Loading'
 import { ProductList } from './ProductList'
@@ -11,6 +12,7 @@ import { PaginationControls } from './PaginationControls'
 
 export default function Catalog(): ReactElement {
   useTitle('Catalog')
+  useFetchCart()
   const data = useCatalogData()
 
   const handlePageChange = (page: number): void => {
