@@ -15,7 +15,7 @@ export function ProductImages({ images = [] }: { images?: Image[] }): ReactEleme
           <ImageSwiper
             images={images}
             onClick={setStartIndex}
-            swiperClassName="w-[90vw] max-w-[500px] aspect-[4/3] rounded-lg"
+            swiperClassName="w-[90vw] max-w-[500px] rounded-lg"
             showPagination
           />
         </div>
