@@ -48,6 +48,7 @@ export function RoutesPublic(): ReactElement {
           </AccessPublic>
         }
       />
+      <Route path={ROUTES.CART} element={<Cart />} />
     </Route>
   )
 }
@@ -60,14 +61,6 @@ export function RoutesProtected(): ReactElement {
         element={
           <AccessProtected>
             <Profile />
-          </AccessProtected>
-        }
-      />
-      <Route
-        path={ROUTES.CART}
-        element={
-          <AccessProtected>
-            <Cart />
           </AccessProtected>
         }
       />
