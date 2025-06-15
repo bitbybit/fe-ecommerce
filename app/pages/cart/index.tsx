@@ -2,14 +2,14 @@ import { type ReactElement, useEffect } from 'react'
 import { useTitle } from '~/hooks/useTitle'
 import { cartApi } from '~/api/namespaces/cart'
 import { productApi } from '~/api/namespaces/product'
+import { EmptyBasket } from './EmptyBasket'
 
 export default function Routes(): ReactElement {
   useTitle('Cart')
 
   useEffect(() => {
     const cartExampleCalls = async (): Promise<void> => {
-      // TODO: prices should not be tied to any country
-      const product = await productApi.getProductById('fd15bf1a-59ac-47d9-8172-3a7621c6740d')
+      const product = await productApi.getProductById('1a4e9d76-3577-42aa-910f-17e1d68c80cc')
 
       const cartAfterAdd = await cartApi.addProduct(product.body, 1)
 
@@ -23,5 +23,9 @@ export default function Routes(): ReactElement {
     void cartExampleCalls()
   })
 
-  return <>Cart1</>
+  return (
+    <div>
+      <EmptyBasket />
+    </div>
+  )
 }
