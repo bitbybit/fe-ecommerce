@@ -4,7 +4,7 @@ import { Search } from 'lucide-react'
 import { Input } from '~/components/ui/Input'
 import { Button } from '~/components/ui/Button'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
-import { ITEMS_PER_PAGE } from '~/api/namespaces/product'
+import { PRODUCT_LIST_ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
 type SearchFormBodyProperties = {
   fetch: UseCatalogDataResult['fetchProducts']
@@ -19,7 +19,7 @@ export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyPro
     onSearch()
     const { search } = getValues()
     setSearch(search)
-    return fetch({ limit: ITEMS_PER_PAGE }, [], [], search)
+    return fetch({ limit: PRODUCT_LIST_ITEMS_PER_PAGE }, [], [], search)
   }
 
   return (
