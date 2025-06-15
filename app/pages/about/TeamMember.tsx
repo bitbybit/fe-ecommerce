@@ -1,6 +1,7 @@
 import { type ReactElement } from 'react'
-import { H2, P } from '~/components/ui/typography'
+import { H2 } from '~/components/ui/typography'
 import { GithubLink } from './GithubLink'
+import { InfoLine } from './InfoLine'
 
 interface TeamMemberProperties {
   name: string
@@ -10,16 +11,6 @@ interface TeamMemberProperties {
   about: string
   github: string
   imageUrl: string
-  reverse?: boolean
-}
-
-function InfoLine({ label, text }: { label: string; text?: string }): ReactElement | undefined {
-  if (!text) return undefined
-  return (
-    <P className="!mt-1">
-      <span className="font-bold">{label}:</span> {text}
-    </P>
-  )
 }
 
 export function TeamMember({
@@ -29,15 +20,10 @@ export function TeamMember({
   courses,
   about,
   github,
-  imageUrl,
-  reverse = false
+  imageUrl
 }: TeamMemberProperties): ReactElement {
   return (
-    <div
-      className={`max-w-7xl mx-auto flex flex-col ${
-        reverse ? 'md:flex-row-reverse' : 'md:flex-row'
-      } gap-8 items-center`}
-    >
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 items-center">
       <img
         src={imageUrl}
         width={300}

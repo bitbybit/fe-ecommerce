@@ -13,7 +13,9 @@ export default function About(): ReactElement {
       <AboutText text={aboutUsText} />
       <div className="flex flex-col max-w-7xl gap-8 mx-auto">
         {teamMembers.map((member) => (
-          <TeamMember key={member.name} {...member} />
+          <div key={member.name} className="group even:[&>*]:md:flex-row-reverse">
+            <TeamMember {...member} />
+          </div>
         ))}
       </div>
       <SchoolLogo />
