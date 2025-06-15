@@ -2,24 +2,21 @@ import { type ReducerCreators } from '@reduxjs/toolkit'
 import { cartApi, type CartApi } from '~/api/namespaces/cart'
 import { CART_TABLE_STATUS, type CartState } from '~/store/cart/types'
 
-type RemoveProductThunkResult = Awaited<ReturnType<CartApi['removeProduct']>>['body']
+type ApplyCodeThunkResult = Awaited<ReturnType<CartApi['applyDiscountCode']>>['body']
 
-type RemoveProductThunkPayload = {
-  productId: Parameters<CartApi['removeProduct']>[0]
-  quantity: Parameters<CartApi['removeProduct']>[1]
+type ApplyCodeThunkPayload = {
+  code: Parameters<CartApi['applyDiscountCode']>[0]
 }
 
-type RemoveProductThunkConfig = { rejectValue: string }
+type ApplyCodeThunkConfig = { rejectValue: string }
 
-export const createRemoveProductThunk = (
+export const createApplyCodeThunk = (
   create: ReducerCreators<CartState>
-): ReturnType<
-  typeof create.asyncThunk<RemoveProductThunkResult, RemoveProductThunkPayload, RemoveProductThunkConfig>
-> =>
-  create.asyncThunk<RemoveProductThunkResult, RemoveProductThunkPayload, RemoveProductThunkConfig>(
-    async ({ productId, quantity }, { rejectWithValue }) => {
+): ReturnType<typeof create.asyncThunk<ApplyCodeThunkResult, ApplyCodeThunkPayload, ApplyCodeThunkConfig>> =>
+  create.asyncThunk<ApplyCodeThunkResult, ApplyCodeThunkPayload, ApplyCodeThunkConfig>(
+    async ({ code }, { rejectWithValue }) => {
       try {
-        const response = await cartApi.removeProduct(productId, quantity)
+        const response = await cartApi.applyDiscountCode(code)
 
         return response.body
       } catch (error) {
@@ -43,7 +40,7 @@ export const createRemoveProductThunk = (
       },
 
       rejected: (state, action) => {
-        state.errorMessage = action.payload ?? 'Unknown error while removing product from cart'
+        state.errorMessage = action.payload ?? 'Unknown error while adding product to cart'
         state.status = CART_TABLE_STATUS.ERROR
       }
     }

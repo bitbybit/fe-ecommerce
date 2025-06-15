@@ -31,7 +31,6 @@ export const createAddProductThunk = (
 
     {
       pending: (state) => {
-        state.cart = undefined
         state.errorMessage = ''
         state.status = CART_TABLE_STATUS.LOADING
       },
