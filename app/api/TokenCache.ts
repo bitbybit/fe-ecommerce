@@ -1,6 +1,6 @@
 import { type TokenStore, type TokenCache } from '@commercetools/ts-client'
 
-export class SessionStorageTokenCache implements TokenCache {
+export class LocalStorageTokenCache implements TokenCache {
   private readonly key: string
 
   constructor(key: string) {
@@ -19,14 +19,14 @@ export class SessionStorageTokenCache implements TokenCache {
   }
 
   public get(): TokenStore {
-    const raw = globalThis.sessionStorage.getItem(this.key)
+    const raw = globalThis.localStorage.getItem(this.key)
     const value: unknown = JSON.parse(String(raw))
 
     if (value === null) {
       return { token: '', expirationTime: 0 }
     }
 
-    if (!SessionStorageTokenCache.isTokenStore(value)) {
+    if (!LocalStorageTokenCache.isTokenStore(value)) {
       throw new Error('Token cache not found')
     }
 
@@ -34,10 +34,10 @@ export class SessionStorageTokenCache implements TokenCache {
   }
 
   public set(cache: TokenStore): void {
-    globalThis.sessionStorage.setItem(this.key, JSON.stringify(cache))
+    globalThis.localStorage.setItem(this.key, JSON.stringify(cache))
   }
 
   public remove(): void {
-    globalThis.sessionStorage.removeItem(this.key)
+    globalThis.localStorage.removeItem(this.key)
   }
 }

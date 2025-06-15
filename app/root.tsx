@@ -7,13 +7,19 @@ import { App } from '~/app'
 document.addEventListener('DOMContentLoaded', () => {
   const element = document.querySelector<HTMLDivElement>('#app')
 
+  const isDevelopment = import.meta.env.MODE === 'development'
+
   if (element !== null) {
     createRoot(element).render(
-      <StrictMode>
-        <Provider store={store}>
+      <Provider store={store}>
+        {isDevelopment ? (
           <App />
-        </Provider>
-      </StrictMode>
+        ) : (
+          <StrictMode>
+            <App />
+          </StrictMode>
+        )}
+      </Provider>
     )
   }
 })
