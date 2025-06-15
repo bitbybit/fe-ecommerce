@@ -12,7 +12,7 @@ import {
   PRODUCT_LIST_SORT_DESC,
   type ProductListCategory,
   PRODUCT_LIST_DEFAULT_APPLIED_FILTERS,
-  ITEMS_PER_PAGE
+  PRODUCT_LIST_ITEMS_PER_PAGE
 } from '~/api/namespaces/product'
 import {
   Sidebar,
@@ -170,7 +170,7 @@ export function FilterFormBody({ filters, categories, fetch, onApply }: FilterFo
   const handleApply = (data: FormValues): Promise<void> => {
     onApply()
     return fetch(
-      { limit: ITEMS_PER_PAGE },
+      { limit: PRODUCT_LIST_ITEMS_PER_PAGE },
       convertFormValuesToAppliedFilters(data, filters),
       convertFormValuesToSort(data, sorts)
     )

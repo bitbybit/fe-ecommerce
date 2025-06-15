@@ -1,5 +1,5 @@
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
-import { type Cart, type ClientResponse, type ProductProjection } from '@commercetools/platform-sdk'
+import { type Cart, type ClientResponse } from '@commercetools/platform-sdk'
 
 type CartApiProperties = {
   client: CtpApiClient
@@ -15,23 +15,23 @@ export class CartApi {
     this.client = client
   }
 
-  public async addProduct(product: ProductProjection, quantity: number = 1): Promise<ClientResponse<Cart>> {
+  public async addProduct(productId: string, quantity: number = 1): Promise<ClientResponse<Cart>> {
     const cart = await this.getCart()
 
     return this.client
       .getCurrentCustomerBuilder()
       .carts()
       .withId({ ID: cart.id })
-      .post({ body: { actions: [{ action: 'addLineItem', productId: product.id, quantity }], version: cart.version } })
+      .post({ body: { actions: [{ action: 'addLineItem', productId, quantity }], version: cart.version } })
       .execute()
   }
 
-  public async removeProduct(product: ProductProjection, quantity: number = 1): Promise<ClientResponse<Cart>> {
+  public async removeProduct(productId: string, quantity: number = 1): Promise<ClientResponse<Cart>> {
     const cart = await this.getCart()
-    const lineItemId = cart.lineItems.find((lineItem) => lineItem.productId === product.id)?.id
+    const lineItemId = cart.lineItems.find((lineItem) => lineItem.productId === productId)?.id
 
     if (lineItemId === undefined) {
-      throw new Error(`Could not find lineItem for product with ID ${product.id}`)
+      throw new Error(`Could not find lineItem for product with ID ${productId}`)
     }
 
     return this.client
@@ -59,13 +59,25 @@ export class CartApi {
       return cart.body
     }
 
-    const cart = carts.body.results.find((cart) => cart.id === this.getCartIdFromStorage())
+    const cart = carts.body.results.find(
+      ({ id, cartState }) => id === this.getCartIdFromStorage() && cartState === 'Active'
+    )
 
-    if (cart === undefined) {
-      throw new Error('Can not get cart')
+    if (cart !== undefined) {
+      return cart
     }
 
-    return cart
+    const nonEmptyCart = carts.body.results.find(
+      ({ lineItems, cartState }) => lineItems.length > 0 && cartState === 'Active'
+    )
+
+    if (nonEmptyCart !== undefined) {
+      return nonEmptyCart
+    }
+
+    const activeCart = await this.client.getCurrentCustomerBuilder().activeCart().get().execute()
+
+    return activeCart.body
   }
 
   private getCartIdFromStorage(): string | null {

@@ -105,7 +105,7 @@ export class CtpApiClient {
         body: {
           email,
           password,
-          activeCartSignInMode: 'MergeWithExistingCustomerCart',
+          activeCartSignInMode: 'UseAsNewActiveCustomerCart',
           updateProductData: true
         }
       })

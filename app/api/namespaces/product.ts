@@ -68,7 +68,7 @@ export type ProductListAppliedSort = {
   value: 'asc' | 'desc'
 }[]
 
-export const ITEMS_PER_PAGE = 12
+export const PRODUCT_LIST_ITEMS_PER_PAGE = 12
 export const PRODUCT_LIST_FILTER_TRUE = 'T'
 export const PRODUCT_LIST_FILTER_FALSE = 'F'
 export const PRODUCT_LIST_FILTER_NONE = 'none'
@@ -95,6 +95,13 @@ export class ProductApi {
 
   constructor({ client }: ProductApiProperties) {
     this.client = client
+  }
+
+  public static getPaginationQueryParameters(page: number): { limit: number; offset: number } {
+    return {
+      limit: PRODUCT_LIST_ITEMS_PER_PAGE,
+      offset: (page - 1) * PRODUCT_LIST_ITEMS_PER_PAGE
+    }
   }
 
   private static convertAttributeToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {

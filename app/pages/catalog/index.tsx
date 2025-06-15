@@ -1,48 +1,49 @@
-import { useState, type ReactElement } from 'react'
+import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
+import { useFetchCart } from '~/hooks/useFetchCart'
+import { ProductApi } from '~/api/namespaces/product'
 import { Loading } from '~/components/Loading'
 import { ProductList } from './ProductList'
 import { FilterFormBody } from './FilterForm/FilterFormBody'
-import { CATALOG_STATUS, useCatalogData } from './hooks/useCatalogData'
+import { useCatalogData } from './hooks/useCatalogData'
 import { SearchFormBody } from './SearchForm/SearchFomBody'
 import { NoProductsFound } from './NoProductsFound'
 import { PaginationControls } from './PaginationControls'
-import { ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
 export default function Catalog(): ReactElement {
   useTitle('Catalog')
-  const { products, filters, status, categories, fetchProducts, total } = useCatalogData()
-  const hasNoProducts = status === CATALOG_STATUS.READY && products.length === 0
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [searchText, setSearchText] = useState<string>('')
-  const pagesCount = Math.ceil(total / ITEMS_PER_PAGE)
+  useFetchCart()
+  const data = useCatalogData()
 
   const handlePageChange = (page: number): void => {
-    setCurrentPage(page)
-    void fetchProducts({ limit: ITEMS_PER_PAGE, offset: (page - 1) * ITEMS_PER_PAGE }, [], [], searchText)
+    data.setCurrentPage(page)
+    void data.fetchProducts(ProductApi.getPaginationQueryParameters(page), [], [], data.searchText)
   }
-  if (filters.length === 0) {
+
+  if (data.filters.length === 0) {
     return <Loading />
   }
+
   return (
     <div className="flex h-full w-full">
       <FilterFormBody
-        filters={filters}
-        categories={categories}
-        fetch={fetchProducts}
-        onApply={() => {
-          setCurrentPage(1)
-          setSearchText('')
-        }}
+        filters={data.filters}
+        categories={data.categories}
+        fetch={data.fetchProducts}
+        onApply={data.resetCurrentPageAndSearchText}
       />
       <div className="flex-grow">
-        <SearchFormBody fetch={fetchProducts} setSearch={setSearchText} onSearch={() => setCurrentPage(1)} />
-        {hasNoProducts ? (
+        <SearchFormBody
+          fetch={data.fetchProducts}
+          setSearch={data.setSearchText}
+          onSearch={() => data.setCurrentPage(1)}
+        />
+        {data.hasNoProducts ? (
           <NoProductsFound />
         ) : (
           <div>
-            <ProductList products={products} status={status} />
-            <PaginationControls page={currentPage} totalPage={pagesCount} onPageChange={handlePageChange} />
+            <ProductList products={data.products} status={data.status} />
+            <PaginationControls page={data.currentPage} totalPage={data.pagesCount} onPageChange={handlePageChange} />
           </div>
         )}
       </div>
