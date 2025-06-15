@@ -2,12 +2,11 @@ import { type ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
-import { ShoppingCart } from 'lucide-react'
-import { Button } from '~/components/ui/Button'
 import { SaleBadge } from '~/components/product/SaleBadge'
 import { AspectRatio } from '~/components/ui/AspectRatio'
 import { ProductPrice } from '~/components/product/ProductPrice'
 import { ROUTES } from '~/routes'
+import { AddToCartButton } from './AddToCartButton'
 
 type ProductItemProperties = { product: ProductProjection }
 
@@ -26,7 +25,7 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
 
   return (
     <Card
-      className="w-full m-0 max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 cursor-pointer hover:bg-stone-50"
+      className="w-full m-0 max-w-2xs aspect-[3/4] hover:scale-105 hover:shadow-xl/30 transition duration-300 hover:bg-stone-50 cursor-pointer"
       onClick={() => void navigateTo(product.id)}
     >
       <CardContent className="space-y-0 h-full flex flex-col justify-between gap-y-2 relative">
@@ -39,9 +38,7 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
         <CardDescription className="flex-1 line-clamp-2">{description}</CardDescription>
         <div className="flex justify-between items-center">
           <ProductPrice startPrice={price} discountPrice={discountPrice} />
-          <Button variant="outline" size="icon">
-            <ShoppingCart size={16} />
-          </Button>
+          <AddToCartButton productId={product.id} />
         </div>
       </CardContent>
     </Card>

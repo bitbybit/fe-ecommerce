@@ -24,7 +24,7 @@ const navItems: NavItem[] = [
   { to: ROUTES.HOME, label: 'Home', icon: Home },
   { to: ROUTES.CATALOG, label: 'Catalog', icon: FolderOpen },
   { to: ROUTES.ABOUT, label: 'About', icon: Info },
-  { to: ROUTES.CART, label: 'Cart', icon: ShoppingCart, auth: true },
+  { to: ROUTES.CART, label: 'Cart', icon: ShoppingCart },
   { to: ROUTES.PROFILE, label: 'Profile', icon: User2, auth: true },
   { to: ROUTES.LOGIN, label: 'Login', icon: LogIn, auth: false },
   { to: ROUTES.REGISTER, label: 'Register', icon: UserPlus, auth: false },
