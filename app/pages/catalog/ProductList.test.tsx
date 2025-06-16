@@ -68,7 +68,7 @@ describe('ProductList', () => {
   it('display skeletons while loading products', () => {
     renderWithProviders(<ProductList products={[]} status={CATALOG_STATUS.LOADING} />)
 
-    const skeletons = document.querySelectorAll('[data-slot="skeleton"]')
+    const skeletons = screen.queryAllByTestId('skeleton')
     expect(skeletons.length).toBe(PRODUCT_LIST_ITEMS_PER_PAGE)
   })
 

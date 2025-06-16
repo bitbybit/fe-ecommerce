@@ -1,30 +1,38 @@
 import type { LineItem } from '@commercetools/platform-sdk'
-import { useState, type ReactElement } from 'react'
+import { type ReactElement } from 'react'
 import { addProduct, removeProduct } from '~/store/cart'
-import { useAppDispatch } from '~/store/hooks'
+import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { CartItemView } from './CartItemView'
+import { CART_TABLE_STATUS } from '~/store/cart/types'
 
 const LOCALE = 'en-US'
 
-type CartItemProperties = Pick<LineItem, 'name' | 'productId' | 'quantity' | 'price' | 'totalPrice' | 'variant'>
+type CartItemProperties = {
+  lineItem: LineItem
+}
 
-export function CartItem({ name, productId, quantity, price, totalPrice, variant }: CartItemProperties): ReactElement {
+export function CartItem({ lineItem }: CartItemProperties): ReactElement {
+  const { name, productId, quantity, price, totalPrice, variant } = lineItem
   const dispatch = useAppDispatch()
   const imageUrl = variant.images?.[0]?.url
-  const [itemQuantity, setItemQuantity] = useState<number>(quantity)
+
+  const { status } = useAppSelector((state) => state.cart)
+  const isCartLoading = status === CART_TABLE_STATUS.LOADING
 
   const handleIncreaseQuantity = async (): Promise<void> => {
+    if (isCartLoading) return
     await dispatch(addProduct({ productId, quantity: 1 })).unwrap()
-    setItemQuantity(itemQuantity + 1)
   }
+
   const handleDecreaseQuantity = async (): Promise<void> => {
-    if (itemQuantity <= 1) return
+    if (isCartLoading || quantity <= 1) return
     await dispatch(removeProduct({ productId, quantity: 1 })).unwrap()
-    setItemQuantity(itemQuantity - 1)
   }
+
   const handleDeleteItem = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     event.preventDefault()
-    await dispatch(removeProduct({ productId, quantity: itemQuantity })).unwrap()
+    if (isCartLoading) return
+    await dispatch(removeProduct({ productId, quantity })).unwrap()
   }
 
   return (
@@ -32,7 +40,7 @@ export function CartItem({ name, productId, quantity, price, totalPrice, variant
       name={name[LOCALE]}
       imageUrl={imageUrl}
       price={price}
-      quantity={itemQuantity}
+      quantity={quantity}
       totalPrice={totalPrice.centAmount}
       onIncrease={() => void handleIncreaseQuantity()}
       onDecrease={() => void handleDecreaseQuantity()}

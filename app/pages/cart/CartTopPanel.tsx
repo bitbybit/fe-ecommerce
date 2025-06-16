@@ -2,14 +2,15 @@ import type { ReactElement } from 'react'
 import { Card, CardContent } from '~/components/ui/Card'
 import { CartTotalPrice } from './CartTotalPrice'
 import { ClearCartButton } from './ClearCartButton'
-import type { Cart } from '@commercetools/platform-sdk'
+import { useAppSelector } from '~/store/hooks'
 
 type CartTopPanelProperties = {
-  cart?: Cart
   onClearCart: () => void
 }
 
-export function CartTopPanel({ cart, onClearCart }: CartTopPanelProperties): ReactElement {
+export function CartTopPanel({ onClearCart }: CartTopPanelProperties): ReactElement {
+  const { cart } = useAppSelector((state) => state.cart)
+
   return (
     <Card className="w-full max-w-2xl">
       <CardContent className="flex justify-between items-center gap-2 flex-wrap">

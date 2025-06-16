@@ -14,7 +14,7 @@ export default function Cart(): ReactElement {
   useTitle('Cart')
   useFetchCart()
 
-  const { status, cart } = useAppSelector((state) => state.cart)
+  const { status } = useAppSelector((state) => state.cart)
   const isEmptyCart = useAppSelector(selectIsEmptyCart) && status === CART_TABLE_STATUS.READY
   const cartItems = useAppSelector(selectCartItems)
 
@@ -27,19 +27,11 @@ export default function Cart(): ReactElement {
 
   return (
     <div className="py-6 px-4 flex-grow w-full text-center">
-      <CartTopPanel cart={cart} onClearCart={handleClearCart} />
+      <CartTopPanel onClearCart={handleClearCart} />
       <CodeForm />
       <div className="flex flex-col justify-start gap-y-4">
-        {cartItems.map(({ name, productId, quantity, price, totalPrice, variant }) => (
-          <CartItem
-            key={productId}
-            name={name}
-            productId={productId}
-            quantity={quantity}
-            price={price}
-            totalPrice={totalPrice}
-            variant={variant}
-          />
+        {cartItems.map((lineItem) => (
+          <CartItem key={lineItem.productId} lineItem={lineItem} />
         ))}
       </div>
     </div>
