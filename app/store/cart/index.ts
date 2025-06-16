@@ -41,10 +41,7 @@ export const selectCartItems: Selector<RootState, LineItem[]> = createSelector(
 export const selectIsInCart = (product: ProductProjection): Selector<RootState, boolean> =>
   createSelector([selectCartItems], (items) => items.some(({ productId }) => productId === product.id))
 
-export const selectCartItemCount = createSelector(
-  [selectCartSlice],
-  (cart) => cart.cart?.lineItems?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
-)
+export const selectCartItemCount = createSelector([selectCartSlice], (cart) => cart.cart?.totalLineItemQuantity ?? 0)
 
 export const { addProduct, removeProduct, getCart, applyCode } = cart.actions
 export default cart.reducer
