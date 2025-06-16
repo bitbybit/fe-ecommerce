@@ -13,9 +13,9 @@ export function Discounts(): ReactElement {
   return (
     <div className="mt-6 mx-3">
       <H2 className="text-center mb-6">Discounts</H2>
-      <div className="flex gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {discounts.map(({ id, code, description }) => (
-          <Card key={id} className="flex-grow max-w-1/2 p-2">
+          <Card key={id} className="flex-grow w-full p-2">
             <CardContent className="p-2">
               <CardTitle className="mb-2">{code}</CardTitle>
               {description !== undefined && <CardDescription>{description['en-US']}</CardDescription>}
