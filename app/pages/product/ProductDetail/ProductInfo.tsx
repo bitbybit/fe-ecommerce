@@ -12,7 +12,7 @@ export function ProductInfo({ product }: { product: ProductProjection }): ReactE
   return (
     <div className="flex-1 flex flex-col justify-start gap-4 text-left mx-6">
       <H1 className="text-2xl font-semibold">{name[LANG]}</H1>
-      <P className="text-muted-foreground">{description[LANG]}</P>
+      {description && <P className="text-muted-foreground">{description[LANG]}</P>}
       <H3>
         <ProductPrice startPrice={price} discountPrice={discount} />
       </H3>
