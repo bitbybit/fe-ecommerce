@@ -31,7 +31,7 @@ function Link({ category, onClick }: LinkProperties): ReactElement {
     <a
       href="#"
       onClick={(event) => void handleClick(event, category.id)}
-      className={`underline hover:no-underline ${category.id === categoryId ? 'text-blue-500 no-underline! font-semibold' : ''}`}
+      className={`underline hover:no-underline ${category.id === categoryId ? 'text-neural-500 no-underline! font-semibold' : ''}`}
     >
       {category.label}
     </a>
