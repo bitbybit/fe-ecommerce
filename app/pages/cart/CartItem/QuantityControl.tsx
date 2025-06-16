@@ -4,16 +4,16 @@ import { Button } from '~/components/ui/Button'
 
 type QuantityControlProperties = {
   quantity: number
-  handleQuantityChange: (quantity: number) => void
+  onQuantityChange: (quantity: number) => void
 }
 
-export function QuantityControl({ quantity = 1, handleQuantityChange }: QuantityControlProperties): ReactElement {
+export function QuantityControl({ quantity, onQuantityChange }: QuantityControlProperties): ReactElement {
   const handleDecrease = (): void => {
-    if (quantity > 1) handleQuantityChange(quantity - 1)
+    if (quantity > 1) onQuantityChange(quantity - 1)
   }
 
   const handleIncrease = (): void => {
-    handleQuantityChange(quantity + 1)
+    onQuantityChange(quantity + 1)
   }
 
   return (

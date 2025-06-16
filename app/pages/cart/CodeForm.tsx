@@ -32,7 +32,7 @@ export const CodeForm = (): ReactElement => {
   const handleApplyCode = (payload: z.infer<SchemaType>): void => void dispatch(applyCode(payload))
 
   return (
-    <Card className="md:min-w-lg m-6 gap-2">
+    <Card className="md:max-w-2xl m-6 gap-2 mx-auto">
       <CardHeader>
         <CardTitle>APPLY CODE</CardTitle>
       </CardHeader>

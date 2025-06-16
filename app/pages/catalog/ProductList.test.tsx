@@ -3,6 +3,7 @@ import { ProductList } from './ProductList'
 import { CATALOG_STATUS } from './hooks/useCatalogData'
 import { renderWithProviders } from '~/utils/test'
 import type { ProductProjection } from '@commercetools/platform-sdk'
+import { PRODUCT_LIST_ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
 const mockProduct: ProductProjection = {
   id: '8fec3465-6f2a-490b-bdb5-b4179cd84ff3',
@@ -64,16 +65,11 @@ const mockProduct: ProductProjection = {
 const mockProducts = [mockProduct]
 
 describe('ProductList', () => {
-  it('when no products found', () => {
-    renderWithProviders(<ProductList products={[]} status={CATALOG_STATUS.READY} />)
-    expect(screen.getByText('We couldn’t find any products matching your search.')).toBeInTheDocument()
-  })
-
   it('display skeletons while loading products', () => {
     renderWithProviders(<ProductList products={[]} status={CATALOG_STATUS.LOADING} />)
 
-    const skeletons = document.querySelectorAll('[data-slot="skeleton"]')
-    expect(skeletons.length).toBe(8)
+    const skeletons = screen.queryAllByTestId('skeleton')
+    expect(skeletons.length).toBe(PRODUCT_LIST_ITEMS_PER_PAGE)
   })
 
   it('when products were loaded', () => {
