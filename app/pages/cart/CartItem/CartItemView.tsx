@@ -14,8 +14,7 @@ type CartItemViewProperties = {
   price: Price
   quantity: number
   totalPrice: number
-  onIncrease: () => void
-  onDecrease: () => void
+  onQuantityChange: (quantity: number) => void
   onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -25,8 +24,7 @@ export function CartItemView({
   price,
   quantity,
   totalPrice,
-  onIncrease,
-  onDecrease,
+  onQuantityChange,
   onDelete
 }: CartItemViewProperties): ReactElement {
   return (
@@ -43,7 +41,7 @@ export function CartItemView({
         </div>
         <hr />
         <div className="flex items-center justify-between gap-2">
-          <QuantityControl quantity={quantity} onIncrease={onIncrease} onDecrease={onDecrease} />
+          <QuantityControl quantity={quantity} onQuantityChange={onQuantityChange} />
           <div className="text-sm">Total: {formatProductItemPrice(totalPrice)}</div>
           <Button variant="outline" onClick={onDelete}>
             <Trash2 />

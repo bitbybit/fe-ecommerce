@@ -1,8 +1,8 @@
 import { type ReactElement } from 'react'
 import { useTitle } from '~/hooks/useTitle'
 import { useFetchCart } from '~/hooks/useFetchCart'
-import { useAppSelector } from '~/store/hooks'
-import { selectCartItems, selectIsEmptyCart } from '~/store/cart'
+import { useAppDispatch, useAppSelector } from '~/store/hooks'
+import { clearCart, selectCartItems, selectIsEmptyCart } from '~/store/cart'
 import { EmptyCart } from './EmptyCart'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
 import { CartItem } from './CartItem/CartItem'
@@ -13,7 +13,7 @@ import { CartTopPanel } from './CartTopPanel'
 export default function Cart(): ReactElement {
   useTitle('Cart')
   useFetchCart()
-
+  const dispatch = useAppDispatch()
   const { status } = useAppSelector((state) => state.cart)
   const isEmptyCart = useAppSelector(selectIsEmptyCart) && status === CART_TABLE_STATUS.READY
   const cartItems = useAppSelector(selectCartItems)
@@ -21,13 +21,13 @@ export default function Cart(): ReactElement {
   if (status === CART_TABLE_STATUS.LOADING) return <Loading />
   if (isEmptyCart) return <EmptyCart />
 
-  // TODO
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleClearCart = (): void => {}
+  const handleClearCart = async (): Promise<void> => {
+    await dispatch(clearCart()).unwrap()
+  }
 
   return (
     <div className="py-6 px-4 flex-grow w-full text-center">
-      <CartTopPanel onClearCart={handleClearCart} />
+      <CartTopPanel onClearCart={() => void handleClearCart()} />
       <CodeForm />
       <div className="flex flex-col justify-start gap-y-4">
         {cartItems.map((lineItem) => (

@@ -1,6 +1,6 @@
 import type { LineItem } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
-import { addProduct, removeProduct } from '~/store/cart'
+import { removeProduct, updateQuantity } from '~/store/cart'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { CartItemView } from './CartItemView'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
@@ -19,14 +19,9 @@ export function CartItem({ lineItem }: CartItemProperties): ReactElement {
   const { status } = useAppSelector((state) => state.cart)
   const isCartLoading = status === CART_TABLE_STATUS.LOADING
 
-  const handleIncreaseQuantity = async (): Promise<void> => {
-    if (isCartLoading) return
-    await dispatch(addProduct({ productId, quantity: 1 })).unwrap()
-  }
-
-  const handleDecreaseQuantity = async (): Promise<void> => {
-    if (isCartLoading || quantity <= 1) return
-    await dispatch(removeProduct({ productId, quantity: 1 })).unwrap()
+  const handleQuantityChange = async (newQuantity: number): Promise<void> => {
+    if (isCartLoading || newQuantity < 1) return
+    await dispatch(updateQuantity({ productId, quantity: newQuantity })).unwrap()
   }
 
   const handleDeleteItem = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
@@ -42,8 +37,7 @@ export function CartItem({ lineItem }: CartItemProperties): ReactElement {
       price={price}
       quantity={quantity}
       totalPrice={totalPrice.centAmount}
-      onIncrease={() => void handleIncreaseQuantity()}
-      onDecrease={() => void handleDecreaseQuantity()}
+      onQuantityChange={(newQuantity) => void handleQuantityChange(newQuantity)}
       onDelete={(event) => void handleDeleteItem(event)}
     />
   )
