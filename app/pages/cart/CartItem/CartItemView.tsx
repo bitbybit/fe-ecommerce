@@ -30,8 +30,8 @@ export function CartItemView({
   onDelete
 }: CartItemViewProperties): ReactElement {
   return (
-    <Card className="w-full max-w-2xl">
-      <CardContent className="space-y-2">
+    <Card className="w-full max-w-2xl py-4 sm:py-6">
+      <CardContent className="space-y-2 px-4 sm:px-6">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-y-4">
             <CardTitle>{name}</CardTitle>
@@ -42,9 +42,9 @@ export function CartItemView({
           </div>
         </div>
         <hr />
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <QuantityControl quantity={quantity} onIncrease={onIncrease} onDecrease={onDecrease} />
-          <div>total cost: {formatProductItemPrice(totalPrice)}</div>
+          <div className="text-sm">Total: {formatProductItemPrice(totalPrice)}</div>
           <Button variant="outline" onClick={onDelete}>
             <Trash2 />
           </Button>

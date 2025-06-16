@@ -1,15 +1,12 @@
 import type { LineItem } from '@commercetools/platform-sdk'
 import { useState, type ReactElement } from 'react'
-import type { CART_TABLE_STATUS } from '~/store/cart/types'
 import { addProduct, removeProduct } from '~/store/cart'
 import { useAppDispatch } from '~/store/hooks'
 import { CartItemView } from './CartItemView'
 
 const LOCALE = 'en-US'
 
-type CartItemProperties = Pick<LineItem, 'name' | 'productId' | 'quantity' | 'price' | 'totalPrice' | 'variant'> & {
-  status: CART_TABLE_STATUS
-}
+type CartItemProperties = Pick<LineItem, 'name' | 'productId' | 'quantity' | 'price' | 'totalPrice' | 'variant'>
 
 export function CartItem({ name, productId, quantity, price, totalPrice, variant }: CartItemProperties): ReactElement {
   const dispatch = useAppDispatch()

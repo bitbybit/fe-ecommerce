@@ -10,7 +10,7 @@ type CartTotalPriceProperties = {
 export function CartTotalPrice({ totalPrice, discount }: CartTotalPriceProperties): ReactElement {
   const hasDiscount = discount !== undefined
   return (
-    <div className="text-center">
+    <div className="text-center m-0 text-sm sm:text-base font-semibold">
       {hasDiscount
         ? `Total price with discount code applied: ${formatProductItemPrice(discount.discountedAmount?.centAmount ?? 0)}`
         : `Total price: ${formatProductItemPrice(totalPrice ?? 0)}`}

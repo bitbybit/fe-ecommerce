@@ -7,10 +7,10 @@ import { EmptyBasket } from './EmptyBasket'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
 import { CartItem } from './CartItem/CartItem'
 import { CodeForm } from './CodeForm'
-import { ClearCartButton } from './ClearCartButton'
-import { CartTotalPrice } from './CartTotalPrice'
+import { Loading } from '~/components/Loading'
+import { CartTopPanel } from './CartTopPanel'
 
-export default function Routes(): ReactElement {
+export default function Cart(): ReactElement {
   useTitle('Cart')
   useFetchCart()
 
@@ -18,6 +18,7 @@ export default function Routes(): ReactElement {
   const isEmptyCart = useAppSelector(selectIsEmptyCart) && status === CART_TABLE_STATUS.READY
   const cartItems = useAppSelector(selectCartItems)
 
+  if (status === CART_TABLE_STATUS.LOADING) return <Loading />
   if (isEmptyCart) return <EmptyBasket />
 
   // TODO
@@ -25,9 +26,9 @@ export default function Routes(): ReactElement {
   const handleClearCart = (): void => {}
 
   return (
-    <div className="p-[10px] flex-grow w-full text-center">
-      <ClearCartButton onClearCart={handleClearCart} />
-      <CartTotalPrice totalPrice={cart?.totalPrice?.centAmount} discount={cart?.discountOnTotalPrice} />
+    <div className="py-6 px-4 flex-grow w-full text-center">
+      <CartTopPanel cart={cart} onClearCart={handleClearCart} />
+      <CodeForm />
       <div className="flex flex-col justify-start gap-y-4">
         {cartItems.map(({ name, productId, quantity, price, totalPrice, variant }) => (
           <CartItem
@@ -38,11 +39,9 @@ export default function Routes(): ReactElement {
             price={price}
             totalPrice={totalPrice}
             variant={variant}
-            status={status}
           />
         ))}
       </div>
-      <CodeForm />
     </div>
   )
 }
