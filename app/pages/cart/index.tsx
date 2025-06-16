@@ -3,7 +3,7 @@ import { useTitle } from '~/hooks/useTitle'
 import { useFetchCart } from '~/hooks/useFetchCart'
 import { useAppSelector } from '~/store/hooks'
 import { selectCartItems, selectIsEmptyCart } from '~/store/cart'
-import { EmptyBasket } from './EmptyBasket'
+import { EmptyCart } from './EmptyCart'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
 import { CartItem } from './CartItem/CartItem'
 import { CodeForm } from './CodeForm'
@@ -19,7 +19,7 @@ export default function Cart(): ReactElement {
   const cartItems = useAppSelector(selectCartItems)
 
   if (status === CART_TABLE_STATUS.LOADING) return <Loading />
-  if (isEmptyCart) return <EmptyBasket />
+  if (isEmptyCart) return <EmptyCart />
 
   // TODO
   // eslint-disable-next-line unicorn/consistent-function-scoping
