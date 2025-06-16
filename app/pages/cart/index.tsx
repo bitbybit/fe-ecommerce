@@ -4,6 +4,7 @@ import { useFetchCart } from '~/hooks/useFetchCart'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { removeProduct, selectCartItems, selectIsEmptyCart } from '~/store/cart'
 import { EmptyBasket } from './EmptyBasket'
+import { CodeForm } from './CodeForm'
 import { ProductPrice } from '~/components/product/ProductPrice'
 import { formatProductItemPrice } from '~/utils/formatPrice'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
@@ -15,7 +16,7 @@ export default function Routes(): ReactElement {
   useFetchCart()
 
   const dispatch = useAppDispatch()
-  const { status } = useAppSelector((state) => state.cart)
+  const { status, cart } = useAppSelector((state) => state.cart)
   const isEmptyCart = useAppSelector(selectIsEmptyCart) && status === CART_TABLE_STATUS.READY
   const cartItems = useAppSelector(selectCartItems)
 
@@ -32,12 +33,12 @@ export default function Routes(): ReactElement {
     event.preventDefault()
     await dispatch(removeProduct({ productId, quantity })).unwrap()
   }
-
-  // TODO: fetch products by id to get pictures
   return (
     <>
-      {cartItems.map(({ name, productId, quantity, price, totalPrice }) => (
-        <div key={productId} className="flex gap-5">
+      {cartItems.map(({ name, productId, quantity, price, totalPrice, variant }) => (
+        <div key={productId} className="flex items-center gap-5">
+          <img src={variant.images?.[0]?.url} alt="Preview" width="25" />
+
           <div>
             {name['en-US']} (amount: {quantity})
           </div>
@@ -56,6 +57,15 @@ export default function Routes(): ReactElement {
           )}
         </div>
       ))}
+      {cart?.discountOnTotalPrice === undefined ? (
+        <div>Total price: {formatProductItemPrice(cart?.totalPrice?.centAmount ?? 0)}</div>
+      ) : (
+        <div>
+          Total price with discount code applied:{' '}
+          {formatProductItemPrice(cart?.discountOnTotalPrice?.discountedAmount?.centAmount ?? 0)}
+        </div>
+      )}
+      <CodeForm />
     </>
   )
 }

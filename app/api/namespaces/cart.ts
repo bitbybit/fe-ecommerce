@@ -1,5 +1,5 @@
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
-import { type Cart, type ClientResponse } from '@commercetools/platform-sdk'
+import { type Cart, type ClientResponse, type DiscountCodePagedQueryResponse } from '@commercetools/platform-sdk'
 
 type CartApiProperties = {
   client: CtpApiClient
@@ -78,6 +78,24 @@ export class CartApi {
     const activeCart = await this.client.getCurrentCustomerBuilder().activeCart().get().execute()
 
     return activeCart.body
+  }
+
+  public async getDiscountCodes(): Promise<ClientResponse<DiscountCodePagedQueryResponse>> {
+    return this.client.root
+      .discountCodes()
+      .get({ queryArgs: { where: 'isActive = true' } })
+      .execute()
+  }
+
+  public async applyDiscountCode(code: string): Promise<ClientResponse<Cart>> {
+    const cart = await this.getCart()
+
+    return this.client
+      .getCurrentCustomerBuilder()
+      .carts()
+      .withId({ ID: cart.id })
+      .post({ body: { actions: [{ action: 'addDiscountCode', code }], version: cart.version } })
+      .execute()
   }
 
   private getCartIdFromStorage(): string | null {

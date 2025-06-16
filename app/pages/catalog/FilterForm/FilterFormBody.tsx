@@ -28,9 +28,6 @@ import { SortFormField } from './SortFormField'
 import { Categories } from './Categories'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 
-// TODO: items per page
-export const PRODUCTS_LIMIT = 100
-
 type FilterFormBodyProperties = {
   filters: ProductListFilter[]
   categories: ProductListCategory[]

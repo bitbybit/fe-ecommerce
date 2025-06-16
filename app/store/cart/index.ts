@@ -6,6 +6,7 @@ import { CART_TABLE_STATUS, type CartState } from '~/store/cart/types'
 import { createAddProductThunk } from '~/store/cart/reducers/addProduct'
 import { createRemoveProductThunk } from '~/store/cart/reducers/removeProduct'
 import { createGetCartThunk } from '~/store/cart/reducers/getCart'
+import { createApplyCodeThunk } from '~/store/cart/reducers/applyCode'
 
 const initialState: CartState = {
   cart: undefined,
@@ -20,7 +21,8 @@ const cart = createAppSlice({
   reducers: (create) => ({
     addProduct: createAddProductThunk(create),
     removeProduct: createRemoveProductThunk(create),
-    getCart: createGetCartThunk(create)
+    getCart: createGetCartThunk(create),
+    applyCode: createApplyCodeThunk(create)
   })
 })
 
@@ -39,5 +41,5 @@ export const selectCartItems: Selector<RootState, LineItem[]> = createSelector(
 export const selectIsInCart = (product: ProductProjection): Selector<RootState, boolean> =>
   createSelector([selectCartItems], (items) => items.some(({ productId }) => productId === product.id))
 
-export const { addProduct, removeProduct, getCart } = cart.actions
+export const { addProduct, removeProduct, getCart, applyCode } = cart.actions
 export default cart.reducer
