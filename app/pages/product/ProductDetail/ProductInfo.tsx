@@ -2,7 +2,7 @@ import { type ProductProjection } from '@commercetools/platform-sdk'
 import { type ReactElement } from 'react'
 import { H1, H3, P } from '~/components/ui/typography'
 import { ProductPrice } from '~/components/product/ProductPrice'
-import { CartToggleButton } from './CardToggleButton'
+import { CartToggleButton } from './CartToggleButton'
 import { useProductInfo } from '../hooks/useProductInfo'
 
 const LANG = 'en-US'
