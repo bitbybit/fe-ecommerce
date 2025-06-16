@@ -12,7 +12,7 @@ import {
 } from '~/components/ui/AlertDialog'
 import { Button } from '~/components/ui/Button'
 
-export function ClearCartButton({ handleClearCart }: { handleClearCart: () => void }): ReactElement {
+export function ClearCartButton({ onClearCart }: { onClearCart: () => void }): ReactElement {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -27,7 +27,7 @@ export function ClearCartButton({ handleClearCart }: { handleClearCart: () => vo
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleClearCart}>Yes, clear it</AlertDialogAction>
+          <AlertDialogAction onClick={onClearCart}>Yes, clear it</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
