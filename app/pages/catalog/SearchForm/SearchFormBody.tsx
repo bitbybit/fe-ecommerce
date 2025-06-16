@@ -27,7 +27,7 @@ export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyPro
       <div className="flex w-full items-center gap-2">
         <Input
           type="text"
-          className="h-[40px] border-blue-200 shadow-sm"
+          className="h-[40px] border-neural-200 shadow-sm"
           placeholder="Search products..."
           {...register('search')}
         />

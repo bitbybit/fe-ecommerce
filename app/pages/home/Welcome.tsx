@@ -18,7 +18,7 @@ export function Welcome(): ReactElement {
       <P className="mb-6 text-gray-600">Discover products, manage your profile, and enjoy smooth shopping!</P>
 
       <div className="flex gap-4 flex-wrap justify-center">
-        <Button variant="blue" asChild>
+        <Button variant="neutral" asChild>
           <NavLink to={ROUTES.CATALOG}>Browse Catalog</NavLink>
         </Button>
 

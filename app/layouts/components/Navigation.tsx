@@ -48,7 +48,7 @@ export function Navigation({ isAuth }: NavigationProperties): ReactElement {
                 asChild
                 className="flex items-center gap-2 text-sm font-medium hover:underline px-4 py-2 relative"
               >
-                <NavLink to={to}>
+                <NavLink to={to} className="text-white">
                   <Icon className="size-4" />
                   {label}
                   {isCart && count > 0 && (
