@@ -7,6 +7,8 @@ import { createAddProductThunk } from '~/store/cart/reducers/addProduct'
 import { createRemoveProductThunk } from '~/store/cart/reducers/removeProduct'
 import { createGetCartThunk } from '~/store/cart/reducers/getCart'
 import { createApplyCodeThunk } from '~/store/cart/reducers/applyCode'
+import { createUpdateQuantityThunk } from '~/store/cart/reducers/updateQuantity'
+import { createClearCartThunk } from '~/store/cart/reducers/clearCart'
 
 const initialState: CartState = {
   cart: undefined,
@@ -21,7 +23,9 @@ const cart = createAppSlice({
   reducers: (create) => ({
     addProduct: createAddProductThunk(create),
     removeProduct: createRemoveProductThunk(create),
+    updateQuantity: createUpdateQuantityThunk(create),
     getCart: createGetCartThunk(create),
+    clearCart: createClearCartThunk(create),
     applyCode: createApplyCodeThunk(create)
   })
 })
@@ -43,5 +47,6 @@ export const selectIsInCart = (product: ProductProjection): Selector<RootState, 
 
 export const selectCartItemCount = createSelector([selectCartSlice], (cart) => cart.cart?.totalLineItemQuantity ?? 0)
 
-export const { addProduct, removeProduct, getCart, applyCode } = cart.actions
+export const { addProduct, removeProduct, updateQuantity, getCart, clearCart, applyCode } = cart.actions
+
 export default cart.reducer

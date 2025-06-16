@@ -3,10 +3,10 @@ import { type ReactElement } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
 import { SaleBadge } from '~/components/product/SaleBadge'
-import { AspectRatio } from '~/components/ui/AspectRatio'
 import { ProductPrice } from '~/components/product/ProductPrice'
 import { ROUTES } from '~/routes'
 import { AddToCartButton } from './AddToCartButton'
+import { ProductImage } from '~/components/product/ProductImage'
 
 type ProductItemProperties = { product: ProductProjection }
 
@@ -30,9 +30,7 @@ export function ProductItem({ product }: ProductItemProperties): ReactElement {
     >
       <CardContent className="space-y-0 h-full flex flex-col justify-between gap-y-2 relative">
         {discountPrice !== undefined && <SaleBadge />}
-        <AspectRatio ratio={4 / 3} className="bg-white rounded-md">
-          <img src={image} alt={name} className="w-full h-full object-contain" />
-        </AspectRatio>
+        <ProductImage imageUrl={image} alt={name} />
         <hr />
         <CardTitle className="leading-normal line-clamp-1">{name}</CardTitle>
         <CardDescription className="flex-1 line-clamp-2">{description}</CardDescription>

@@ -6,7 +6,7 @@ import { Loading } from '~/components/Loading'
 import { ProductList } from './ProductList'
 import { FilterFormBody } from './FilterForm/FilterFormBody'
 import { useCatalogData } from './hooks/useCatalogData'
-import { SearchFormBody } from './SearchForm/SearchFomBody'
+import { SearchFormBody } from './SearchForm/SearchFormBody'
 import { NoProductsFound } from './NoProductsFound'
 import { PaginationControls } from './PaginationControls'
 

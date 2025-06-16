@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 import { NavLink } from 'react-router'
 import { ROUTES } from '~/routes'
 
-export function EmptyBasket(): ReactElement {
+export function EmptyCart(): ReactElement {
   return (
     <div className="w-full h-full flex items-center justify-center p-[10px]">
       <div className="max-w-md flex flex-col items-center justify-center gap-4 text-center">
