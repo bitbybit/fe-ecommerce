@@ -29,7 +29,7 @@ const mockProductProjection: ProductProjection = {
     ],
     images: [
       {
-        url: '/images/mock-product.jpg',
+        url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
         dimensions: { w: 500, h: 500 }
       }
     ]
