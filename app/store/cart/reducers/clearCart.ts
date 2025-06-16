@@ -34,7 +34,7 @@ export const createClearCartThunk = (
       },
 
       rejected: (state, action) => {
-        state.errorMessage = action.payload ?? 'Unknown error while getting cart'
+        state.errorMessage = action.payload ?? 'Unknown error while clearing cart'
         state.status = CART_TABLE_STATUS.ERROR
       }
     }
