@@ -15,10 +15,14 @@ export function Discounts(): ReactElement {
       <H2 className="text-center mb-6">Discounts</H2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {discounts.map(({ id, code, description }) => (
-          <Card key={id} className="flex-grow w-full p-2">
+          <Card key={id} className="flex-grow w-full max-w-xs p-2 border-black p-2">
             <CardContent className="p-2">
-              <CardTitle className="mb-2">{code}</CardTitle>
-              {description !== undefined && <CardDescription>{description['en-US']}</CardDescription>}
+              <CardTitle className="mb-2 animate-bounce bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent text-center">
+                {code}
+              </CardTitle>
+              {description !== undefined && (
+                <CardDescription className="text-center text-violet-950">{description['en-US']}</CardDescription>
+              )}
             </CardContent>
           </Card>
         ))}
