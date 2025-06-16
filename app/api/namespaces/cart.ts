@@ -44,6 +44,43 @@ export class CartApi {
       .execute()
   }
 
+  public async updateProductQuantity(productId: string, quantity: number): Promise<ClientResponse<Cart>> {
+    const cart = await this.getCart()
+    const lineItemId = cart.lineItems.find((lineItem) => lineItem.productId === productId)?.id
+
+    if (lineItemId === undefined) {
+      throw new Error(`Could not find lineItem for product with ID ${productId}`)
+    }
+
+    return this.client
+      .getCurrentCustomerBuilder()
+      .carts()
+      .withId({ ID: cart.id })
+      .post({
+        body: { actions: [{ action: 'changeLineItemQuantity', lineItemId, quantity }], version: cart.version }
+      })
+      .execute()
+  }
+
+  public async clearCart(): Promise<Cart> {
+    let cart = await this.getCart()
+
+    for (const { id, quantity } of cart.lineItems) {
+      const { body } = await this.client
+        .getCurrentCustomerBuilder()
+        .carts()
+        .withId({ ID: cart.id })
+        .post({
+          body: { actions: [{ action: 'removeLineItem', lineItemId: id, quantity }], version: cart.version }
+        })
+        .execute()
+
+      cart = body
+    }
+
+    return cart
+  }
+
   public async getCart(): Promise<Cart> {
     const carts = await this.client.getCurrentCustomerBuilder().carts().get().execute()
 
