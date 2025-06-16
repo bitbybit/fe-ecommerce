@@ -8,6 +8,8 @@ import {
   NavigationMenuLink
 } from '~/components/ui/NavigationMenu'
 import { ROUTES } from '~/routes'
+import { useAppSelector } from '~/store/hooks'
+import { selectCartItemCount } from '~/store/cart'
 
 interface NavigationProperties {
   isAuth: boolean
@@ -33,22 +35,32 @@ const navItems: NavItem[] = [
 
 export function Navigation({ isAuth }: NavigationProperties): ReactElement {
   const filteredItems = navItems.filter((item) => item.auth === undefined || item.auth === isAuth)
-
+  const count = useAppSelector(selectCartItemCount)
   return (
     <NavigationMenu>
       <NavigationMenuList className="grid grid-cols-3 sm:flex justify-center gap-2">
-        {filteredItems.map(({ to, label, icon: Icon }) => (
-          <NavigationMenuItem key={label}>
-            <NavigationMenuLink
-              asChild
-              className="flex items-center gap-2 text-sm font-medium hover:underline px-4 py-2"
-            >
-              <NavLink to={to}>
-                <Icon className="size-4" /> {label}
-              </NavLink>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        ))}
+        {filteredItems.map(({ to, label, icon: Icon }) => {
+          const isCart = label === 'Cart'
+
+          return (
+            <NavigationMenuItem key={label}>
+              <NavigationMenuLink
+                asChild
+                className="flex items-center gap-2 text-sm font-medium hover:underline px-4 py-2 relative"
+              >
+                <NavLink to={to}>
+                  <Icon className="size-4" />
+                  {label}
+                  {isCart && count > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-semibold w-4 h-4 rounded-full flex items-center justify-center">
+                      {count}
+                    </span>
+                  )}
+                </NavLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )
+        })}
       </NavigationMenuList>
     </NavigationMenu>
   )
