@@ -5,27 +5,7 @@ import { ProductImages } from './ProductImages'
 import { ProductInfo } from './ProductInfo'
 import { ProductBreadcrumbs } from './ProductBreadcrumbs'
 import { type ProductListCategory } from '~/api/namespaces/product'
-
-function getBreadcrumbs(
-  categories: ProductListCategory[],
-  categoryId: string,
-  breadcrumbs: ProductListCategory[] = []
-): ProductListCategory[] {
-  for (const category of categories) {
-    const newBreadcrumbs = [...breadcrumbs, category]
-
-    if (category.id === categoryId) {
-      return newBreadcrumbs
-    }
-
-    if (category.subCategories !== undefined && category.subCategories.length > 0) {
-      const result = getBreadcrumbs(category.subCategories, categoryId, newBreadcrumbs)
-      if (result) return result
-    }
-  }
-
-  return []
-}
+import { useProductInfo } from '../hooks/useProductInfo'
 
 export function ProductDetailBody({
   categories,
@@ -38,13 +18,7 @@ export function ProductDetailBody({
     throw new Error('Product not found')
   }
 
-  const name = product.name
-  const description = product.description ?? name
-  const price = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0
-  const images = product.masterVariant.images ?? []
-  const discount = product.masterVariant.prices?.[0].discounted?.value?.centAmount ?? undefined
-  const breadcrumbs =
-    product.categories?.[0]?.id === undefined ? [] : getBreadcrumbs(categories, product.categories[0].id)
+  const { breadcrumbs, images } = useProductInfo(product, categories)
 
   return (
     <div className="w-full flex flex-col flex-grow items-start gap-10 p-6">
@@ -52,7 +26,7 @@ export function ProductDetailBody({
       <Card className="w-full flex-grow rounded-xl border border-muted bg-card shadow-sm overflow-hidden">
         <CardContent className="flex flex-wrap items-start p-0">
           <ProductImages images={images} />
-          <ProductInfo name={name} description={description} price={price} discount={discount} />
+          <ProductInfo product={product} />
         </CardContent>
       </Card>
     </div>
