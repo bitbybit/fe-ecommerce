@@ -1,17 +1,16 @@
-import type { LineItem } from '@commercetools/platform-sdk'
-import { type ReactElement } from 'react'
+import { type ReactElement, type MouseEvent } from 'react'
+import { type LineItem } from '@commercetools/platform-sdk'
 import { removeProduct, updateQuantity } from '~/store/cart'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
-import { CartItemView } from './CartItemView'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
+import { CartItemView } from './CartItemView'
+import { LANG } from '~/api/client'
 
-const LOCALE = 'en-US'
-
-type CartItemProperties = {
+type CartItemProps = {
   lineItem: LineItem
 }
 
-export function CartItem({ lineItem }: CartItemProperties): ReactElement {
+export function CartItem({ lineItem }: CartItemProps): ReactElement {
   const { name, productId, quantity, price, totalPrice, variant } = lineItem
   const dispatch = useAppDispatch()
   const imageUrl = variant.images?.[0]?.url
@@ -24,7 +23,7 @@ export function CartItem({ lineItem }: CartItemProperties): ReactElement {
     await dispatch(updateQuantity({ productId, quantity: newQuantity })).unwrap()
   }
 
-  const handleDeleteItem = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleDeleteItem = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
     event.preventDefault()
     if (isCartLoading) return
     await dispatch(removeProduct({ productId, quantity })).unwrap()
@@ -32,7 +31,7 @@ export function CartItem({ lineItem }: CartItemProperties): ReactElement {
 
   return (
     <CartItemView
-      name={name[LOCALE]}
+      name={name[LANG]}
       imageUrl={imageUrl}
       price={price}
       quantity={quantity}

@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/Select'
 
-interface FilterSelectProperties {
+type FilterSelectProps = {
   label: string
   options: {
     value: string
@@ -11,14 +11,14 @@ interface FilterSelectProperties {
   value: string
 }
 
-export function FilterSelect(properties: FilterSelectProperties): ReactElement {
+export function FilterSelect(props: FilterSelectProps): ReactElement {
   return (
-    <Select onValueChange={properties.onChange} value={properties.value}>
+    <Select onValueChange={props.onChange} value={props.value}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder={properties.label} />
+        <SelectValue placeholder={props.label} />
       </SelectTrigger>
       <SelectContent>
-        {properties.options.map((option, index) => {
+        {props.options.map((option, index) => {
           return (
             <SelectItem key={`${option.value}-${index}`} value={option.value}>
               {option.label}

@@ -4,15 +4,15 @@ import { countries } from '~/utils/countries'
 import { Badge } from '~/components/ui/Badge'
 import { UserAddressField } from './UserAddressField'
 
-type UserAddressProperties = {
+type UserAddressProps = {
   address: Address
   defaultBillingAddressId: string
   defaultShippingAddressId: string
 }
 
-export const UserAddress = (properties: UserAddressProperties): ReactElement => {
-  const isBilling = properties.address.id === properties.defaultBillingAddressId
-  const isShipping = properties.address.id === properties.defaultShippingAddressId
+export const UserAddress = (props: UserAddressProps): ReactElement => {
+  const isBilling = props.address.id === props.defaultBillingAddressId
+  const isShipping = props.address.id === props.defaultShippingAddressId
 
   return (
     <div>
@@ -22,12 +22,12 @@ export const UserAddress = (properties: UserAddressProperties): ReactElement => 
       </div>
       <div className="grid gap-4 md:grid-cols-2 items-start">
         {[
-          { label: 'First Name', value: properties.address.firstName },
-          { label: 'Last Name', value: properties.address.lastName },
-          { label: 'Country', value: countries[properties.address.country] },
-          { label: 'City', value: properties.address.city },
-          { label: 'Street name', value: properties.address.streetName },
-          { label: 'Postal code', value: properties.address.postalCode }
+          { label: 'First Name', value: props.address.firstName },
+          { label: 'Last Name', value: props.address.lastName },
+          { label: 'Country', value: countries[props.address.country] },
+          { label: 'City', value: props.address.city },
+          { label: 'Street name', value: props.address.streetName },
+          { label: 'Postal code', value: props.address.postalCode }
         ].map((field) => (
           <UserAddressField label={field.label} value={field.value} key={field.label} />
         ))}

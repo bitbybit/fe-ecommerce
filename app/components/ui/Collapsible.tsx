@@ -5,14 +5,14 @@ import {
   CollapsibleContent as RadixCollapsibleContent
 } from '@radix-ui/react-collapsible'
 
-export function Collapsible({ ...properties }: ComponentProps<typeof Root>): ReactElement {
-  return <Root data-slot="collapsible" {...properties} />
+export function Collapsible({ ...props }: ComponentProps<typeof Root>): ReactElement {
+  return <Root data-slot="collapsible" {...props} />
 }
 
-export function CollapsibleTrigger({ ...properties }: ComponentProps<typeof RadixCollapsibleTrigger>): ReactElement {
-  return <RadixCollapsibleTrigger data-slot="collapsible-trigger" {...properties} />
+export function CollapsibleTrigger({ ...props }: ComponentProps<typeof RadixCollapsibleTrigger>): ReactElement {
+  return <RadixCollapsibleTrigger data-slot="collapsible-trigger" {...props} />
 }
 
-export function CollapsibleContent({ ...properties }: ComponentProps<typeof RadixCollapsibleContent>): ReactElement {
-  return <RadixCollapsibleContent data-slot="collapsible-content" {...properties} />
+export function CollapsibleContent({ ...props }: ComponentProps<typeof RadixCollapsibleContent>): ReactElement {
+  return <RadixCollapsibleContent data-slot="collapsible-content" {...props} />
 }

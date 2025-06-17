@@ -4,8 +4,7 @@ import { H1, H3, P } from '~/components/ui/typography'
 import { ProductPrice } from '~/components/product/ProductPrice'
 import { CartToggleButton } from './CartToggleButton'
 import { useProductInfo } from '../hooks/useProductInfo'
-
-const LANG = 'en-US'
+import { LANG } from '~/api/client'
 
 export function ProductInfo({ product }: { product: ProductProjection }): ReactElement {
   const { name, description, price, discount } = useProductInfo(product)

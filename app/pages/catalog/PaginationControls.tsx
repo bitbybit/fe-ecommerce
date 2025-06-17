@@ -9,13 +9,13 @@ import {
   PaginationStart
 } from '~/components/ui/Pagination'
 
-type PaginationControlsProperties = {
+type PaginationControlsProps = {
   page: number
   totalPage: number
   onPageChange: (page: number) => void
 }
 
-export function PaginationControls({ page, totalPage, onPageChange }: PaginationControlsProperties): ReactElement {
+export function PaginationControls({ page, totalPage, onPageChange }: PaginationControlsProps): ReactElement {
   const isFirstPage = page === 1
   const isLastPage = page === totalPage
   const classNamesDisabled = 'pointer-events-none opacity-50'

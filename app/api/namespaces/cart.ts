@@ -1,7 +1,7 @@
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 import { type Cart, type ClientResponse, type DiscountCodePagedQueryResponse } from '@commercetools/platform-sdk'
 
-type CartApiProperties = {
+type CartApiProps = {
   client: CtpApiClient
 }
 
@@ -11,7 +11,7 @@ export class CartApi {
   private readonly cartIdStorageKey = 'cart_id'
   private readonly currency = 'USD'
 
-  constructor({ client }: CartApiProperties) {
+  constructor({ client }: CartApiProps) {
     this.client = client
   }
 

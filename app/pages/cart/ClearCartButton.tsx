@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import { type ReactElement } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +12,9 @@ import {
 } from '~/components/ui/AlertDialog'
 import { Button } from '~/components/ui/Button'
 
-export function ClearCartButton({ onClearCart }: { onClearCart: () => void }): ReactElement {
+type ClearCartButtonProps = { onClearCart: () => void }
+
+export function ClearCartButton({ onClearCart }: ClearCartButtonProps): ReactElement {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

@@ -7,14 +7,15 @@ import { ProductPrice } from '~/components/product/ProductPrice'
 import { ROUTES } from '~/routes'
 import { AddToCartButton } from './AddToCartButton'
 import { ProductImage } from '~/components/product/ProductImage'
+import { LANG } from '~/api/client'
 
-type ProductItemProperties = { product: ProductProjection }
+type ProductItemProps = { product: ProductProjection }
 
-export function ProductItem({ product }: ProductItemProperties): ReactElement {
+export function ProductItem({ product }: ProductItemProps): ReactElement {
   const navigate = useNavigate()
 
-  const name = product.name['en-US']
-  const description = product.description?.['en-US'] ?? name
+  const name = product.name[LANG]
+  const description = product.description?.[LANG] ?? name
   const image = product.masterVariant.images?.[0]?.url
   const price = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0
   const discountPrice = product.masterVariant.prices?.[0].discounted?.value?.centAmount

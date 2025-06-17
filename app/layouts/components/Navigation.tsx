@@ -11,11 +11,11 @@ import { ROUTES } from '~/routes'
 import { useAppSelector } from '~/store/hooks'
 import { selectCartItemCount } from '~/store/cart'
 
-interface NavigationProperties {
+type NavigationProps = {
   isAuth: boolean
 }
 
-interface NavItem {
+type NavItem = {
   to: string
   label: string
   icon: ElementType
@@ -33,7 +33,7 @@ const navItems: NavItem[] = [
   { to: ROUTES.LOGOUT, label: 'LogOut', icon: UserMinus, auth: true }
 ]
 
-export function Navigation({ isAuth }: NavigationProperties): ReactElement {
+export function Navigation({ isAuth }: NavigationProps): ReactElement {
   const filteredItems = navItems.filter((item) => item.auth === undefined || item.auth === isAuth)
   const count = useAppSelector(selectCartItemCount)
   return (

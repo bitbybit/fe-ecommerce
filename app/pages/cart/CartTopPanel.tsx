@@ -4,11 +4,11 @@ import { CartTotalPrice } from './CartTotalPrice'
 import { ClearCartButton } from './ClearCartButton'
 import { useAppSelector } from '~/store/hooks'
 
-type CartTopPanelProperties = {
+type CartTopPanelProps = {
   onClearCart: () => void
 }
 
-export function CartTopPanel({ onClearCart }: CartTopPanelProperties): ReactElement {
+export function CartTopPanel({ onClearCart }: CartTopPanelProps): ReactElement {
   const { cart } = useAppSelector((state) => state.cart)
 
   return (

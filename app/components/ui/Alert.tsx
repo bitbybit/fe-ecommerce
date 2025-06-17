@@ -1,6 +1,5 @@
-import { type ReactElement } from 'react'
+import { type ComponentProps, type ReactElement } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-
 import { cn } from '~/utils/ui'
 
 const alertVariants = cva(
@@ -21,22 +20,22 @@ const alertVariants = cva(
 export function Alert({
   className,
   variant,
-  ...properties
-}: React.ComponentProps<'div'> & VariantProps<typeof alertVariants>): ReactElement {
-  return <div data-slot="alert" role="alert" className={cn(alertVariants({ variant }), className)} {...properties} />
+  ...props
+}: ComponentProps<'div'> & VariantProps<typeof alertVariants>): ReactElement {
+  return <div data-slot="alert" role="alert" className={cn(alertVariants({ variant }), className)} {...props} />
 }
 
-export function AlertTitle({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+export function AlertTitle({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="alert-title"
       className={cn('col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function AlertDescription({ className, ...properties }: React.ComponentProps<'div'>): ReactElement {
+export function AlertDescription({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="alert-description"
@@ -44,7 +43,7 @@ export function AlertDescription({ className, ...properties }: React.ComponentPr
         'text-muted-foreground col-start-2 grid justify-items-start gap-1 text-xs [&_p]:leading-relaxed',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
