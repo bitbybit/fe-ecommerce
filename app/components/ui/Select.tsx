@@ -19,23 +19,23 @@ import {
 } from '@radix-ui/react-select'
 import { cn } from '~/utils/ui'
 
-export function Select({ ...properties }: ComponentProps<typeof Root>): ReactElement {
-  return <Root data-slot="select" {...properties} />
+export function Select({ ...props }: ComponentProps<typeof Root>): ReactElement {
+  return <Root data-slot="select" {...props} />
 }
 
-export function SelectGroup({ ...properties }: ComponentProps<typeof Group>): ReactElement {
-  return <Group data-slot="select-group" {...properties} />
+export function SelectGroup({ ...props }: ComponentProps<typeof Group>): ReactElement {
+  return <Group data-slot="select-group" {...props} />
 }
 
-export function SelectValue({ ...properties }: ComponentProps<typeof Value>): ReactElement {
-  return <Value data-slot="select-value" {...properties} />
+export function SelectValue({ ...props }: ComponentProps<typeof Value>): ReactElement {
+  return <Value data-slot="select-value" {...props} />
 }
 
 export function SelectTrigger({
   className,
   size = 'default',
   children,
-  ...properties
+  ...props
 }: ComponentProps<typeof Trigger> & {
   size?: 'sm' | 'default'
 }): ReactElement {
@@ -47,7 +47,7 @@ export function SelectTrigger({
         "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
-      {...properties}
+      {...props}
     >
       {children}
       <Icon asChild>
@@ -61,7 +61,7 @@ export function SelectContent({
   className,
   children,
   position = 'popper',
-  ...properties
+  ...props
 }: ComponentProps<typeof Content>): ReactElement {
   return (
     <Portal>
@@ -74,7 +74,7 @@ export function SelectContent({
           className
         )}
         position={position}
-        {...properties}
+        {...props}
       >
         <SelectScrollUpButton />
         <Viewport
@@ -92,17 +92,13 @@ export function SelectContent({
   )
 }
 
-export function SelectLabel({ className, ...properties }: ComponentProps<typeof Label>): ReactElement {
+export function SelectLabel({ className, ...props }: ComponentProps<typeof Label>): ReactElement {
   return (
-    <Label
-      data-slot="select-label"
-      className={cn('text-muted-foreground px-2 py-1.5 text-xs', className)}
-      {...properties}
-    />
+    <Label data-slot="select-label" className={cn('text-muted-foreground px-2 py-1.5 text-xs', className)} {...props} />
   )
 }
 
-export function SelectItem({ className, children, ...properties }: ComponentProps<typeof Item>): ReactElement {
+export function SelectItem({ className, children, ...props }: ComponentProps<typeof Item>): ReactElement {
   return (
     <Item
       data-slot="select-item"
@@ -110,7 +106,7 @@ export function SelectItem({ className, children, ...properties }: ComponentProp
         "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className
       )}
-      {...properties}
+      {...props}
     >
       <span className="absolute right-2 flex size-3.5 items-center justify-center">
         <ItemIndicator>
@@ -122,40 +118,34 @@ export function SelectItem({ className, children, ...properties }: ComponentProp
   )
 }
 
-export function SelectSeparator({ className, ...properties }: ComponentProps<typeof Separator>): ReactElement {
+export function SelectSeparator({ className, ...props }: ComponentProps<typeof Separator>): ReactElement {
   return (
     <Separator
       data-slot="select-separator"
       className={cn('bg-border pointer-events-none -mx-1 my-1 h-px', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SelectScrollUpButton({
-  className,
-  ...properties
-}: ComponentProps<typeof ScrollUpButton>): ReactElement {
+export function SelectScrollUpButton({ className, ...props }: ComponentProps<typeof ScrollUpButton>): ReactElement {
   return (
     <ScrollUpButton
       data-slot="select-scroll-up-button"
       className={cn('flex cursor-default items-center justify-center py-1', className)}
-      {...properties}
+      {...props}
     >
       <ChevronUpIcon className="size-4" />
     </ScrollUpButton>
   )
 }
 
-export function SelectScrollDownButton({
-  className,
-  ...properties
-}: ComponentProps<typeof ScrollDownButton>): ReactElement {
+export function SelectScrollDownButton({ className, ...props }: ComponentProps<typeof ScrollDownButton>): ReactElement {
   return (
     <ScrollDownButton
       data-slot="select-scroll-down-button"
       className={cn('flex cursor-default items-center justify-center py-1', className)}
-      {...properties}
+      {...props}
     >
       <ChevronDownIcon className="size-4" />
     </ScrollDownButton>

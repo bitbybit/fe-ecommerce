@@ -28,6 +28,12 @@ const rules = {
       replacements: {
         env: {
           environment: false
+        },
+        props: {
+          properties: false
+        },
+        utils: {
+          utilities: false
         }
       }
     }

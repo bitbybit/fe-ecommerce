@@ -9,7 +9,7 @@ import {
 } from '@commercetools/platform-sdk'
 import { LocalStorageTokenCache } from '~/api/TokenCache'
 
-type ApiClientProperties = {
+type ApiClientProps = {
   authUri?: string
   baseUri?: string
   clientId?: string
@@ -43,6 +43,8 @@ type SignupPayload = {
   password: string
 }
 
+export const LANG = 'en-US'
+
 export class CtpApiClient {
   private readonly authUri: string
   private readonly baseUri: string
@@ -67,7 +69,7 @@ export class CtpApiClient {
     clientSecret = String(import.meta.env.VITE_CTP_CLIENT_SECRET),
     projectKey = String(import.meta.env.VITE_CTP_PROJECT_KEY),
     scopes = String(import.meta.env.VITE_CTP_SCOPES)
-  }: ApiClientProperties = {}) {
+  }: ApiClientProps = {}) {
     this.authUri = authUri
     this.baseUri = baseUri
     this.clientId = clientId

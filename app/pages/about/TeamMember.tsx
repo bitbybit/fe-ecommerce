@@ -3,7 +3,7 @@ import { H2 } from '~/components/ui/typography'
 import { GithubLink } from './GithubLink'
 import { InfoLine } from './InfoLine'
 
-interface TeamMemberProperties {
+type TeamMemberProps = {
   name: string
   location?: string
   education?: string
@@ -21,7 +21,7 @@ export function TeamMember({
   about,
   github,
   imageUrl
-}: TeamMemberProperties): ReactElement {
+}: TeamMemberProps): ReactElement {
   return (
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 items-center">
       <img

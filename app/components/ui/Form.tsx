@@ -27,11 +27,11 @@ export const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  ...properties
+  ...props
 }: ControllerProps<TFieldValues, TName>): ReactElement => {
   return (
-    <FormFieldContext.Provider value={{ name: properties.name }}>
-      <Controller {...properties} />
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <Controller {...props} />
     </FormFieldContext.Provider>
   )
 }
@@ -71,17 +71,17 @@ type FormItemContextValue = {
 
 const FormItemContext = createContext<FormItemContextValue>({})
 
-export function FormItem({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function FormItem({ className, ...props }: ComponentProps<'div'>): ReactElement {
   const id = useId()
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div data-slot="form-item" className={cn('grid gap-2', className)} {...properties} />
+      <div data-slot="form-item" className={cn('grid gap-2', className)} {...props} />
     </FormItemContext.Provider>
   )
 }
 
-export function FormLabel({ className, ...properties }: ComponentProps<typeof Root>): ReactElement {
+export function FormLabel({ className, ...props }: ComponentProps<typeof Root>): ReactElement {
   const { error, formItemId } = useFormField()
 
   return (
@@ -90,12 +90,12 @@ export function FormLabel({ className, ...properties }: ComponentProps<typeof Ro
       data-error={!!error}
       className={cn('data-[error=true]:text-destructive', className)}
       htmlFor={formItemId}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function FormControl({ ...properties }: ComponentProps<typeof Slot>): ReactElement {
+export function FormControl({ ...props }: ComponentProps<typeof Slot>): ReactElement {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
   return (
@@ -104,12 +104,12 @@ export function FormControl({ ...properties }: ComponentProps<typeof Slot>): Rea
       id={formItemId}
       aria-describedby={error ? `${formDescriptionId} ${formMessageId}` : `${formDescriptionId}`}
       aria-invalid={!!error}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function FormDescription({ className, ...properties }: ComponentProps<'p'>): ReactElement {
+export function FormDescription({ className, ...props }: ComponentProps<'p'>): ReactElement {
   const { formDescriptionId } = useFormField()
 
   return (
@@ -117,26 +117,21 @@ export function FormDescription({ className, ...properties }: ComponentProps<'p'
       data-slot="form-description"
       id={formDescriptionId}
       className={cn('text-muted-foreground text-sm', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function FormMessage({ className, ...properties }: ComponentProps<'p'>): ReactElement | undefined {
+export function FormMessage({ className, ...props }: ComponentProps<'p'>): ReactElement | undefined {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message ?? '') : properties.children
+  const body = error ? String(error?.message ?? '') : props.children
 
   if (!body) {
     return undefined
   }
 
   return (
-    <p
-      data-slot="form-message"
-      id={formMessageId}
-      className={cn('text-destructive text-sm', className)}
-      {...properties}
-    >
+    <p data-slot="form-message" id={formMessageId} className={cn('text-destructive text-sm', className)} {...props}>
       {body}
     </p>
   )

@@ -2,6 +2,7 @@ import { type ReactElement } from 'react'
 import { useDiscountsData } from './hooks/useDiscountsData'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
 import { H2 } from '~/components/ui/typography'
+import { LANG } from '~/api/client'
 
 export function Discounts(): ReactElement {
   const { discounts } = useDiscountsData()
@@ -21,7 +22,7 @@ export function Discounts(): ReactElement {
                 {code}
               </CardTitle>
               {description !== undefined && (
-                <CardDescription className="text-center text-violet-950">{description['en-US']}</CardDescription>
+                <CardDescription className="text-center text-violet-950">{description[LANG]}</CardDescription>
               )}
             </CardContent>
           </Card>

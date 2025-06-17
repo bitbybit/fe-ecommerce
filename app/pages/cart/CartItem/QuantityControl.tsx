@@ -2,12 +2,12 @@ import { Minus, Plus } from 'lucide-react'
 import type { ReactElement } from 'react'
 import { Button } from '~/components/ui/Button'
 
-type QuantityControlProperties = {
+type QuantityControlProps = {
   quantity: number
   onQuantityChange: (quantity: number) => void
 }
 
-export function QuantityControl({ quantity, onQuantityChange }: QuantityControlProperties): ReactElement {
+export function QuantityControl({ quantity, onQuantityChange }: QuantityControlProps): ReactElement {
   const handleDecrease = (): void => {
     if (quantity > 1) onQuantityChange(quantity - 1)
   }

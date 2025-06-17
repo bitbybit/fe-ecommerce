@@ -6,9 +6,9 @@ import { Button } from '~/components/ui/Button'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { addProduct, selectIsInCart } from '~/store/cart'
 
-type AddToCartButtonProperties = { product: ProductProjection }
+type AddToCartButtonProps = { product: ProductProjection }
 
-export function AddToCartButton({ product }: AddToCartButtonProperties): ReactElement {
+export function AddToCartButton({ product }: AddToCartButtonProps): ReactElement {
   const dispatch = useAppDispatch()
   const isProductInCart = useAppSelector(selectIsInCart(product))
   const [isLoading, setIsLoading] = useState<boolean>(false)

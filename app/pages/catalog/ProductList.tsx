@@ -5,12 +5,12 @@ import { ProductItem } from './ProductItem'
 import { CATALOG_STATUS } from './hooks/useCatalogData'
 import { PRODUCT_LIST_ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
-type ProductListProperties = {
+type ProductListProps = {
   products: ProductProjection[]
   status: CATALOG_STATUS
 }
 
-export function ProductList({ products, status }: ProductListProperties): ReactElement {
+export function ProductList({ products, status }: ProductListProps): ReactElement {
   const isNotReady = status !== CATALOG_STATUS.READY
 
   return (

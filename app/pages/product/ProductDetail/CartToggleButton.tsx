@@ -6,9 +6,9 @@ import { Button } from '~/components/ui/Button'
 import { toast } from 'sonner'
 import { P } from '~/components/ui/typography'
 
-type CartToggleButtonProperties = { product: ProductProjection }
+type CartToggleButtonProps = { product: ProductProjection }
 
-export function CartToggleButton({ product }: CartToggleButtonProperties): ReactElement {
+export function CartToggleButton({ product }: CartToggleButtonProps): ReactElement {
   const dispatch = useAppDispatch()
   const isInCart = useAppSelector(selectIsInCart(product))
   const [isLoading, setIsLoading] = useState(false)

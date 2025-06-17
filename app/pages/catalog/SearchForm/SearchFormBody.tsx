@@ -6,13 +6,13 @@ import { Button } from '~/components/ui/Button'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 import { PRODUCT_LIST_ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
-type SearchFormBodyProperties = {
+type SearchFormBodyProps = {
   fetch: UseCatalogDataResult['fetchProducts']
   setSearch: (search: string) => void
   onSearch: () => void
 }
 
-export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyProperties): ReactElement {
+export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyProps): ReactElement {
   const { register, handleSubmit, getValues } = useForm<{ search: string }>()
 
   const onSubmit = (): Promise<void> => {

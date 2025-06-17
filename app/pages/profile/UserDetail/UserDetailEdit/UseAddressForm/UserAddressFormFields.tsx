@@ -11,7 +11,7 @@ import { type FormType } from '~/utils/form'
 import { type SchemaType } from './schema'
 import { ADDRESS_ACTION_STATUS } from '~/pages/profile/UserDetail/status'
 
-type UserAddressFormFieldsProperties = {
+type UserAddressFormFieldsProps = {
   form: FormType<SchemaType>
   isAdd?: boolean
   onRemove?: () => Promise<void> | void
@@ -29,7 +29,7 @@ export const UserAddressFormFields = ({
   onSetAsShipping = (): void => {},
   status,
   submitText = 'Save'
-}: UserAddressFormFieldsProperties): ReactElement => {
+}: UserAddressFormFieldsProps): ReactElement => {
   return (
     <fieldset disabled={status === ADDRESS_ACTION_STATUS.LOADING}>
       <CardContent className="px-0">

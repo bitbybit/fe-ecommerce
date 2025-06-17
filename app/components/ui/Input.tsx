@@ -1,7 +1,7 @@
 import { type ComponentProps, type ReactElement } from 'react'
 import { cn } from '~/utils/ui'
 
-export function Input({ className, type, ...properties }: ComponentProps<'input'>): ReactElement {
+export function Input({ className, type, ...props }: ComponentProps<'input'>): ReactElement {
   return (
     <input
       type={type}
@@ -12,7 +12,7 @@ export function Input({ className, type, ...properties }: ComponentProps<'input'
         'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }

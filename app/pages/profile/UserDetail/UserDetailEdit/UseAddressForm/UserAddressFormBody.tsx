@@ -13,22 +13,22 @@ import { useRemoveAddress } from '../../../hooks/useRemoveAddress'
 import { useSetBillingAddress } from '../../../hooks/useSetBillingAddress'
 import { useSetShippingAddress } from '../../../hooks/useSetShippingAddress'
 
-type UserAddressFormBodyProviderProperties = {
+type UserAddressFormBodyProviderProps = {
   address: Address
   defaultBillingAddressId: string
   defaultShippingAddressId: string
   form: FormType<SchemaType>
 }
 
-type UserAddressFormBodyProperties = {
+type UserAddressFormBodyProps = {
   address: Address
   defaultBillingAddressId: string
   defaultShippingAddressId: string
 }
 
-const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProperties): ReactElement => {
-  const isBilling = properties.address.id === properties.defaultBillingAddressId
-  const isShipping = properties.address.id === properties.defaultShippingAddressId
+const UserAddressFormBodyProvider = (props: UserAddressFormBodyProviderProps): ReactElement => {
+  const isBilling = props.address.id === props.defaultBillingAddressId
+  const isShipping = props.address.id === props.defaultShippingAddressId
   const { status: changeAddressStatus, changeAddress } = useChangeAddress()
   const { removeAddress } = useRemoveAddress()
   const { setBillingAddress } = useSetBillingAddress()
@@ -36,7 +36,7 @@ const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProp
 
   const handleChangeAddress = (payload: z.infer<typeof schema>): Promise<void> =>
     changeAddress({
-      ...properties.address,
+      ...props.address,
       city: payload.city,
       country: payload.country,
       firstName: payload.firstName,
@@ -50,14 +50,14 @@ const UserAddressFormBodyProvider = (properties: UserAddressFormBodyProviderProp
       <div className="flex gap-2 pb-2">
         {isBilling && <Badge>Default billing</Badge>} {isShipping && <Badge>Default shipping</Badge>}
       </div>
-      <Form {...properties.form}>
-        <form onSubmit={(event) => void properties.form.handleSubmit(handleChangeAddress)(event)} className="space-y-6">
+      <Form {...props.form}>
+        <form onSubmit={(event) => void props.form.handleSubmit(handleChangeAddress)(event)} className="space-y-6">
           <UserAddressFormFields
-            form={properties.form}
+            form={props.form}
             status={changeAddressStatus}
-            onRemove={() => removeAddress(properties.address.id)}
-            onSetAsBilling={() => setBillingAddress(properties.address.id)}
-            onSetAsShipping={() => setShippingAddress(properties.address.id)}
+            onRemove={() => removeAddress(props.address.id)}
+            onSetAsBilling={() => setBillingAddress(props.address.id)}
+            onSetAsShipping={() => setShippingAddress(props.address.id)}
           />
         </form>
       </Form>
@@ -69,7 +69,7 @@ export const UserAddressFormBody = ({
   address,
   defaultBillingAddressId,
   defaultShippingAddressId
-}: UserAddressFormBodyProperties): ReactElement => {
+}: UserAddressFormBodyProps): ReactElement => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     mode: 'onChange',

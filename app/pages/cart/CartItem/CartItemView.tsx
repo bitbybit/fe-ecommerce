@@ -1,21 +1,21 @@
-import type { ReactElement } from 'react'
+import { type ReactElement, type MouseEvent } from 'react'
+import { Trash2 } from 'lucide-react'
+import { type Price } from '@commercetools/platform-sdk'
+import { Card, CardContent, CardTitle } from '~/components/ui/Card'
+import { Button } from '~/components/ui/Button'
 import { ProductImage } from '~/components/product/ProductImage'
 import { ProductPrice } from '~/components/product/ProductPrice'
-import { Card, CardContent, CardTitle } from '~/components/ui/Card'
 import { QuantityControl } from './QuantityControl'
 import { formatProductItemPrice } from '~/utils/formatPrice'
-import type { Price } from '@commercetools/platform-sdk'
-import { Button } from '~/components/ui/Button'
-import { Trash2 } from 'lucide-react'
 
-type CartItemViewProperties = {
+type CartItemViewProps = {
   name: string
   imageUrl?: string
   price: Price
   quantity: number
   totalPrice: number
   onQuantityChange: (quantity: number) => void
-  onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void
+  onDelete: (event: MouseEvent<HTMLButtonElement>) => void
 }
 
 export function CartItemView({
@@ -26,7 +26,7 @@ export function CartItemView({
   totalPrice,
   onQuantityChange,
   onDelete
-}: CartItemViewProperties): ReactElement {
+}: CartItemViewProps): ReactElement {
   return (
     <Card className="w-full max-w-2xl py-4 sm:py-6">
       <CardContent className="space-y-2 px-4 sm:px-6">

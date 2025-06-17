@@ -9,7 +9,8 @@ describe('ProductPrice', () => {
 
     renderWithProviders(<ProductPrice startPrice={startPrice} discountPrice={discountPrice} />)
 
-    expect(screen.getByText('$1', { selector: 'div:not(.text-green-400)' })).toBeInTheDocument()
-    expect(screen.getByText('$0.5', { selector: '.text-green-400' })).toBeInTheDocument()
+    expect(screen.queryByTestId('start-price')).toHaveTextContent('$1')
+
+    expect(screen.queryByTestId('discount-price')).toHaveTextContent('$0.5')
   })
 })

@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes'
 import { type ToasterProps } from 'sonner'
 import { Toaster as Sonner } from 'sonner'
 
-export const Toaster = ({ ...properties }: ToasterProps): ReactElement => {
+export const Toaster = ({ ...props }: ToasterProps): ReactElement => {
   const { theme = 'system' } = useTheme()
 
   return (
@@ -19,7 +19,7 @@ export const Toaster = ({ ...properties }: ToasterProps): ReactElement => {
           '--normal-border': 'var(--border)'
         } as CSSProperties
       }
-      {...properties}
+      {...props}
     />
   )
 }

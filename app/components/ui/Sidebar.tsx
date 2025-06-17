@@ -29,7 +29,7 @@ const SIDEBAR_WIDTH_MOBILE = '16rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
-type SidebarContextProperties = {
+type SidebarContextProps = {
   state: 'expanded' | 'collapsed'
   open: boolean
   setOpen: (open: boolean) => void
@@ -39,9 +39,9 @@ type SidebarContextProperties = {
   toggleSidebar: () => void
 }
 
-const SidebarContext = createContext<SidebarContextProperties | null | undefined>(undefined)
+const SidebarContext = createContext<SidebarContextProps | null | undefined>(undefined)
 
-export function useSidebar(): SidebarContextProperties {
+export function useSidebar(): SidebarContextProps {
   const context = useContext(SidebarContext)
   if (!context) {
     throw new Error('useSidebar must be used within a SidebarProvider.')
@@ -58,7 +58,7 @@ export function SidebarProvider({
   className,
   style,
   children,
-  ...properties
+  ...props
 }: ComponentProps<'div'> & {
   defaultOpen?: boolean
   open?: boolean
@@ -109,7 +109,7 @@ export function SidebarProvider({
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? 'expanded' : 'collapsed'
 
-  const contextValue = useMemo<SidebarContextProperties>(
+  const contextValue = useMemo<SidebarContextProps>(
     () => ({
       state,
       open,
@@ -136,7 +136,7 @@ export function SidebarProvider({
             } as CSSProperties
           }
           className={cn('group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh', className)}
-          {...properties}
+          {...props}
         >
           {children}
         </div>
@@ -152,7 +152,7 @@ export function Sidebar({
   collapsible = 'offcanvas',
   className,
   children,
-  ...properties
+  ...props
 }: ComponentProps<'div'> & {
   side?: 'left' | 'right'
   variant?: 'sidebar' | 'floating' | 'inset'
@@ -165,7 +165,7 @@ export function Sidebar({
       <div
         data-slot="sidebar"
         className={cn('bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col', className)}
-        {...properties}
+        {...props}
       >
         {children}
       </div>
@@ -174,7 +174,7 @@ export function Sidebar({
 
   if (isMobile) {
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...properties}>
+      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
           data-sidebar="sidebar"
           data-slot="sidebar"
@@ -232,7 +232,7 @@ export function Sidebar({
             : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
           className
         )}
-        {...properties}
+        {...props}
       >
         <div
           data-sidebar="sidebar"
@@ -246,7 +246,7 @@ export function Sidebar({
   )
 }
 
-export function SidebarTrigger({ className, onClick, ...properties }: ComponentProps<typeof Button>): ReactElement {
+export function SidebarTrigger({ className, onClick, ...props }: ComponentProps<typeof Button>): ReactElement {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -260,7 +260,7 @@ export function SidebarTrigger({ className, onClick, ...properties }: ComponentP
         onClick?.(event)
         toggleSidebar()
       }}
-      {...properties}
+      {...props}
     >
       <SlidersHorizontal />
       <span className="sr-only">Toggle Sidebar</span>
@@ -268,7 +268,7 @@ export function SidebarTrigger({ className, onClick, ...properties }: ComponentP
   )
 }
 
-export function SidebarRail({ className, ...properties }: ComponentProps<'button'>): ReactElement {
+export function SidebarRail({ className, ...props }: ComponentProps<'button'>): ReactElement {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -288,12 +288,12 @@ export function SidebarRail({ className, ...properties }: ComponentProps<'button
         '[[data-side=right][data-collapsible=offcanvas]_&]:-left-2',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarInset({ className, ...properties }: ComponentProps<'main'>): ReactElement {
+export function SidebarInset({ className, ...props }: ComponentProps<'main'>): ReactElement {
   return (
     <main
       data-slot="sidebar-inset"
@@ -302,56 +302,56 @@ export function SidebarInset({ className, ...properties }: ComponentProps<'main'
         'md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarInput({ className, ...properties }: ComponentProps<typeof Input>): ReactElement {
+export function SidebarInput({ className, ...props }: ComponentProps<typeof Input>): ReactElement {
   return (
     <Input
       data-slot="sidebar-input"
       data-sidebar="input"
       className={cn('bg-background h-8 w-full shadow-none', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarHeader({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function SidebarHeader({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
       className={cn('flex flex-col gap-2 p-2', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarFooter({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function SidebarFooter({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
       className={cn('flex flex-col gap-2 p-2', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarSeparator({ className, ...properties }: ComponentProps<typeof Separator>): ReactElement {
+export function SidebarSeparator({ className, ...props }: ComponentProps<typeof Separator>): ReactElement {
   return (
     <Separator
       data-slot="sidebar-separator"
       data-sidebar="separator"
       className={cn('bg-sidebar-border mx-2 w-auto', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarContent({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function SidebarContent({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="sidebar-content"
@@ -360,18 +360,18 @@ export function SidebarContent({ className, ...properties }: ComponentProps<'div
         'flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarGroup({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function SidebarGroup({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
       className={cn('relative flex w-full min-w-0 flex-col p-2', className)}
-      {...properties}
+      {...props}
     />
   )
 }
@@ -379,7 +379,7 @@ export function SidebarGroup({ className, ...properties }: ComponentProps<'div'>
 export function SidebarGroupLabel({
   className,
   asChild = false,
-  ...properties
+  ...props
 }: ComponentProps<'div'> & { asChild?: boolean }): ReactElement {
   const Comp = asChild ? Slot : 'div'
 
@@ -392,7 +392,7 @@ export function SidebarGroupLabel({
         'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
@@ -400,7 +400,7 @@ export function SidebarGroupLabel({
 export function SidebarGroupAction({
   className,
   asChild = false,
-  ...properties
+  ...props
 }: ComponentProps<'button'> & { asChild?: boolean }): ReactElement {
   const Comp = asChild ? Slot : 'button'
 
@@ -415,40 +415,40 @@ export function SidebarGroupAction({
         'group-data-[collapsible=icon]:hidden',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarGroupContent({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function SidebarGroupContent({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
       className={cn('w-full text-sm', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarMenu({ className, ...properties }: ComponentProps<'ul'>): ReactElement {
+export function SidebarMenu({ className, ...props }: ComponentProps<'ul'>): ReactElement {
   return (
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
       className={cn('flex w-full min-w-0 flex-col gap-1', className)}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarMenuItem({ className, ...properties }: ComponentProps<'li'>): ReactElement {
+export function SidebarMenuItem({ className, ...props }: ComponentProps<'li'>): ReactElement {
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
       className={cn('group/menu-item relative', className)}
-      {...properties}
+      {...props}
     />
   )
 }
@@ -482,7 +482,7 @@ export function SidebarMenuButton({
   size = 'default',
   tooltip,
   className,
-  ...properties
+  ...props
 }: ComponentProps<'button'> & {
   asChild?: boolean
   isActive?: boolean
@@ -497,7 +497,7 @@ export function SidebarMenuButton({
       data-size={size}
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      {...properties}
+      {...props}
     />
   )
   if (!tooltip) {
@@ -520,7 +520,7 @@ export function SidebarMenuAction({
   className,
   asChild = false,
   showOnHover = false,
-  ...properties
+  ...props
 }: ComponentProps<'button'> & {
   asChild?: boolean
   showOnHover?: boolean
@@ -543,12 +543,12 @@ export function SidebarMenuAction({
           'peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarMenuBadge({ className, ...properties }: ComponentProps<'div'>): ReactElement {
+export function SidebarMenuBadge({ className, ...props }: ComponentProps<'div'>): ReactElement {
   return (
     <div
       data-slot="sidebar-menu-badge"
@@ -562,7 +562,7 @@ export function SidebarMenuBadge({ className, ...properties }: ComponentProps<'d
         'group-data-[collapsible=icon]:hidden',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
@@ -570,7 +570,7 @@ export function SidebarMenuBadge({ className, ...properties }: ComponentProps<'d
 export function SidebarMenuSkeleton({
   className,
   showIcon = false,
-  ...properties
+  ...props
 }: ComponentProps<'div'> & {
   showIcon?: boolean
 }): ReactElement {
@@ -584,7 +584,7 @@ export function SidebarMenuSkeleton({
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
       className={cn('flex h-8 items-center gap-2 rounded-md px-2', className)}
-      {...properties}
+      {...props}
     >
       {showIcon && <Skeleton className="size-4 rounded-md" data-sidebar="menu-skeleton-icon" />}
       <Skeleton
@@ -601,7 +601,7 @@ export function SidebarMenuSkeleton({
   )
 }
 
-export function SidebarMenuSub({ className, ...properties }: ComponentProps<'ul'>): ReactElement {
+export function SidebarMenuSub({ className, ...props }: ComponentProps<'ul'>): ReactElement {
   return (
     <ul
       data-slot="sidebar-menu-sub"
@@ -611,18 +611,18 @@ export function SidebarMenuSub({ className, ...properties }: ComponentProps<'ul'
         'group-data-[collapsible=icon]:hidden',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
 
-export function SidebarMenuSubItem({ className, ...properties }: ComponentProps<'li'>): ReactElement {
+export function SidebarMenuSubItem({ className, ...props }: ComponentProps<'li'>): ReactElement {
   return (
     <li
       data-slot="sidebar-menu-sub-item"
       data-sidebar="menu-sub-item"
       className={cn('group/menu-sub-item relative', className)}
-      {...properties}
+      {...props}
     />
   )
 }
@@ -632,7 +632,7 @@ export function SidebarMenuSubButton({
   size = 'md',
   isActive = false,
   className,
-  ...properties
+  ...props
 }: React.ComponentProps<'a'> & {
   asChild?: boolean
   size?: 'sm' | 'md'
@@ -654,7 +654,7 @@ export function SidebarMenuSubButton({
         'group-data-[collapsible=icon]:hidden',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }

@@ -7,7 +7,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-type ImageSwiperProperties = {
+type ImageSwiperProps = {
   images?: Image[]
   onClick?: (index: number) => void
   initialSlide?: number
@@ -21,7 +21,7 @@ export function ImageSwiper({
   initialSlide = 0,
   swiperClassName = '',
   showPagination = true
-}: ImageSwiperProperties): ReactElement {
+}: ImageSwiperProps): ReactElement {
   return (
     <Swiper
       spaceBetween={50}

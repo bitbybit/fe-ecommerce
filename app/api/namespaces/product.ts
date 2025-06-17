@@ -1,4 +1,4 @@
-import { ctpApiClient, type CtpApiClient } from '~/api/client'
+import { ctpApiClient, type CtpApiClient, LANG } from '~/api/client'
 import {
   type ClientResponse,
   type ByProjectKeyProductProjectionsSearchRequestBuilder,
@@ -8,7 +8,7 @@ import {
   type ProductProjection
 } from '@commercetools/platform-sdk'
 
-type ProductApiProperties = {
+type ProductApiProps = {
   client: CtpApiClient
 }
 
@@ -93,7 +93,7 @@ export const PRODUCT_LIST_DEFAULT_APPLIED_SORT: ProductListAppliedSort = [
 export class ProductApi {
   private readonly client: CtpApiClient
 
-  constructor({ client }: ProductApiProperties) {
+  constructor({ client }: ProductApiProps) {
     this.client = client
   }
 
@@ -109,13 +109,13 @@ export class ProductApi {
       type.name === 'set' && 'values' in type.elementType
         ? type.elementType.values.map((value) => ({
             value: value.key,
-            label: typeof value.label === 'object' && 'en-US' in value.label ? value.label['en-US'] : 'Unknown label'
+            label: typeof value.label === 'object' && LANG in value.label ? value.label[LANG] : 'Unknown label'
           }))
         : []
 
     return {
       key: name,
-      label: label['en-US'],
+      label: label[LANG],
       options,
       type: type.name
     }
@@ -185,7 +185,7 @@ export class ProductApi {
             ]
           }),
           ...(sort.length > 0 && { sort: ProductApi.convertSortToQuery(sort) }),
-          ...(searchText.length > 0 && { 'text.en-US': searchText, fuzzy: true })
+          ...(searchText.length > 0 && { [`text.${LANG}`]: searchText, fuzzy: true })
         }
       })
       .execute()

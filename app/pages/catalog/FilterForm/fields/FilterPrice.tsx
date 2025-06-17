@@ -4,29 +4,29 @@ import { Slider } from '~/components/ui/Slider'
 import { SidebarGroupLabel } from '~/components/ui/Sidebar'
 import { formatProductItemPrice } from '~/utils/formatPrice'
 
-interface FilterPriceProperties {
+type FilterPriceProps = {
   label: string
   onChange: (value: number[]) => void
   range: [number, number]
   value: number[]
 }
 
-export function FilterPrice(properties: FilterPriceProperties): ReactElement {
-  const [min, max] = properties.range
+export function FilterPrice(props: FilterPriceProps): ReactElement {
+  const [min, max] = props.range
 
   return (
     <div className="flex flex-col gap-y-[15px]">
-      <SidebarGroupLabel>{properties.label}</SidebarGroupLabel>
+      <SidebarGroupLabel>{props.label}</SidebarGroupLabel>
       <div className="flex justify-between">
         <Button variant="outline" className="pointer-events-none cursor-default w-[80px]">
-          {formatProductItemPrice(properties.value[0])}
+          {formatProductItemPrice(props.value[0])}
         </Button>
         <Button variant="outline" className="pointer-events-none cursor-default w-[80px]">
-          {formatProductItemPrice(properties.value[1])}
+          {formatProductItemPrice(props.value[1])}
         </Button>
       </div>
 
-      <Slider min={min} max={max} value={properties.value} onValueChange={properties.onChange} />
+      <Slider min={min} max={max} value={props.value} onValueChange={props.onChange} />
     </div>
   )
 }
