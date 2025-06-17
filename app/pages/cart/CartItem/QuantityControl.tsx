@@ -23,11 +23,17 @@ export function QuantityControl({ quantity, onQuantityChange }: QuantityControlP
         className="w-6 h-6 rounded-sm cursor-pointer"
         onClick={handleDecrease}
         disabled={quantity === 1}
+        aria-label="decrease-button"
       >
         <Minus />
       </Button>
       <div className="w-6 h-6 flex justify-center items-center">{quantity}</div>
-      <Button variant="gray" className="w-6 h-6 rounded-sm cursor-pointer" onClick={handleIncrease}>
+      <Button
+        variant="gray"
+        className="w-6 h-6 rounded-sm cursor-pointer"
+        onClick={handleIncrease}
+        aria-label="increase-button"
+      >
         <Plus />
       </Button>
     </div>
