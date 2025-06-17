@@ -31,7 +31,7 @@ export function CartItemView({
     <Card className="w-full max-w-2xl py-4 sm:py-6">
       <CardContent className="space-y-2 px-4 sm:px-6">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 items-start">
             <CardTitle>{name}</CardTitle>
             <ProductPrice startPrice={price.value.centAmount} discountPrice={price.discounted?.value?.centAmount} />
           </div>
