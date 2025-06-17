@@ -12,7 +12,7 @@ export function Discounts(): ReactElement {
 
   return (
     <div className="mt-6 mx-3">
-      <H2 className="text-center mb-6">Discounts</H2>
+      <H2 className="text-center mb-6">Discount codes</H2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {discounts.map(({ id, code, description }) => (
           <Card key={id} className="flex-grow w-full max-w-xs p-2 border-black p-2">
