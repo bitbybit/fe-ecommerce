@@ -13,17 +13,10 @@ describe('ProductBreadcrumbs', () => {
     ]
 
     renderWithProviders(<ProductBreadcrumbs breadcrumbs={breadcrumbs} />)
-
-    expect(screen.getByText('Case')).toBeInTheDocument()
-    expect(screen.getByText('Table')).toBeInTheDocument()
-
-    expect(screen.getByText('Case').closest('a')).toHaveAttribute(
-      'href',
-      generatePath(ROUTES.CATEGORY, { categoryId: 'case' })
-    )
-    expect(screen.getByText('Table').closest('a')).toHaveAttribute(
-      'href',
-      generatePath(ROUTES.CATEGORY, { categoryId: 'table' })
-    )
+    for (const { id, label } of breadcrumbs) {
+      const link = screen.getByText(label)
+      expect(link).toBeInTheDocument()
+      expect(link.closest('a')).toHaveAttribute('href', generatePath(ROUTES.CATEGORY, { categoryId: id }))
+    }
   })
 })
