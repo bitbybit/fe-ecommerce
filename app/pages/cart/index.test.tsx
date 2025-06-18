@@ -1,6 +1,6 @@
 import { CART_TABLE_STATUS } from '~/store/cart/types'
 import { renderWithProviders } from '~/utils/test'
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitForElementToBeRemoved } from '@testing-library/react'
 import Cart from '.'
 import { makeStore } from '~/store'
 
@@ -41,8 +41,7 @@ describe('Empty cart', () => {
   it('display empty cart message when cart is empty', async () => {
     renderWithProviders(<Cart />, emptyCartState)
 
-    await waitFor(() => {
-      expect(screen.getByText('Your cart is empty.')).toBeInTheDocument()
-    })
+    await waitForElementToBeRemoved(() => screen.getByText('Loading...'), { timeout: 5000 })
+    expect(screen.getByText('Your cart is empty.')).toBeInTheDocument()
   })
 })
