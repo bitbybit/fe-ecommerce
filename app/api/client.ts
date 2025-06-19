@@ -1,6 +1,7 @@
 import { ClientBuilder, type HttpMiddlewareOptions } from '@commercetools/ts-client'
 import {
   type ByProjectKeyMeRequestBuilder,
+  type ApiRequest,
   type ByProjectKeyRequestBuilder,
   type ClientResponse,
   createApiBuilderFromCtpClient,
@@ -99,19 +100,37 @@ export class CtpApiClient {
     }
   }
 
+  private static isAnonymousIdError(error: unknown): boolean {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'statusCode' in error &&
+      error.statusCode === 400 &&
+      'message' in error &&
+      typeof error.message === 'string' &&
+      error.message.includes('anonymousId')
+    )
+  }
+
   public async login(email: string, password: string): Promise<ClientResponse<Customer>> {
-    await this.public
-      .me()
-      .login()
-      .post({
-        body: {
-          email,
-          password,
-          activeCartSignInMode: 'UseAsNewActiveCustomerCart',
-          updateProductData: true
-        }
-      })
-      .execute()
+    const request: () => ApiRequest<CustomerSignInResult> = () =>
+      this.public
+        .me()
+        .login()
+        .post({
+          body: {
+            email,
+            password,
+            activeCartSignInMode: 'UseAsNewActiveCustomerCart',
+            updateProductData: true
+          }
+        })
+
+    try {
+      await request().execute()
+    } catch (error) {
+      await this.handleError<CustomerSignInResult>({ error, request })
+    }
 
     this.protected = this.createProtectedWithCredentials(email, password)
     this.current = this.protected
@@ -139,31 +158,37 @@ export class CtpApiClient {
     const billingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.BILLING)
     const shippingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.SHIPPING)
 
-    return this.public
-      .me()
-      .signup()
-      .post({
-        body: {
-          addresses: payload.addresses.map(
-            (address): Omit<CustomerAddress, 'type'> => ({
-              city: address.city,
-              country: address.country,
-              firstName: payload.firstName,
-              lastName: payload.lastName,
-              postalCode: address.postalCode,
-              streetName: address.streetName
-            })
-          ),
-          dateOfBirth: payload.dateOfBirth,
-          defaultBillingAddress: billingAddressIndex === -1 ? undefined : billingAddressIndex,
-          defaultShippingAddress: shippingAddressIndex === -1 ? undefined : shippingAddressIndex,
-          email: payload.email,
-          firstName: payload.firstName,
-          lastName: payload.lastName,
-          password: payload.password
-        }
-      })
-      .execute()
+    const request: () => ApiRequest<CustomerSignInResult> = () =>
+      this.public
+        .me()
+        .signup()
+        .post({
+          body: {
+            addresses: payload.addresses.map(
+              (address): Omit<CustomerAddress, 'type'> => ({
+                city: address.city,
+                country: address.country,
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                postalCode: address.postalCode,
+                streetName: address.streetName
+              })
+            ),
+            dateOfBirth: payload.dateOfBirth,
+            defaultBillingAddress: billingAddressIndex === -1 ? undefined : billingAddressIndex,
+            defaultShippingAddress: shippingAddressIndex === -1 ? undefined : shippingAddressIndex,
+            email: payload.email,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            password: payload.password
+          }
+        })
+
+    try {
+      return await request().execute()
+    } catch (error) {
+      return await this.handleError<CustomerSignInResult>({ error, request })
+    }
   }
 
   private getHttpOptions(): HttpMiddlewareOptions {
@@ -245,6 +270,23 @@ export class CtpApiClient {
     return createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: this.projectKey
     })
+  }
+
+  private async handleError<T>({
+    error,
+    request
+  }: {
+    error: unknown
+    request: () => ApiRequest<T>
+  }): Promise<ClientResponse<T>> {
+    if (!CtpApiClient.isAnonymousIdError(error)) {
+      throw error
+    }
+
+    console.log('Anonymous ID is already in use. Creating new anonymous ID...')
+
+    this.logout()
+    return await request().execute()
   }
 
   private getOrCreateAnonymousId(): string {

@@ -9,11 +9,13 @@ type CartTotalPriceProps = {
 
 export function CartTotalPrice({ totalPrice, discount }: CartTotalPriceProps): ReactElement {
   const hasDiscount = discount !== undefined
+  const fullPrice = (totalPrice ?? 0) + (discount?.discountedAmount?.centAmount ?? 0)
+  const discountedPrice = totalPrice ?? 0
+
   return (
-    <div className="text-center m-0 text-sm sm:text-base font-semibold">
-      {hasDiscount
-        ? `Total price with discount code applied: ${formatProductItemPrice(discount.discountedAmount?.centAmount ?? 0)}`
-        : `Total price: ${formatProductItemPrice(totalPrice ?? 0)}`}
+    <div className="text-center m-0 text-sm sm:text-base font-semibold justify-items-start">
+      <div>Total price: {formatProductItemPrice(fullPrice)}</div>
+      {hasDiscount && <div>Total price with discount code applied: {formatProductItemPrice(discountedPrice)}</div>}
     </div>
   )
 }
