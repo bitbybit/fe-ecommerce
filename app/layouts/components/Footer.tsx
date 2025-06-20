@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react'
 import type { ProductListCategory } from '~/api/namespaces/product'
-import { InfoAndHelp } from './InfoAndHel'
+import { InfoAndHelp } from './InfoAndHelp'
 import { FooterCategories } from './FooterCategories'
 import { SocialMedia } from './SocialMedia'
 import { Payment } from './Payment'
