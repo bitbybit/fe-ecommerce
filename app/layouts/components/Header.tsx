@@ -11,7 +11,7 @@ type HeaderProps = {
 export default function Header({ isAuth }: HeaderProps): ReactElement {
   return (
     <header className="bg-neutral-900/90 shadow-md">
-      <nav className="container mx-auto md:flex items-center justify-between p-4">
+      <nav className="container mx-auto md:flex items-center justify-between p-4 max-w-[1280px]">
         <Button asChild variant="link" className="text-xl font-semibold text-white">
           <NavLink to={ROUTES.HOME}>Shop</NavLink>
         </Button>

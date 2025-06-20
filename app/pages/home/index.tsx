@@ -7,7 +7,7 @@ export default function Home(): ReactElement {
   useTitle('eCommerce')
 
   return (
-    <div>
+    <div className="w-full flex flex-col gap-y-8 items-center justify-center py-8 flex-grow">
       <Welcome />
       <Discounts />
     </div>

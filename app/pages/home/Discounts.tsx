@@ -12,17 +12,15 @@ export function Discounts(): ReactElement {
   }
 
   return (
-    <div className="mt-6 mx-3">
-      <H2 className="text-center mb-6">Discount codes</H2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="mt-6 mx-3 w-full max-w-[1280px] px-8 font-about flex flex-col items-center lg:items-start gap-y-8">
+      <H2 className="text-4xl font-light">Promo codes</H2>
+      <div className="flex gap-6 flex-wrap lg:flex-nowrap justify-center lg:justify-start">
         {discounts.map(({ id, code, description }) => (
-          <Card key={id} className="flex-grow w-full max-w-xs p-2 border-black p-2">
+          <Card key={id} className="flex-grow w-full max-w-xs p-2 border-black p-2 mx-0 border-amber-500">
             <CardContent className="p-2">
-              <CardTitle className="mb-2 animate-bounce bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent text-center">
-                {code}
-              </CardTitle>
+              <CardTitle className="mb-2 animate-bounce text-center text-amber-500 font-light">{code}</CardTitle>
               {description !== undefined && (
-                <CardDescription className="text-center text-violet-950">{description[LANG]}</CardDescription>
+                <CardDescription className="text-center font-light text-black">{description[LANG]}</CardDescription>
               )}
             </CardContent>
           </Card>
