@@ -1,9 +1,9 @@
 import { type ReactElement } from 'react'
 import { Label } from '~/components/ui/Label'
 
-type UserAddressFieldProperties = { label: string; value: string | undefined }
+type UserAddressFieldProps = { label: string; value: string | undefined }
 
-export const UserAddressField = ({ label, value }: UserAddressFieldProperties): ReactElement => {
+export const UserAddressField = ({ label, value }: UserAddressFieldProps): ReactElement => {
   return (
     <div className="flex flex-col gap-2">
       <Label>{label}</Label>

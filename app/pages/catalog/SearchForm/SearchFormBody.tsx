@@ -3,19 +3,23 @@ import { useForm } from 'react-hook-form'
 import { Search } from 'lucide-react'
 import { Input } from '~/components/ui/Input'
 import { Button } from '~/components/ui/Button'
-import { PRODUCTS_LIMIT } from '../FilterForm/FilterFormBody'
 import { type UseCatalogDataResult } from '../hooks/useCatalogData'
+import { PRODUCT_LIST_ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
-type SearchFormBodyProperties = {
+type SearchFormBodyProps = {
   fetch: UseCatalogDataResult['fetchProducts']
+  setSearch: (search: string) => void
+  onSearch: () => void
 }
 
-export function SearchFormBody({ fetch }: SearchFormBodyProperties): ReactElement {
+export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyProps): ReactElement {
   const { register, handleSubmit, getValues } = useForm<{ search: string }>()
 
-  function onSubmit(): void {
+  const onSubmit = (): Promise<void> => {
+    onSearch()
     const { search } = getValues()
-    void fetch({ limit: PRODUCTS_LIMIT }, [], [], search)
+    setSearch(search)
+    return fetch({ limit: PRODUCT_LIST_ITEMS_PER_PAGE }, [], [], search)
   }
 
   return (
@@ -23,7 +27,7 @@ export function SearchFormBody({ fetch }: SearchFormBodyProperties): ReactElemen
       <div className="flex w-full items-center gap-2">
         <Input
           type="text"
-          className="h-[40px] border-blue-200 shadow-sm"
+          className="h-[40px] border-neural-200 shadow-sm"
           placeholder="Search products..."
           {...register('search')}
         />

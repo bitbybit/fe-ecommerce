@@ -1,4 +1,4 @@
-import { ctpApiClient, type CtpApiClient } from '~/api/client'
+import { ctpApiClient, type CtpApiClient, LANG } from '~/api/client'
 import {
   type ClientResponse,
   type ByProjectKeyProductProjectionsSearchRequestBuilder,
@@ -8,7 +8,7 @@ import {
   type ProductProjection
 } from '@commercetools/platform-sdk'
 
-type ProductApiProperties = {
+type ProductApiProps = {
   client: CtpApiClient
 }
 
@@ -68,6 +68,7 @@ export type ProductListAppliedSort = {
   value: 'asc' | 'desc'
 }[]
 
+export const PRODUCT_LIST_ITEMS_PER_PAGE = 12
 export const PRODUCT_LIST_FILTER_TRUE = 'T'
 export const PRODUCT_LIST_FILTER_FALSE = 'F'
 export const PRODUCT_LIST_FILTER_NONE = 'none'
@@ -92,8 +93,15 @@ export const PRODUCT_LIST_DEFAULT_APPLIED_SORT: ProductListAppliedSort = [
 export class ProductApi {
   private readonly client: CtpApiClient
 
-  constructor({ client }: ProductApiProperties) {
+  constructor({ client }: ProductApiProps) {
     this.client = client
+  }
+
+  public static getPaginationQueryParameters(page: number): { limit: number; offset: number } {
+    return {
+      limit: PRODUCT_LIST_ITEMS_PER_PAGE,
+      offset: (page - 1) * PRODUCT_LIST_ITEMS_PER_PAGE
+    }
   }
 
   private static convertAttributeToFilter({ label, type, name }: AttributeDefinition): ProductListFilter {
@@ -101,13 +109,13 @@ export class ProductApi {
       type.name === 'set' && 'values' in type.elementType
         ? type.elementType.values.map((value) => ({
             value: value.key,
-            label: typeof value.label === 'object' && 'en-US' in value.label ? value.label['en-US'] : 'Unknown label'
+            label: typeof value.label === 'object' && LANG in value.label ? value.label[LANG] : 'Unknown label'
           }))
         : []
 
     return {
       key: name,
-      label: label['en-US'],
+      label: label[LANG],
       options,
       type: type.name
     }
@@ -177,7 +185,7 @@ export class ProductApi {
             ]
           }),
           ...(sort.length > 0 && { sort: ProductApi.convertSortToQuery(sort) }),
-          ...(searchText.length > 0 && { 'text.en-US': searchText, fuzzy: true })
+          ...(searchText.length > 0 && { [`text.${LANG}`]: searchText, fuzzy: true })
         }
       })
       .execute()

@@ -5,9 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~
 import { buttonVariants } from '~/components/ui/Button'
 import { cn } from '~/utils/ui'
 
-export type CalendarProperties = ComponentProps<typeof DayPicker>
+export type CalendarProps = ComponentProps<typeof DayPicker>
 
-function getClassNames(properties: CalendarProperties): CalendarProperties['classNames'] {
+function getClassNames(props: CalendarProps): CalendarProps['classNames'] {
   return {
     months: 'flex flex-col justify-center sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
     month: 'space-y-3',
@@ -29,7 +29,7 @@ function getClassNames(properties: CalendarProperties): CalendarProperties['clas
     row: 'flex justify-center w-full mt-2',
     cell: cn(
       'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent',
-      properties.mode === 'range'
+      props.mode === 'range'
         ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
         : '[&:has([aria-selected])]:rounded-md'
     ),
@@ -43,7 +43,7 @@ function getClassNames(properties: CalendarProperties): CalendarProperties['clas
     day_disabled: 'text-muted-foreground opacity-50',
     day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
     day_hidden: 'invisible',
-    ...properties.classNames
+    ...props.classNames
   }
 }
 
@@ -66,17 +66,17 @@ function IconRight(): ReactElement {
   return <ChevronRightIcon className="h-4 w-4" />
 }
 
-function Dropdown({ ...properties }: DropdownProps): ReactElement {
+function Dropdown({ ...props }: DropdownProps): ReactElement {
   return (
     <Select
-      {...properties}
+      {...props}
       onValueChange={(value) => {
-        if (properties.onChange) {
-          handleCalendarChange(value, properties.onChange)
+        if (props.onChange) {
+          handleCalendarChange(value, props.onChange)
         }
       }}
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      value={properties.value as string}
+      value={props.value as string}
     >
       <SelectTrigger
         className={cn(
@@ -84,11 +84,11 @@ function Dropdown({ ...properties }: DropdownProps): ReactElement {
           'px-2 py-1 h-7 border-none shadow-none font-medium [.is-between_&]:hidden [.is-end_&]:hidden [.is-start.is-end_&]:flex'
         )}
       >
-        <SelectValue placeholder={properties?.caption}>{properties?.caption}</SelectValue>
+        <SelectValue placeholder={props?.caption}>{props?.caption}</SelectValue>
       </SelectTrigger>
       <SelectContent className="max-h-[calc(var(--radix-popper-available-height) - 50px)] overflow-y-auto scrolling-auto min-w-[var(--radix-popper-anchor-width)]">
-        {properties.children &&
-          Children.map(properties.children, (child) => (
+        {props.children &&
+          Children.map(props.children, (child) => (
             <SelectItem
               // @ts-expect-error https://github.com/shadcn-ui/ui/discussions/1553
               // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-assignment
@@ -110,19 +110,19 @@ function Dropdown({ ...properties }: DropdownProps): ReactElement {
 export function Calendar({
   className,
   showOutsideDays = true,
-  ...properties
-}: CalendarProperties & { onChange?: ChangeEventHandler<HTMLSelectElement> }): ReactElement {
+  ...props
+}: CalendarProps & { onChange?: ChangeEventHandler<HTMLSelectElement> }): ReactElement {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
-      classNames={getClassNames(properties)}
+      classNames={getClassNames(props)}
       components={{
         IconLeft,
         IconRight,
         Dropdown
       }}
-      {...properties}
+      {...props}
     />
   )
 }

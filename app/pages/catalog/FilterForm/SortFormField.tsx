@@ -2,15 +2,15 @@ import { type ReactElement } from 'react'
 import { type useForm, Controller } from 'react-hook-form'
 import { PRODUCT_LIST_FILTER_NONE, type ProductListSort } from '~/api/namespaces/product'
 import { FilterSelect } from './fields/FilterSelect'
-import { type FormValues } from './FilterFormBody'
+import { type FormValues } from './FilterForm.utils'
 
-type FilterFormFieldProperties = {
+type SortFormFieldProps = {
   form: ReturnType<typeof useForm<FormValues>>
   sort: ProductListSort
   sorts: ProductListSort[]
 }
 
-export function SortFormField({ form, sort, sorts }: FilterFormFieldProperties): ReactElement {
+export function SortFormField({ form, sort, sorts }: SortFormFieldProps): ReactElement {
   const resetSortFields = (): void => {
     form.reset({
       ...form.getValues(),

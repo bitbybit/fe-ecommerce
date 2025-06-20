@@ -5,9 +5,9 @@ import { UserAddressFormBody } from './UserDetailEdit/UseAddressForm/UserAddress
 import { AddUserAddressFormBody } from './UserDetailEdit/UseAddressForm/AddUserAddressFormBody'
 import { useAppSelector } from '~/store/hooks'
 
-type UserAddressesProperties = { isEdit: boolean }
+type UserAddressesProps = { isEdit: boolean }
 
-export const UserAddresses = ({ isEdit }: UserAddressesProperties): ReactElement => {
+export const UserAddresses = ({ isEdit }: UserAddressesProps): ReactElement => {
   const addresses = useAppSelector((state) => state.auth.customer?.addresses ?? [])
   const defaultBillingAddressId = useAppSelector((state) => state.auth.customer?.defaultBillingAddressId ?? '')
   const defaultShippingAddressId = useAppSelector((state) => state.auth.customer?.defaultShippingAddressId ?? '')
@@ -20,7 +20,7 @@ export const UserAddresses = ({ isEdit }: UserAddressesProperties): ReactElement
         </CardHeader>
         <CardContent className="divide-y space-y-4">
           {addresses.map((address, index) => {
-            const commonProperties = {
+            const commonProps = {
               address,
               defaultBillingAddressId,
               defaultShippingAddressId,
@@ -28,10 +28,10 @@ export const UserAddresses = ({ isEdit }: UserAddressesProperties): ReactElement
             }
 
             if (isEdit) {
-              return <UserAddressFormBody {...commonProperties} />
+              return <UserAddressFormBody {...commonProps} />
             }
 
-            return <UserAddress {...commonProperties} />
+            return <UserAddress {...commonProps} />
           })}
         </CardContent>
       </Card>

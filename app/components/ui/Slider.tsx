@@ -18,7 +18,7 @@ export function Slider({
   value,
   min = 0,
   max = 100,
-  ...properties
+  ...props
 }: ComponentProps<typeof Root>): ReactElement {
   const actualDefaultValue = Array.isArray(defaultValue) ? defaultValue : [min, max]
 
@@ -35,7 +35,7 @@ export function Slider({
         'relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col',
         className
       )}
-      {...properties}
+      {...props}
     >
       <Track
         data-slot="slider-track"

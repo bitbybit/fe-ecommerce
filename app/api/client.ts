@@ -1,14 +1,16 @@
-import { type AuthMiddlewareOptions, ClientBuilder, type HttpMiddlewareOptions } from '@commercetools/ts-client'
+import { ClientBuilder, type HttpMiddlewareOptions } from '@commercetools/ts-client'
 import {
+  type ByProjectKeyMeRequestBuilder,
+  type ApiRequest,
   type ByProjectKeyRequestBuilder,
   type ClientResponse,
   createApiBuilderFromCtpClient,
   type Customer,
   type CustomerSignInResult
 } from '@commercetools/platform-sdk'
-import { SessionStorageTokenCache } from '~/api/TokenCache'
+import { LocalStorageTokenCache } from '~/api/TokenCache'
 
-type ApiClientProperties = {
+type ApiClientProps = {
   authUri?: string
   baseUri?: string
   clientId?: string
@@ -42,6 +44,8 @@ type SignupPayload = {
   password: string
 }
 
+export const LANG = 'en-US'
+
 export class CtpApiClient {
   private readonly authUri: string
   private readonly baseUri: string
@@ -50,9 +54,12 @@ export class CtpApiClient {
   private readonly projectKey: string
   private readonly scopes: string
 
-  private readonly tokenCache = new SessionStorageTokenCache('token')
+  private readonly publicTokenCache = new LocalStorageTokenCache('public')
+  private readonly protectedTokenCache = new LocalStorageTokenCache('protected')
 
-  private readonly public: ByProjectKeyRequestBuilder
+  private readonly anonymousIdStorageKey = 'anonymous_id'
+
+  private public: ByProjectKeyRequestBuilder
   private protected?: ByProjectKeyRequestBuilder
   private current: ByProjectKeyRequestBuilder
 
@@ -63,7 +70,7 @@ export class CtpApiClient {
     clientSecret = String(import.meta.env.VITE_CTP_CLIENT_SECRET),
     projectKey = String(import.meta.env.VITE_CTP_PROJECT_KEY),
     scopes = String(import.meta.env.VITE_CTP_SCOPES)
-  }: ApiClientProperties = {}) {
+  }: ApiClientProps = {}) {
     this.authUri = authUri
     this.baseUri = baseUri
     this.clientId = clientId
@@ -74,7 +81,7 @@ export class CtpApiClient {
     this.public = this.createPublic()
 
     if (this.hasToken) {
-      this.protected = this.createPublic(true)
+      this.protected = this.createProtectedWithToken()
       this.current = this.protected
     } else {
       this.current = this.public
@@ -87,62 +94,101 @@ export class CtpApiClient {
 
   public get hasToken(): boolean {
     try {
-      return this.tokenCache.get().token !== ''
+      return this.protectedTokenCache.get().token !== ''
     } catch {
       return false
     }
   }
 
-  public async login(email: string, password: string): Promise<ClientResponse<Customer>> {
-    this.logout()
+  private static isAnonymousIdError(error: unknown): boolean {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'statusCode' in error &&
+      error.statusCode === 400 &&
+      'message' in error &&
+      typeof error.message === 'string' &&
+      error.message.includes('anonymousId')
+    )
+  }
 
-    this.protected = this.createProtected(email, password)
+  public async login(email: string, password: string): Promise<ClientResponse<Customer>> {
+    const request: () => ApiRequest<CustomerSignInResult> = () =>
+      this.public
+        .me()
+        .login()
+        .post({
+          body: {
+            email,
+            password,
+            activeCartSignInMode: 'UseAsNewActiveCustomerCart',
+            updateProductData: true
+          }
+        })
+
+    try {
+      await request().execute()
+    } catch (error) {
+      await this.handleError<CustomerSignInResult>({ error, request })
+    }
+
+    this.protected = this.createProtectedWithCredentials(email, password)
     this.current = this.protected
 
     return await this.getCurrentCustomer()
   }
 
   public logout(): void {
-    this.tokenCache.remove()
-    this.current = this.public
+    this.protectedTokenCache.remove()
+    this.publicTokenCache.remove()
+    this.public = this.createPublic()
     this.protected = undefined
+    this.current = this.public
+  }
+
+  public getCurrentCustomerBuilder(): ByProjectKeyMeRequestBuilder {
+    return this.current.me()
   }
 
   public async getCurrentCustomer(): Promise<ClientResponse<Customer>> {
-    return await this.current.me().get().execute()
+    return await this.getCurrentCustomerBuilder().get().execute()
   }
 
   public async signup(payload: SignupPayload): Promise<ClientResponse<CustomerSignInResult>> {
-    this.logout()
-
     const billingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.BILLING)
     const shippingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.SHIPPING)
 
-    return this.current
-      .me()
-      .signup()
-      .post({
-        body: {
-          addresses: payload.addresses.map(
-            (address): Omit<CustomerAddress, 'type'> => ({
-              city: address.city,
-              country: address.country,
-              firstName: payload.firstName,
-              lastName: payload.lastName,
-              postalCode: address.postalCode,
-              streetName: address.streetName
-            })
-          ),
-          dateOfBirth: payload.dateOfBirth,
-          defaultBillingAddress: billingAddressIndex === -1 ? undefined : billingAddressIndex,
-          defaultShippingAddress: shippingAddressIndex === -1 ? undefined : shippingAddressIndex,
-          email: payload.email,
-          firstName: payload.firstName,
-          lastName: payload.lastName,
-          password: payload.password
-        }
-      })
-      .execute()
+    const request: () => ApiRequest<CustomerSignInResult> = () =>
+      this.public
+        .me()
+        .signup()
+        .post({
+          body: {
+            addresses: payload.addresses.map(
+              (address): Omit<CustomerAddress, 'type'> => ({
+                city: address.city,
+                country: address.country,
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                postalCode: address.postalCode,
+                streetName: address.streetName
+              })
+            ),
+            dateOfBirth: payload.dateOfBirth,
+            defaultBillingAddress: billingAddressIndex === -1 ? undefined : billingAddressIndex,
+            defaultShippingAddress: shippingAddressIndex === -1 ? undefined : shippingAddressIndex,
+            email: payload.email,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            password: payload.password
+          }
+        })
+
+    try {
+      return await request().execute()
+    } catch (error) {
+      return await this.handleError<CustomerSignInResult>({ error, request })
+    }
   }
 
   private getHttpOptions(): HttpMiddlewareOptions {
@@ -154,22 +200,23 @@ export class CtpApiClient {
     }
   }
 
-  private createPublic(withTokenCache: boolean = false): ByProjectKeyRequestBuilder {
-    const authOptions: AuthMiddlewareOptions = {
-      credentials: { clientId: this.clientId, clientSecret: this.clientSecret },
-      host: this.authUri,
-      httpClient: fetch,
-      projectKey: this.projectKey,
-      scopes: [this.scopes]
-    }
-
-    if (withTokenCache) {
-      authOptions.tokenCache = this.tokenCache
-    }
+  private createPublic(): ByProjectKeyRequestBuilder {
+    const anonymousId = this.getOrCreateAnonymousId()
 
     const client = new ClientBuilder()
       .withProjectKey(this.projectKey)
-      .withClientCredentialsFlow(authOptions)
+      .withAnonymousSessionFlow({
+        credentials: {
+          clientId: this.clientId,
+          clientSecret: this.clientSecret,
+          anonymousId
+        },
+        host: this.authUri,
+        httpClient: fetch,
+        projectKey: this.projectKey,
+        scopes: [this.scopes],
+        tokenCache: this.publicTokenCache
+      })
       .withHttpMiddleware(this.getHttpOptions())
       .withLoggerMiddleware()
       .build()
@@ -179,7 +226,7 @@ export class CtpApiClient {
     })
   }
 
-  private createProtected(email: string, password: string): ByProjectKeyRequestBuilder {
+  private createProtectedWithCredentials(email: string, password: string): ByProjectKeyRequestBuilder {
     const client = new ClientBuilder()
       .withProjectKey(this.projectKey)
       .withPasswordFlow({
@@ -188,7 +235,7 @@ export class CtpApiClient {
         httpClient: fetch,
         projectKey: this.projectKey,
         scopes: [this.scopes],
-        tokenCache: this.tokenCache
+        tokenCache: this.protectedTokenCache
       })
       .withHttpMiddleware(this.getHttpOptions())
       .withLoggerMiddleware()
@@ -197,6 +244,68 @@ export class CtpApiClient {
     return createApiBuilderFromCtpClient(client).withProjectKey({
       projectKey: this.projectKey
     })
+  }
+
+  private createProtectedWithToken(): ByProjectKeyRequestBuilder {
+    const { refreshToken } = this.protectedTokenCache.get()
+
+    if (refreshToken === undefined) {
+      throw new Error('Refresh token is missing')
+    }
+
+    const client = new ClientBuilder()
+      .withProjectKey(this.projectKey)
+      .withRefreshTokenFlow({
+        credentials: { clientId: this.clientId, clientSecret: this.clientSecret },
+        host: this.authUri,
+        httpClient: fetch,
+        projectKey: this.projectKey,
+        tokenCache: this.protectedTokenCache,
+        refreshToken
+      })
+      .withHttpMiddleware(this.getHttpOptions())
+      .withLoggerMiddleware()
+      .build()
+
+    return createApiBuilderFromCtpClient(client).withProjectKey({
+      projectKey: this.projectKey
+    })
+  }
+
+  private async handleError<T>({
+    error,
+    request
+  }: {
+    error: unknown
+    request: () => ApiRequest<T>
+  }): Promise<ClientResponse<T>> {
+    if (!CtpApiClient.isAnonymousIdError(error)) {
+      throw error
+    }
+
+    console.log('Anonymous ID is already in use. Creating new anonymous ID...')
+
+    this.logout()
+    return await request().execute()
+  }
+
+  private getOrCreateAnonymousId(): string {
+    let id = this.getAnonymousIdFromStorage()
+
+    if (id === null || !this.hasToken) {
+      id = crypto.randomUUID()
+      this.saveAnonymousIdToStorage(id)
+    }
+
+    return id
+  }
+
+  private getAnonymousIdFromStorage(): string | null {
+    return localStorage.getItem(this.anonymousIdStorageKey)
+  }
+
+  private saveAnonymousIdToStorage(id: string): void {
+    localStorage.setItem(this.anonymousIdStorageKey, id)
   }
 }
 

@@ -2,14 +2,14 @@ import { type Address, type ClientResponse, type Customer } from '@commercetools
 import { formatDateForSdk } from '~/utils/formatDate'
 import { ctpApiClient, type CtpApiClient } from '~/api/client'
 
-type UserApiProperties = {
+type UserApiProps = {
   client: CtpApiClient
 }
 
 export class UserApi {
   private readonly client: CtpApiClient
 
-  constructor({ client }: UserApiProperties) {
+  constructor({ client }: UserApiProps) {
     this.client = client
   }
 

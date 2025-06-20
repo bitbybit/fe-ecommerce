@@ -9,12 +9,12 @@ import { CHANGE_INFO_STATUS } from '../../../hooks/useChangeInfo'
 import { type FormType } from '~/utils/form'
 import { type SchemaType } from './schema'
 
-type UserInfoFormFieldsProperties = {
+type UserInfoFormFieldsProps = {
   form: FormType<SchemaType>
   status: CHANGE_INFO_STATUS
 }
 
-export const UserInfoFormFields = ({ form, status }: UserInfoFormFieldsProperties): ReactElement => {
+export const UserInfoFormFields = ({ form, status }: UserInfoFormFieldsProps): ReactElement => {
   return (
     <fieldset disabled={status === CHANGE_INFO_STATUS.LOADING}>
       <CardContent>

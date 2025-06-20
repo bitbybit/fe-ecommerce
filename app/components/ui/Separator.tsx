@@ -6,7 +6,7 @@ function Separator({
   className,
   orientation = 'horizontal',
   decorative = true,
-  ...properties
+  ...props
 }: ComponentProps<typeof SeparatorPrimitive.Root>): ReactElement {
   return (
     <SeparatorPrimitive.Root
@@ -17,7 +17,7 @@ function Separator({
         'bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
         className
       )}
-      {...properties}
+      {...props}
     />
   )
 }
