@@ -6,11 +6,19 @@ import type { ProductListCategory } from '~/api/namespaces/product'
 type CategoryLinkProps = {
   category: ProductListCategory
   onClick: () => void
+  defaultClassName?: string
+  activeClassName?: string
 }
 
-export function CategoryLink({ category, onClick }: CategoryLinkProps): ReactElement {
+export function CategoryLink({
+  category,
+  onClick,
+  defaultClassName = 'underline hover:no-underline',
+  activeClassName = 'text-neutral-500 no-underline font-semibold'
+}: CategoryLinkProps): ReactElement {
   const navigate = useNavigate()
   const { categoryId } = useParams()
+  const isActive = category.id === categoryId
 
   const handleClick = async (event: MouseEvent, categoryId: string): Promise<void> => {
     event.preventDefault()
@@ -22,7 +30,7 @@ export function CategoryLink({ category, onClick }: CategoryLinkProps): ReactEle
     <a
       href="#"
       onClick={(event) => void handleClick(event, category.id)}
-      className={`underline hover:no-underline ${category.id === categoryId ? 'text-neural-500 no-underline! font-semibold' : ''}`}
+      className={isActive ? activeClassName : defaultClassName}
     >
       {category.label}
     </a>

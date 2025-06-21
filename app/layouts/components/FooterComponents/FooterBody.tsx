@@ -1,9 +1,9 @@
 import { type ReactElement } from 'react'
 import type { ProductListCategory } from '~/api/namespaces/product'
-import { InfoAndHelp } from './footer/InfoAndHelp'
-import { FooterCategories } from './footer/FooterCategories'
-import { SocialMedia } from './footer/SocialMedia'
-import { Payment } from './footer/Payment'
+import { InfoAndHelp } from './InfoAndHelp'
+import { FooterCategories } from './FooterCategories'
+import { SocialMedia } from './SocialMedia'
+import { Payment } from './Payment'
 
 type FooterProps = {
   categories: ProductListCategory[]
