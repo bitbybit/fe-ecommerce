@@ -5,14 +5,14 @@ import type { ProductListCategory } from '~/api/namespaces/product'
 
 type CategoryLinkProps = {
   category: ProductListCategory
-  onClick: () => void
+  onClick?: () => void
   defaultClassName?: string
   activeClassName?: string
 }
 
 export function CategoryLink({
   category,
-  onClick,
+  onClick = (): void => {},
   defaultClassName = 'underline hover:no-underline',
   activeClassName = 'text-neutral-500 no-underline font-semibold'
 }: CategoryLinkProps): ReactElement {

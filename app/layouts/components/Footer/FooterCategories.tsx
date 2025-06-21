@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react'
 import type { ProductListCategory } from '~/api/namespaces/product'
-import { CategoryLink } from '~/pages/catalog/FilterForm/CategoryLink'
+import { CategoryLink } from '~/components/catalog/CategoryLink'
 
 type Props = {
   categories: ProductListCategory[]
@@ -13,7 +13,7 @@ export function FooterCategories({ categories }: Props): ReactElement {
       <ul className="space-y-2">
         {categories.map((category) => (
           <li key={category.id}>
-            <CategoryLink category={category} onClick={() => {}} />
+            <CategoryLink category={category} />
           </li>
         ))}
       </ul>
