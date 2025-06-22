@@ -4,7 +4,7 @@ import { SidebarGroup } from '~/components/ui/Sidebar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '~/components/ui/Collapsible'
 import { Button } from '~/components/ui/Button'
 import { type ProductListCategory } from '~/api/namespaces/product'
-import { CategoryLink } from './CategoryLink'
+import { CategoryLink } from '~/components/catalog/CategoryLink'
 
 type CategoriesProps = {
   categories: ProductListCategory[]
