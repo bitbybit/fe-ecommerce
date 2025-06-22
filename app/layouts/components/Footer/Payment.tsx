@@ -11,9 +11,9 @@ const paymentIcons = [
 
 export function Payment(): ReactElement {
   return (
-    <div>
+    <div className="ml-4">
       <h4 className="font-semibold text-black mb-3">We accept</h4>
-      <div className="flex gap-3 items-center">
+      <div className="flex flex-wrap gap-3 items-center">
         {paymentIcons.map(({ src, alt }) => (
           <img key={alt} src={src} alt={alt} className="h-10" />
         ))}

@@ -13,9 +13,9 @@ const socialIcons = [
 
 export function SocialMedia(): ReactElement {
   return (
-    <div>
+    <div className="ml-4">
       <h4 className="font-semibold text-black mb-3">Social Media</h4>
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         {socialIcons.map(({ src, alt, href }) => (
           <a key={alt} href={href} target="_blank" className="w-8 h-8 rounded flex items-center justify-center">
             <img src={src} alt={alt} className="w-8 h-8" />

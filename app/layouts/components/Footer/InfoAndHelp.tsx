@@ -4,7 +4,7 @@ import { NavLink } from 'react-router'
 export function InfoAndHelp(): ReactElement {
   return (
     <>
-      <div>
+      <div className="ml-4">
         <h4 className="font-semibold text-black mb-3">General</h4>
         <ul className="space-y-2">
           <li>
@@ -18,7 +18,7 @@ export function InfoAndHelp(): ReactElement {
         </ul>
       </div>
 
-      <div>
+      <div className="ml-4">
         <h4 className="font-semibold text-black mb-3">Help & Guide</h4>
         <ul className="space-y-2 text-gray-500">
           <li>Help Center</li>

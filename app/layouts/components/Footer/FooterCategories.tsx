@@ -8,7 +8,7 @@ type Props = {
 
 export function FooterCategories({ categories }: Props): ReactElement {
   return (
-    <div>
+    <div className="ml-4">
       <h4 className="font-semibold text-black mb-3">Categories</h4>
       <ul className="space-y-2">
         {categories.map((category) => (
