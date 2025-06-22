@@ -294,7 +294,6 @@ export class CtpApiClient {
     try {
       return this.protectedTokenCache.get().refreshToken
     } catch {
-      this.logout()
       return undefined
     }
   }
