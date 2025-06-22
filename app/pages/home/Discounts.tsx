@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 import { useDiscountsData } from './hooks/useDiscountsData'
 import { Card, CardContent, CardDescription, CardTitle } from '~/components/ui/Card'
-import { H2 } from '~/components/ui/typography'
+import { H3 } from '~/components/ui/typography'
 import { LANG } from '~/api/client'
 
 export function Discounts(): ReactElement {
@@ -12,8 +12,8 @@ export function Discounts(): ReactElement {
   }
 
   return (
-    <div className="mt-6 mx-3 w-full max-w-[1280px] px-8 font-about flex flex-col items-center lg:items-start gap-y-8">
-      <H2 className="text-4xl font-light">Promo codes</H2>
+    <div className="mt-10 font-about flex flex-col items-center lg:items-start gap-y-6">
+      <H3 className="text-2xl font-light">Promo codes</H3>
       <div className="flex gap-6 flex-wrap lg:flex-nowrap justify-center lg:justify-start">
         {discounts.map(({ id, code, description }) => (
           <Card key={id} className="flex-grow w-full max-w-xs p-2 border-black p-2 mx-0 border-amber-500">
