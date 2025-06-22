@@ -13,7 +13,7 @@ export function FooterCategories({ categories }: Props): ReactElement {
       <ul className="space-y-2">
         {categories.map((category) => (
           <li key={category.id}>
-            <CategoryLink category={category} />
+            <CategoryLink category={category} defaultClassName="hover:underline" activeClassName="" />
           </li>
         ))}
       </ul>

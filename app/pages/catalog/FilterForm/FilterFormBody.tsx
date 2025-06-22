@@ -17,17 +17,17 @@ import {
 type FilterFormBodyProps = {
   filters: ProductListFilter[]
   categories: ProductListCategory[]
-  fetch: UseCatalogDataResult['fetchProducts']
+  fetchProducts: UseCatalogDataResult['fetchProducts']
   onApply: () => void
 }
 
-export function FilterFormBody({ filters, categories, fetch, onApply }: FilterFormBodyProps): ReactElement {
+export function FilterFormBody({ filters, categories, fetchProducts, onApply }: FilterFormBodyProps): ReactElement {
   const defaultValues = getDefaultFormValues(filters, sorts)
   const form = useForm<FormValues>({ defaultValues })
 
   const handleApply = (data: FormValues): Promise<void> => {
     onApply()
-    return fetch(
+    return fetchProducts(
       { limit: PRODUCT_LIST_ITEMS_PER_PAGE },
       convertFormValuesToAppliedFilters(data, filters),
       convertFormValuesToSort(data, sorts)

@@ -12,8 +12,8 @@ type FooterProps = {
 export function Footer({ categories }: FooterProps): ReactElement {
   return (
     <footer className="bg-white border-t text-sm text-muted-foreground">
-      <div className="w-full bg-neutral-900/90 text-white py-6 px-4">
-        <div className="container mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 text-center md:text-left">
+      <div className="w-full bg-neutral-900/90 text-white py-6">
+        <div className="container mx-auto max-w-[1280px] px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 text-center md:text-left">
           <div className="text-lg font-semibold">FURNITURE SHOP</div>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-base text-white/90 sm:items-center sm:text-right">
             <a
@@ -32,7 +32,7 @@ export function Footer({ categories }: FooterProps): ReactElement {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-8  py-10 container mx-auto ">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-8 px-4 py-10 container mx-auto max-w-[1280px]">
         <InfoAndHelp />
         <FooterCategories categories={categories} />
         <SocialMedia />

@@ -7,19 +7,18 @@ import { type UseCatalogDataResult } from '../hooks/useCatalogData'
 import { PRODUCT_LIST_ITEMS_PER_PAGE } from '~/api/namespaces/product'
 
 type SearchFormBodyProps = {
-  fetch: UseCatalogDataResult['fetchProducts']
+  fetchProducts: UseCatalogDataResult['fetchProducts']
   setSearch: (search: string) => void
   onSearch: () => void
 }
 
-export function SearchFormBody({ fetch, setSearch, onSearch }: SearchFormBodyProps): ReactElement {
-  const { register, handleSubmit, getValues } = useForm<{ search: string }>()
+export function SearchFormBody({ fetchProducts, setSearch, onSearch }: SearchFormBodyProps): ReactElement {
+  const { register, handleSubmit } = useForm<{ search: string }>()
 
-  const onSubmit = (): Promise<void> => {
+  const onSubmit = (data: { search: string }): Promise<void> => {
     onSearch()
-    const { search } = getValues()
-    setSearch(search)
-    return fetch({ limit: PRODUCT_LIST_ITEMS_PER_PAGE }, [], [], search)
+    setSearch(data.search)
+    return fetchProducts({ limit: PRODUCT_LIST_ITEMS_PER_PAGE }, [], [], data.search)
   }
 
   return (

@@ -57,7 +57,7 @@ export const RegisterFormBody = (): ReactElement => {
   useEffect(() => void dispatch(resetAuthError()), [dispatch])
 
   return (
-    <Card className="min-w-full border-0 m-6 shadow-none">
+    <Card className="w-[1280px] max-w-full border-0 my-6 px-2 shadow-none">
       <RegisterFormHeader />
       <Form {...form}>
         <form onSubmit={(event) => void form.handleSubmit(handleRegister)(event)} className="space-y-6">
