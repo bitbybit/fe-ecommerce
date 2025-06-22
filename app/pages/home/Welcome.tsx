@@ -6,7 +6,7 @@ import { useAppSelector } from '~/store/hooks'
 import { selectIsAuth } from '~/store/auth'
 import { ROUTES } from '~/routes'
 import { Discounts } from './Discounts'
-import WelcomeImage from '~/assets/images/3.jpeg'
+import WelcomeImage from '~/assets/images/home.jpeg'
 
 const HOME_PAGE_SUBTITLE =
   'Discover a wide selection of stylish products, easily manage your personal profile, and enjoy smooth shopping!'
@@ -41,7 +41,7 @@ export function Welcome(): ReactElement {
         <Discounts />
       </div>
       <div className="max-w-[480px]">
-        <img src={WelcomeImage} alt="home" className="aspect-square rounded-md" />
+        <img src={WelcomeImage} alt="home" className="aspect-square" />
       </div>
     </div>
   )
