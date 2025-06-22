@@ -18,7 +18,7 @@ export function Welcome(): ReactElement {
   return (
     <div className="flex w-full max-w-[1280px] justify-center lg:justify-between gap-8 px-8 flex-wrap lg:flex-nowrap">
       <div className="flex flex-col justify-center items-center lg:items-start lg:max-h-[480px]">
-        <H2 className="font-about text-4xl font-light">{greeting}</H2>
+        <H2 className="font-about text-4xl font-light text-center lg:text-left">{greeting}</H2>
         <P className="mb-6 font-about font-light text-center lg:text-left">{HOME_PAGE_SUBTITLE}</P>
         <div className="flex gap-x-4">
           <Button
