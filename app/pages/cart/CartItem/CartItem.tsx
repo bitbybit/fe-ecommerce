@@ -40,6 +40,7 @@ export function CartItem({ lineItem }: CartItemProps): ReactElement {
       totalPrice={totalPrice.centAmount}
       onQuantityChange={(newQuantity) => void handleQuantityChange(newQuantity)}
       onDelete={(event) => void handleDeleteItem(event)}
+      isLoading={isCartLoading}
     />
   )
 }

@@ -7,8 +7,6 @@ import { ProductImage } from '~/components/product/ProductImage'
 import { ProductPrice } from '~/components/product/ProductPrice'
 import { QuantityControl } from './QuantityControl'
 import { formatProductItemPrice } from '~/utils/formatPrice'
-import { useAppSelector } from '~/store/hooks'
-import { CART_TABLE_STATUS } from '~/store/cart/types'
 
 type CartItemViewProps = {
   name: string
@@ -18,6 +16,7 @@ type CartItemViewProps = {
   totalPrice: number
   onQuantityChange: (quantity: number) => void
   onDelete: (event: MouseEvent<HTMLButtonElement>) => void
+  isLoading: boolean
 }
 
 export function CartItemView({
@@ -27,11 +26,9 @@ export function CartItemView({
   quantity,
   totalPrice,
   onQuantityChange,
-  onDelete
+  onDelete,
+  isLoading
 }: CartItemViewProps): ReactElement {
-  const { status } = useAppSelector((state) => state.cart)
-  const isCartLoading = status === CART_TABLE_STATUS.LOADING
-
   return (
     <Card className="w-full max-w-2xl py-4 sm:py-6">
       <CardContent className="space-y-2 px-4 sm:px-6">
@@ -46,9 +43,9 @@ export function CartItemView({
         </div>
         <hr />
         <div className="flex items-center justify-between gap-2">
-          <QuantityControl quantity={quantity} onQuantityChange={onQuantityChange} />
+          <QuantityControl quantity={quantity} onQuantityChange={onQuantityChange} isLoading={isLoading} />
           <div className="text-sm">Total: {formatProductItemPrice(totalPrice)}</div>
-          <Button variant="outline" onClick={onDelete} disabled={isCartLoading}>
+          <Button variant="outline" onClick={onDelete} disabled={isLoading}>
             <Trash2 />
           </Button>
         </div>
