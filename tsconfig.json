@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    "paths": {
+      "~/*": ["./app/*"]
+    },
+    "rootDirs": ["."]
+  },
+  "include": ["**/*", "app", "vite.config.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["./dist", "./node_modules"],
+  "ts-node": {
+    "transpileOnly": true
+  }
+}

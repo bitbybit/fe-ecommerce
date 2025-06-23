@@ -1,0 +1,5 @@
+export enum ADDRESS_ACTION_STATUS {
+  LOADING = 'LOADING',
+  READY = 'READY',
+  ERROR = 'ERROR'
+}
