@@ -24,7 +24,6 @@ export function AddToCartButton({ product }: AddToCartButtonProps): ReactElement
   }
 
   if (isLoading) {
-    // TODO: move to separate component
     return <>...</>
   }
 
