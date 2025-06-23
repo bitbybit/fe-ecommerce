@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 describe('QuantityControl', () => {
   it('display cart item quantity', () => {
     const QUANTITY = 1
-    renderWithProviders(<QuantityControl quantity={QUANTITY} onQuantityChange={() => {}} />)
+    renderWithProviders(<QuantityControl quantity={QUANTITY} onQuantityChange={() => {}} isLoading={false} />)
     expect(screen.getByText(QUANTITY)).toBeInTheDocument()
   })
 
@@ -15,7 +15,7 @@ describe('QuantityControl', () => {
     const handleChange = vi.fn()
     const user = userEvent.setup()
 
-    renderWithProviders(<QuantityControl quantity={QUANTITY} onQuantityChange={handleChange} />)
+    renderWithProviders(<QuantityControl quantity={QUANTITY} onQuantityChange={handleChange} isLoading={false} />)
     const increaseButton = screen.getByLabelText('increase-button')
 
     await user.click(increaseButton)
@@ -27,7 +27,7 @@ describe('QuantityControl', () => {
     const handleChange = vi.fn()
     const user = userEvent.setup()
 
-    renderWithProviders(<QuantityControl quantity={QUANTITY} onQuantityChange={handleChange} />)
+    renderWithProviders(<QuantityControl quantity={QUANTITY} onQuantityChange={handleChange} isLoading={false} />)
     const decreaseButton = screen.getByLabelText('decrease-button')
 
     await user.click(decreaseButton)
