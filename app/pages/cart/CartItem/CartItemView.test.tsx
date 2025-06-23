@@ -64,6 +64,7 @@ describe('CartItemView', () => {
         totalPrice={totalPrice.centAmount}
         onQuantityChange={() => {}}
         onDelete={() => {}}
+        isLoading={false}
       />
     )
     const image = screen.getByRole('img')

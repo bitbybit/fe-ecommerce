@@ -41,7 +41,7 @@ describe('Empty cart', () => {
   it('display empty cart message when cart is empty', async () => {
     renderWithProviders(<Cart />, emptyCartState)
 
-    await waitForElementToBeRemoved(() => screen.getByText('Loading...'), { timeout: 5000 })
+    await waitForElementToBeRemoved(() => screen.getByText('Clear Shopping Cart'), { timeout: 5000 })
     expect(screen.getByText('Your cart is empty.')).toBeInTheDocument()
   })
 })
