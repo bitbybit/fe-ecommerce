@@ -11,14 +11,21 @@ import {
   AlertDialogTrigger
 } from '~/components/ui/AlertDialog'
 import { Button } from '~/components/ui/Button'
+import { CART_TABLE_STATUS } from '~/store/cart/types'
+import { useAppSelector } from '~/store/hooks'
 
 type ClearCartButtonProps = { onClearCart: () => void }
 
 export function ClearCartButton({ onClearCart }: ClearCartButtonProps): ReactElement {
+  const { status } = useAppSelector((state) => state.cart)
+  const isCartLoading = status === CART_TABLE_STATUS.LOADING
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="default">Clear Shopping Cart</Button>
+        <Button variant="default" disabled={isCartLoading}>
+          Clear Shopping Cart
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
