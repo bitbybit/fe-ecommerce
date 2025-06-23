@@ -4,7 +4,6 @@ import { useFetchCart } from '~/hooks/useFetchCart'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
 import { clearCart, selectCartItems, selectIsEmptyCart } from '~/store/cart'
 import { CART_TABLE_STATUS } from '~/store/cart/types'
-import { Loading } from '~/components/Loading'
 import { EmptyCart } from './EmptyCart'
 import { CartItem } from './CartItem/CartItem'
 import { CodeForm } from './CodeForm'
@@ -18,10 +17,6 @@ export default function Cart(): ReactElement {
   const { status } = useAppSelector((state) => state.cart)
   const isEmptyCart = useAppSelector(selectIsEmptyCart) && status === CART_TABLE_STATUS.READY
   const cartItems = useAppSelector(selectCartItems)
-
-  if (status === CART_TABLE_STATUS.LOADING) {
-    return <Loading />
-  }
 
   if (isEmptyCart) {
     return <EmptyCart />

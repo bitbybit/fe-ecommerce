@@ -5,9 +5,10 @@ import { Button } from '~/components/ui/Button'
 type QuantityControlProps = {
   quantity: number
   onQuantityChange: (quantity: number) => void
+  isLoading: boolean
 }
 
-export function QuantityControl({ quantity, onQuantityChange }: QuantityControlProps): ReactElement {
+export function QuantityControl({ quantity, onQuantityChange, isLoading }: QuantityControlProps): ReactElement {
   const handleDecrease = (): void => {
     if (quantity > 1) onQuantityChange(quantity - 1)
   }
@@ -22,7 +23,7 @@ export function QuantityControl({ quantity, onQuantityChange }: QuantityControlP
         variant="gray"
         className="w-6 h-6 rounded-sm cursor-pointer"
         onClick={handleDecrease}
-        disabled={quantity === 1}
+        disabled={quantity === 1 || isLoading}
         aria-label="decrease-button"
       >
         <Minus />
@@ -33,6 +34,7 @@ export function QuantityControl({ quantity, onQuantityChange }: QuantityControlP
         className="w-6 h-6 rounded-sm cursor-pointer"
         onClick={handleIncrease}
         aria-label="increase-button"
+        disabled={isLoading}
       >
         <Plus />
       </Button>
