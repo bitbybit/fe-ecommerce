@@ -1,4 +1,4 @@
-import { type ReactElement, type MouseEvent } from 'react'
+import { type ReactElement, type MouseEvent, useState } from 'react'
 import { type LineItem } from '@commercetools/platform-sdk'
 import { removeProduct, updateQuantity } from '~/store/cart'
 import { useAppDispatch, useAppSelector } from '~/store/hooks'
@@ -19,23 +19,27 @@ export function CartItem({ lineItem }: CartItemProps): ReactElement {
 
   const { status } = useAppSelector((state) => state.cart)
   const isCartLoading = status === CART_TABLE_STATUS.LOADING
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleQuantityChange = async (newQuantity: number): Promise<void> => {
-    if (isCartLoading || newQuantity < MIN_QUANTITY) {
-      return
+    if (isCartLoading || newQuantity < MIN_QUANTITY) return
+    setIsLoading(true)
+    try {
+      await dispatch(updateQuantity({ productId, quantity: newQuantity })).unwrap()
+    } finally {
+      setIsLoading(false)
     }
-
-    await dispatch(updateQuantity({ productId, quantity: newQuantity })).unwrap()
   }
 
   const handleDeleteItem = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
     event.preventDefault()
-
-    if (isCartLoading) {
-      return
+    if (isCartLoading) return
+    setIsLoading(true)
+    try {
+      await dispatch(removeProduct({ productId, quantity })).unwrap()
+    } finally {
+      setIsLoading(false)
     }
-
-    await dispatch(removeProduct({ productId, quantity })).unwrap()
   }
 
   return (
@@ -47,6 +51,7 @@ export function CartItem({ lineItem }: CartItemProps): ReactElement {
       totalPrice={totalPrice.centAmount}
       onQuantityChange={(newQuantity) => void handleQuantityChange(newQuantity)}
       onDelete={(event) => void handleDeleteItem(event)}
+      isLoading={isLoading}
     />
   )
 }
