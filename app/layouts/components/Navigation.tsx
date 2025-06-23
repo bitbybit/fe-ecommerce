@@ -16,7 +16,7 @@ type NavigationProps = {
 }
 
 type NavItem = {
-  to: string
+  to: ROUTES
   label: string
   icon: ElementType
   auth?: boolean
@@ -40,7 +40,7 @@ export function Navigation({ isAuth }: NavigationProps): ReactElement {
     <NavigationMenu>
       <NavigationMenuList className="grid grid-cols-3 sm:flex justify-center gap-2">
         {filteredItems.map(({ to, label, icon: Icon }) => {
-          const isCart = label === 'Cart'
+          const isCart = to === ROUTES.CART
 
           return (
             <NavigationMenuItem key={label}>

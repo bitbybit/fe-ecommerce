@@ -29,12 +29,12 @@ export default function Catalog(): ReactElement {
       <FilterFormBody
         filters={data.filters}
         categories={data.categories}
-        fetch={data.fetchProducts}
+        fetchProducts={data.fetchProducts}
         onApply={data.resetCurrentPageAndSearchText}
       />
       <div className="flex-grow">
         <SearchFormBody
-          fetch={data.fetchProducts}
+          fetchProducts={data.fetchProducts}
           setSearch={data.setSearchText}
           onSearch={() => data.setCurrentPage(1)}
         />

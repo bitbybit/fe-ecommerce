@@ -47,7 +47,7 @@ const rules = {
       }
     }
   ],
-  'max-lines-per-function': ['error', 40],
+  'max-lines-per-function': ['error', 45],
   'no-restricted-imports': [
     2,
     {

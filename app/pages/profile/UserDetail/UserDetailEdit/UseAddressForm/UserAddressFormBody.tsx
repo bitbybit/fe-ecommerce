@@ -26,9 +26,14 @@ type UserAddressFormBodyProps = {
   defaultShippingAddressId: string
 }
 
-const UserAddressFormBodyProvider = (props: UserAddressFormBodyProviderProps): ReactElement => {
-  const isBilling = props.address.id === props.defaultBillingAddressId
-  const isShipping = props.address.id === props.defaultShippingAddressId
+const UserAddressFormBodyProvider = ({
+  address,
+  defaultBillingAddressId,
+  defaultShippingAddressId,
+  form
+}: UserAddressFormBodyProviderProps): ReactElement => {
+  const isBilling = address.id === defaultBillingAddressId
+  const isShipping = address.id === defaultShippingAddressId
   const { status: changeAddressStatus, changeAddress } = useChangeAddress()
   const { removeAddress } = useRemoveAddress()
   const { setBillingAddress } = useSetBillingAddress()
@@ -36,7 +41,7 @@ const UserAddressFormBodyProvider = (props: UserAddressFormBodyProviderProps): R
 
   const handleChangeAddress = (payload: z.infer<typeof schema>): Promise<void> =>
     changeAddress({
-      ...props.address,
+      ...address,
       city: payload.city,
       country: payload.country,
       firstName: payload.firstName,
@@ -50,14 +55,14 @@ const UserAddressFormBodyProvider = (props: UserAddressFormBodyProviderProps): R
       <div className="flex gap-2 pb-2">
         {isBilling && <Badge>Default billing</Badge>} {isShipping && <Badge>Default shipping</Badge>}
       </div>
-      <Form {...props.form}>
-        <form onSubmit={(event) => void props.form.handleSubmit(handleChangeAddress)(event)} className="space-y-6">
+      <Form {...form}>
+        <form onSubmit={(event) => void form.handleSubmit(handleChangeAddress)(event)} className="space-y-6">
           <UserAddressFormFields
-            form={props.form}
+            form={form}
             status={changeAddressStatus}
-            onRemove={() => removeAddress(props.address.id)}
-            onSetAsBilling={() => setBillingAddress(props.address.id)}
-            onSetAsShipping={() => setShippingAddress(props.address.id)}
+            onRemove={() => removeAddress(address.id)}
+            onSetAsBilling={() => setBillingAddress(address.id)}
+            onSetAsShipping={() => setShippingAddress(address.id)}
           />
         </form>
       </Form>

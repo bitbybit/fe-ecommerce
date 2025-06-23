@@ -20,18 +20,18 @@ export const UserAddresses = ({ isEdit }: UserAddressesProps): ReactElement => {
         </CardHeader>
         <CardContent className="divide-y space-y-4">
           {addresses.map((address, index) => {
+            const key = address.id ?? String(index)
             const commonProps = {
               address,
               defaultBillingAddressId,
-              defaultShippingAddressId,
-              key: address.id ?? String(index)
+              defaultShippingAddressId
             }
 
             if (isEdit) {
-              return <UserAddressFormBody {...commonProps} />
+              return <UserAddressFormBody key={key} {...commonProps} />
             }
 
-            return <UserAddress {...commonProps} />
+            return <UserAddress key={key} {...commonProps} />
           })}
         </CardContent>
       </Card>

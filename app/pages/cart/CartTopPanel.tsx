@@ -14,7 +14,12 @@ export function CartTopPanel({ onClearCart }: CartTopPanelProps): ReactElement {
   return (
     <Card className="w-full max-w-2xl">
       <CardContent className="flex justify-between items-center gap-2 flex-wrap">
-        {cart && <CartTotalPrice totalPrice={cart?.totalPrice?.centAmount} discount={cart?.discountOnTotalPrice} />}
+        {cart && (
+          <CartTotalPrice
+            priceAfterDiscount={cart?.totalPrice?.centAmount}
+            discountOnTotal={cart?.discountOnTotalPrice}
+          />
+        )}
         <ClearCartButton onClearCart={onClearCart} />
       </CardContent>
     </Card>

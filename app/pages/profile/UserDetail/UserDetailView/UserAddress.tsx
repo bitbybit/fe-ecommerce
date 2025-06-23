@@ -10,9 +10,13 @@ type UserAddressProps = {
   defaultShippingAddressId: string
 }
 
-export const UserAddress = (props: UserAddressProps): ReactElement => {
-  const isBilling = props.address.id === props.defaultBillingAddressId
-  const isShipping = props.address.id === props.defaultShippingAddressId
+export const UserAddress = ({
+  address,
+  defaultBillingAddressId,
+  defaultShippingAddressId
+}: UserAddressProps): ReactElement => {
+  const isBilling = address.id === defaultBillingAddressId
+  const isShipping = address.id === defaultShippingAddressId
 
   return (
     <div>
@@ -22,12 +26,12 @@ export const UserAddress = (props: UserAddressProps): ReactElement => {
       </div>
       <div className="grid gap-4 md:grid-cols-2 items-start">
         {[
-          { label: 'First Name', value: props.address.firstName },
-          { label: 'Last Name', value: props.address.lastName },
-          { label: 'Country', value: countries[props.address.country] },
-          { label: 'City', value: props.address.city },
-          { label: 'Street name', value: props.address.streetName },
-          { label: 'Postal code', value: props.address.postalCode }
+          { label: 'First Name', value: address.firstName },
+          { label: 'Last Name', value: address.lastName },
+          { label: 'Country', value: countries[address.country] },
+          { label: 'City', value: address.city },
+          { label: 'Street name', value: address.streetName },
+          { label: 'Postal code', value: address.postalCode }
         ].map((field) => (
           <UserAddressField label={field.label} value={field.value} key={field.label} />
         ))}

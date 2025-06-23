@@ -24,26 +24,29 @@ export function getBreadcrumbs(
 
     if (category.subCategories !== undefined && category.subCategories.length > 0) {
       const result = getBreadcrumbs(category.subCategories, categoryId, newBreadcrumbs)
-      if (result) return result
+
+      if (result.length > 0) {
+        return result
+      }
     }
   }
 
   return []
 }
 
-export function useProductInfo(product: ProductProjection, categories?: ProductListCategory[]): ProductInfoResult {
-  const name = product.name
-  const description = product.description ?? name
-  const price = product.masterVariant.prices?.[0]?.value?.centAmount ?? 0
-  const discount = product.masterVariant.prices?.[0]?.discounted?.value?.centAmount
-  const images = product.masterVariant.images ?? []
+export function useProductInfo(
+  { categories, description, masterVariant, name }: ProductProjection,
+  categoryList?: ProductListCategory[]
+): ProductInfoResult {
+  const price = masterVariant.prices?.[0]?.value?.centAmount ?? 0
+  const discount = masterVariant.prices?.[0]?.discounted?.value?.centAmount
+  const images = masterVariant.images ?? []
 
-  const breadcrumbs =
-    categories && product.categories?.[0]?.id ? getBreadcrumbs(categories, product.categories[0].id) : []
+  const breadcrumbs = categoryList && categories?.[0]?.id ? getBreadcrumbs(categoryList, categories[0].id) : []
 
   return {
     name,
-    description,
+    description: description ?? name,
     price,
     discount,
     images,

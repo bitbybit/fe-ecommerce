@@ -13,6 +13,9 @@ type TeamMemberProps = {
   imageUrl: string
 }
 
+const TEAM_MEMBER_IMAGE_WIDTH = 300
+const TEAM_MEMBER_IMAGE_HEIGHT = 500
+
 export function TeamMember({
   name,
   location,
@@ -22,13 +25,15 @@ export function TeamMember({
   github,
   imageUrl
 }: TeamMemberProps): ReactElement {
+  const imgClassName = `rounded-2xl md:w-[${TEAM_MEMBER_IMAGE_WIDTH}px] md:h-auto object-cover`
+
   return (
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 items-center">
       <img
         src={imageUrl}
-        width={300}
-        height={500}
-        className="rounded-2xl md:w-[300px] md:h-auto object-cover"
+        width={TEAM_MEMBER_IMAGE_WIDTH}
+        height={TEAM_MEMBER_IMAGE_HEIGHT}
+        className={imgClassName}
         alt={name}
       />
       <div className="flex flex-col text-left self-start">

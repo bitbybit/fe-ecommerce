@@ -41,7 +41,7 @@ export const LoginFormBody = (): ReactElement => {
   useEffect(() => void dispatch(resetAuthError()), [dispatch])
 
   return (
-    <Card className="md:min-w-lg m-6">
+    <Card className="md:min-w-lg m-6 border-0 shadow-none">
       <CardHeader>
         <CardTitle>LOGIN</CardTitle>
       </CardHeader>

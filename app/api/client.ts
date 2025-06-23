@@ -59,9 +59,9 @@ export class CtpApiClient {
 
   private readonly anonymousIdStorageKey = 'anonymous_id'
 
-  private public: ByProjectKeyRequestBuilder
-  private protected?: ByProjectKeyRequestBuilder
-  private current: ByProjectKeyRequestBuilder
+  private publicInstance: ByProjectKeyRequestBuilder
+  private protectedInstance?: ByProjectKeyRequestBuilder
+  private currentInstance: ByProjectKeyRequestBuilder
 
   constructor({
     authUri = String(import.meta.env.VITE_CTP_AUTH_URL),
@@ -78,18 +78,18 @@ export class CtpApiClient {
     this.projectKey = projectKey
     this.scopes = scopes
 
-    this.public = this.createPublic()
+    this.publicInstance = this.createPublicInstance()
 
     if (this.hasToken) {
-      this.protected = this.createProtectedWithToken()
-      this.current = this.protected
+      this.protectedInstance = this.createProtectedWithTokenInstance()
+      this.currentInstance = this.protectedInstance ?? this.publicInstance
     } else {
-      this.current = this.public
+      this.currentInstance = this.publicInstance
     }
   }
 
   public get root(): ByProjectKeyRequestBuilder {
-    return this.current
+    return this.currentInstance
   }
 
   public get hasToken(): boolean {
@@ -114,7 +114,7 @@ export class CtpApiClient {
 
   public async login(email: string, password: string): Promise<ClientResponse<Customer>> {
     const request: () => ApiRequest<CustomerSignInResult> = () =>
-      this.public
+      this.publicInstance
         .me()
         .login()
         .post({
@@ -129,11 +129,11 @@ export class CtpApiClient {
     try {
       await request().execute()
     } catch (error) {
-      await this.handleError<CustomerSignInResult>({ error, request })
+      await this.handleAuthError<CustomerSignInResult>({ error, request })
     }
 
-    this.protected = this.createProtectedWithCredentials(email, password)
-    this.current = this.protected
+    this.protectedInstance = this.createProtectedWithCredentialsInstance(email, password)
+    this.currentInstance = this.protectedInstance
 
     return await this.getCurrentCustomer()
   }
@@ -141,13 +141,13 @@ export class CtpApiClient {
   public logout(): void {
     this.protectedTokenCache.remove()
     this.publicTokenCache.remove()
-    this.public = this.createPublic()
-    this.protected = undefined
-    this.current = this.public
+    this.publicInstance = this.createPublicInstance()
+    this.protectedInstance = undefined
+    this.currentInstance = this.publicInstance
   }
 
   public getCurrentCustomerBuilder(): ByProjectKeyMeRequestBuilder {
-    return this.current.me()
+    return this.currentInstance.me()
   }
 
   public async getCurrentCustomer(): Promise<ClientResponse<Customer>> {
@@ -159,7 +159,7 @@ export class CtpApiClient {
     const shippingAddressIndex = payload.addresses.findIndex(({ type }) => type === CUSTOMER_ADDRESS_TYPE.SHIPPING)
 
     const request: () => ApiRequest<CustomerSignInResult> = () =>
-      this.public
+      this.publicInstance
         .me()
         .signup()
         .post({
@@ -187,7 +187,7 @@ export class CtpApiClient {
     try {
       return await request().execute()
     } catch (error) {
-      return await this.handleError<CustomerSignInResult>({ error, request })
+      return await this.handleAuthError<CustomerSignInResult>({ error, request })
     }
   }
 
@@ -200,7 +200,7 @@ export class CtpApiClient {
     }
   }
 
-  private createPublic(): ByProjectKeyRequestBuilder {
+  private createPublicInstance(): ByProjectKeyRequestBuilder {
     const anonymousId = this.getOrCreateAnonymousId()
 
     const client = new ClientBuilder()
@@ -226,7 +226,7 @@ export class CtpApiClient {
     })
   }
 
-  private createProtectedWithCredentials(email: string, password: string): ByProjectKeyRequestBuilder {
+  private createProtectedWithCredentialsInstance(email: string, password: string): ByProjectKeyRequestBuilder {
     const client = new ClientBuilder()
       .withProjectKey(this.projectKey)
       .withPasswordFlow({
@@ -246,11 +246,12 @@ export class CtpApiClient {
     })
   }
 
-  private createProtectedWithToken(): ByProjectKeyRequestBuilder {
-    const { refreshToken } = this.protectedTokenCache.get()
+  private createProtectedWithTokenInstance(): ByProjectKeyRequestBuilder | undefined {
+    const refreshToken = this.getRefreshToken()
 
     if (refreshToken === undefined) {
-      throw new Error('Refresh token is missing')
+      this.logout()
+      return undefined
     }
 
     const client = new ClientBuilder()
@@ -272,7 +273,7 @@ export class CtpApiClient {
     })
   }
 
-  private async handleError<T>({
+  private async handleAuthError<T>({
     error,
     request
   }: {
@@ -287,6 +288,14 @@ export class CtpApiClient {
 
     this.logout()
     return await request().execute()
+  }
+
+  private getRefreshToken(): string | undefined {
+    try {
+      return this.protectedTokenCache.get().refreshToken
+    } catch {
+      return undefined
+    }
   }
 
   private getOrCreateAnonymousId(): string {
